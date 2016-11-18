@@ -20,4 +20,7 @@ import HelloWorld
 urlpatterns = [
     url(r'^$', HelloWorld.hello),
     #url(r'^admin/', admin.site.urls),
+
+    url(r'^SetVar/$', HelloWorld.SetVar),
+    url(r'^GetSum/$', HelloWorld.GetSum),
 ]
