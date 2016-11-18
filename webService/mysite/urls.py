@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^$', HelloWorld.hello),
     #url(r'^admin/', admin.site.urls),
 
+    url(r'^Connection/$', HelloWorld.Connection),
+    url(r'^Temp/$',HelloWorld.Temp),
     url(r'^SetVar/$', HelloWorld.SetVar),
     url(r'^GetSum/$', HelloWorld.GetSum),
 ]
