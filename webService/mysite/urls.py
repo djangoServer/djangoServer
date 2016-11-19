@@ -23,4 +23,7 @@ urlpatterns = [
 
     url(r'^SetVar/$', HelloWorld.SetVar),
     url(r'^GetSum/$', HelloWorld.GetSum),
+    url(r'^EventTest/$', HelloWorld.LongPollingEventTest),
+    url(r'^Streaming/$', HelloWorld.StreamingConnectionTest),
+    url(r'^Streaming2/$', HelloWorld.StreamView),
 ]
