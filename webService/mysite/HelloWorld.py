@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 import time
 from threading import Thread
+from django.http import StreamingHttpResponse
 from django.views.decorators.http import condition
 
 sumTargetA = 0
@@ -64,11 +65,13 @@ def StreamingConnectionTest(request):
     return response
 
 def StreamFunc():
+    yield "hello<br>"
     for i in range(0, 40):
         yield " " * 1024
         yield "%d" % i
         time.sleep(1)
+    yield "bye"
 
 #@condition(etag_func=None):
 def StreamView(request):
-    return HttpResponse(StreamFunc(), content_type='text/html')
+    return StreamingHttpResponse(StreamFunc(), content_type='text/html')
