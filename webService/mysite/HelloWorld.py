@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 import threading,time
 
 sumTargetA = 0
@@ -17,6 +18,23 @@ def SetVar(request):
 
     return HttpResponse("a: " + str(sumTargetA) + " b: " + str(sumTargetB))
 
+def GetSum(request):
+    global sumTargetA
+    global sumTargetB
+    global sumResult
+    global check
+    sumResult = sumTargetA + sumTargetB
+
+    time.sleep(0.5)
+    if check == 1:
+        check = 0
+        return HttpResponse("sum: " + str(sumResult) + " Connected")
+    elif check ==  2:
+        check = 0
+        return HttpResponse("sum: " + str(sumResult))
+    else:
+        return HttpResponse("No Connection")
+
 def Connection(request):
     th = threading.Thread(target=run)
     th.start()
@@ -26,6 +44,7 @@ def Connection(request):
 def run():
     global sumResult
     global check
+
     while True:
         time.sleep(0.001)
 
@@ -35,27 +54,31 @@ def run():
         else:
             yield HttpResponse("UnConnection")
 
-def GetSum(request):
-    global sumTargetA
-    global sumTargetB
+def StreamFunc():
     global sumResult
     global check
-    sumResult = sumTargetA + sumTargetB
 
-    time.sleep(0.1)
-    if check == 1:
-        check = 0
-        return HttpResponse("sum: " + str(sumResult) + " Connected")
-    else:
-        return HttpResponse("sum: " + str(sumResult))
+    yield "hello<br>"
+    while True:
+        if sumResult == 5:
+            break
+        elif sumResult == 2:
+            check = 1
+            yield "Connection<br>"
+        elif sumResult != 0:
+            check = 2
+            yield "UnConnection<br>"
 
-def Test():
-    for i in range(0,40):
-        yield i
-        time.sleep(0.01)
+        time.sleep(0.001)
 
-def Temp(request):
-    Sum = 0
-    for i in range(0, 40):
-        Sum = Sum + Test()
-    return HttpResponse(Sum)
+        if check != 0:
+            while True:
+                if check==0:
+                    sumResult=0
+                    break
+
+    yield "bye"
+
+# @condition(etag_func=None):
+def StreamView(request):
+    return StreamingHttpResponse(StreamFunc(), content_type='text/html')
