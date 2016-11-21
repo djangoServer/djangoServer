@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Riona - One Page Bootstrap Business Template</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700">
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/css/form-elements.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/media-queries.css' %}">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="{% static 'assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'assets/ico/apple-touch-icon-144-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'assets/ico/apple-touch-icon-114-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'assets/ico/apple-touch-icon-72-precomposed.png' %}">
+        <link rel="apple-touch-icon-precomposed" href="{% static 'assets/ico/apple-touch-icon-57-precomposed.png' %}">
+
+    </head>
+
+    <body>
+    
+        <!-- Loader -->
+    	<div class="loader">
+    		<div class="loader-img"></div>
+    	</div>
+		
+		<!-- Top menu -->
+		<nav>
+			<a class="scroll-link" href="#top-content">Top</a>
+			<a class="scroll-link" href="#what-we-do">Services</a>
+			<a class="scroll-link" href="#process">Process</a>
+			<a class="scroll-link" href="#portfolio">Portfolio</a>
+			<a class="scroll-link" href="#testimonials">Testimonials</a>
+			<a class="scroll-link" href="#team">About</a>
+			<a class="scroll-link" href="#contact">Contact</a>
+			<div class="hide-menu">
+				<a href=""><i class="fa fa-bars"></i></a>
+			</div>
+		</nav>
+		<div class="show-menu">
+			<a href=""><i class="fa fa-bars"></i></a>
+		</div>
+
+
+        <!-- Top content -->
+		<div style="
+			background-image: URL({% static 'assets/img/backgrounds/1.jpg' %}) ;
+			background-position: 50%;
+			background-size: cover;
+			">
+        	<div class="top-content">
+				<div class="top-content-text wow fadeInUp">
+					<div class="divider-2"><span></span></div>
+					<h1><a href="">THIS IS RIONA</a></h1>
+					<div class="divider-2"><span></span></div>
+					<p>This is Riona. A new one page template built with Bootstrap that you can use for your agency, portfolio or business website. Enjoy!</p>
+					<div class="top-content-bottom-link">
+						<a class="big-link-1" href="#">Start a project!</a>
+					</div>
+				</div>
+            </div>
+        </div>
+        
+        <!-- What we do -->
+        <div class="what-we-do-container section-container">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 what-we-do section-description wow fadeIn">
+	                    <h2>What we do</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <p>
+	                    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+	                    	labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="row">
+                	<div class="col-sm-4 what-we-do-box wow fadeInUp">
+	                	<div class="what-we-do-box-icon"><i class="fa fa-pencil"></i></div>
+	                    <h3>Web design</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+                    <div class="col-sm-4 what-we-do-box wow fadeInDown">
+	                	<div class="what-we-do-box-icon"><i class="fa fa-gears"></i></div>
+	                    <h3>Development</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+                    <div class="col-sm-4 what-we-do-box wow fadeInUp">
+	                	<div class="what-we-do-box-icon"><i class="fa fa-twitter"></i></div>
+	                    <h3>Social media</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- Our process -->
+        <div class="block-1-container process-container section-container section-container-gray">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 block-1 section-description wow fadeIn">
+	                	<h2>Our process</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <p>
+	                    	Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum 
+	                    	est notare quam littera gothica, quam nunc putamus parum claram lorem.
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="row">
+	            	<div class="col-sm-6 block-1-left wow fadeInLeft">
+	            		<div class="slider-1-box slider-1-our-process">
+	            			<img class="slider-1-img-active" src="{% static 'assets/img/process/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/process/2.jpg' %}">
+	                    	<img src="{% static 'assets/img/process/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/process/1.jpg' %}">
+	                    	<img src="{% static 'assets/img/process/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/process/3.jpg' %}">
+	                    	<div class="slider-1-nav"></div>
+	            		</div>
+	            	</div>
+	            	<div class="col-sm-6 block-1-right wow fadeInUp">
+	            		<h3>First step</h3>
+	            		<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+	            		<p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
+	            		<h3>Second step</h3>
+	            		<p>Mirum est notare quam littera gothica, quam nunc putamus parum claram lorem ullamcorper suscipit lobortis nisl ut aliquip.</p>
+	            	</div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- Clients -->
+        <div class="clients-container section-container">
+        	<div class="container">
+        		<div class="row">
+	            	<div class="col-sm-12 clients wow fadeInUp">
+                    	<a href="#">
+                    		<img src="{% static 'assets/img/clients/1.png' %}" alt="" data-at2x="{% static 'assets/img/clients/1.png' %}">
+                    	</a>
+                    	<a href="https://wrapbootstrap.com/theme/areta-agency-portfolio-template-WB0L5XF38?ref=azmind">
+                    		<img src="{% static 'assets/img/clients/2.png' %}" alt="" data-at2x="{% static 'assets/img/clients/2.png' %}">
+                    	</a>
+                    	<a href="https://wrapbootstrap.com/theme/seria-coming-soon-landing-page-WB05D4591?ref=azmind">
+                    		<img src="{% static 'assets/img/clients/3.png' %}" alt="" data-at2x="{% static 'assets/img/clients/3.png' %}">
+                    	</a>
+                    	<a href="https://wrapbootstrap.com/theme/jesis-responsive-app-landing-page-WB085528N?ref=azmind">
+                    		<img src="{% static 'assets/img/clients/4.png' %}" alt="" data-at2x="{% static 'assets/img/clients/4.png' %}">
+                    	</a>
+	            	</div>
+	            </div>
+        	</div>
+        </div>
+        
+        <!-- Counters -->
+		<div style="
+			background-image: URL({% static 'assets/img/backgrounds/2.jpg' %}) ;
+			background-position: 50%;
+			background-size: cover;
+			">
+			<div class="counters-container section-container section-container-full-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-3 counter-box wow fadeInUp">
+							<h4>7</h4>
+							<p>Years of experience</p>
+						</div>
+						<div class="col-sm-3 counter-box wow fadeInDown">
+							<h4>128</h4>
+							<p>Projects completed</p>
+						</div>
+						<div class="col-sm-3 counter-box wow fadeInUp">
+							<h4>17430</h4>
+							<p>Lines of code</p>
+						</div>
+						<div class="col-sm-3 counter-box wow fadeInDown">
+							<h4>7390</h4>
+							<p>Cups of coffee</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        <!-- Portfolio -->
+        <div class="portfolio-container section-container">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 portfolio section-description wow fadeIn">
+	                	<h2>Portfolio</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <p>
+	                    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+	                    	labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="row">
+	            	<div class="col-sm-12 portfolio-filters wow fadeInUp">
+	            		<a href="#" class="filter-all active">All</a> / 
+	            		<a href="#" class="filter-design">Design</a> / 
+	            		<a href="#" class="filter-development">Development</a> / 
+	            		<a href="#" class="filter-branding">Branding</a>
+	            	</div>
+	            </div>
+	            <div class="row">
+	            	<div class="col-sm-12 portfolio-masonry">
+		                <div class="portfolio-box design">
+		                	<img src="{% static 'assets/img/portfolio/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/1.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Lorem website</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box development">
+		                	<img src="{% static 'assets/img/portfolio/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/2.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Sit amet logo</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box branding">
+		                	<img src="{% static 'assets/img/portfolio/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/3.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Ipsum social</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box development">
+		                	<img src="{% static 'assets/img/portfolio/4.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/4.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Etiam processus dynamicus</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box design">
+		                	<img src="{% static 'assets/img/portfolio/5.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/5.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Processus dynamicus logo</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box development">
+		                	<img src="{% static 'assets/img/portfolio/6.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/6.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Mirum est notare</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box design">
+		                	<img src="{% static 'assets/img/portfolio/7.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/7.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">March notare site</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box development">
+		                	<img src="{% static 'assets/img/portfolio/8.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/8.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Sit amet logo</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box branding">
+		                	<img src="{% static 'assets/img/portfolio/9.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/9.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Lorem website</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box design">
+		                	<img src="{% static 'assets/img/portfolio/10.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/10.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Mirum est notare</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box development">
+		                	<img src="{% static 'assets/img/portfolio/11.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/11.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Etiam processus social</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box branding">
+		                	<img src="{% static 'assets/img/portfolio/12.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/12.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Sit website logo</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="testimonials-container section-container section-container-gray">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 testimonials section-description wow fadeInUp">
+	                    <h2>Testimonials</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <div class="testimonial-active"></div>
+	                    <div class="testimonial-single">
+	                    	<p>
+	                    		Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
+	                    		lobortis nisl ut aliquip ex ea commodo consequat. Ut wisi enim ad minim veniam, 
+	                    		quis nostrud exerci tation ullamcorper suscipit lobortis nisl.
+	                    		<br>
+	                    		<a href="">John Doe, johndoe.com</a>
+	                    	</p>
+	                    	<div class="testimonial-single-image">
+	                    		<img src="{% static 'assets/img/testimonials/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/testimonials/1.jpg' %}">
+	                    	</div>
+	                    </div>
+	                    <div class="testimonial-single">
+	                    	<p>
+	                    		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt 
+	                    		ut labore et. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+	                    		incididunt ut labore et.
+	                    		<br>
+	                    		<a href="">Jane Jonsson, blog.jane.com</a>
+	                    	</p>
+	                    	<div class="testimonial-single-image">
+	                    		<img src="{% static 'assets/img/testimonials/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/testimonials/2.jpg' %}">
+	                    	</div>
+	                    </div>
+	                    <div class="testimonial-single">
+	                    	<p>
+	                    		Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit 
+	                    		lobortis nisl ut aliquip ex ea commodo consequat. Ut wisi enim ad minim veniam, 
+	                    		quis nostrud exerci tation ullamcorper suscipit lobortis nisl.
+	                    		<br>
+	                    		<a href="">John Doe, johndoe.com</a>
+	                    	</p>
+	                    	<div class="testimonial-single-image">
+	                    		<img src="{% static 'assets/img/testimonials/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/testimonials/3.jpg' %}">
+	                    	</div>
+	                    </div>
+	                    <div class="testimonial-single">
+	                    	<p>
+	                    		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt 
+	                    		ut labore et. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
+	                    		incididunt ut labore et.
+	                    		<br>
+	                    		<a href="">Jane Jonsson, blog.jane.com</a>
+	                    	</p>
+	                    	<div class="testimonial-single-image">
+	                    		<img src="{% static 'assets/img/testimonials/4.jpg' %}" alt="" data-at2x="{% static 'assets/img/testimonials/4.jpg' %}">
+	                    	</div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- Our motto -->
+        <div class="our-motto-container section-container section-container-full-bg">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 our-motto section-description wow fadeInLeftBig">
+	                    <p>
+	                    	"Success is not the key to happiness. Happiness is the key to success. 
+	                    	If you love what you are doing, you will be successful."
+	                    </p>
+	                    <div class="our-motto-author">ALBERT SCHWEITZER</div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- The team -->
+        <div class="team-container section-container">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 team section-description wow fadeIn">
+	                    <h2>The team</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <p>
+	                    	Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut 
+	                    	aliquip ex ea commodo consequat. Ut wisi enim ad minim veniam, quis nostrud.
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="row">
+	                <div class="col-sm-4 team-box wow fadeInUp">
+		                <div class="team-photo">
+		                	<img src="{% static 'assets/img/about/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/1.jpg' %}">
+		                </div>
+	                    <h3>John Doe</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+	                    <div class="team-social">
+		                	<a href="#"><i class="fa fa-facebook"></i></a>
+		                	<a href="#"><i class="fa fa-dribbble"></i></a>
+		                    <a href="#"><i class="fa fa-twitter"></i></a>
+		                </div>
+	                </div>
+	                <div class="col-sm-4 team-box wow fadeInDown">
+		                <div class="team-photo">
+		                	<img src="{% static 'assets/img/about/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/2.jpg' %}">
+		                </div>
+	                    <h3>Tim Brown</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+	                    <div class="team-social">
+		                	<a href="#"><i class="fa fa-facebook"></i></a>
+		                	<a href="#"><i class="fa fa-dribbble"></i></a>
+		                    <a href="#"><i class="fa fa-twitter"></i></a>
+		                </div>
+	                </div>
+	                <div class="col-sm-4 team-box wow fadeInUp">
+		                <div class="team-photo">
+		                	<img src="{% static 'assets/img/about/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/3.jpg' %}">
+		                </div>
+	                    <h3>Sarah Red</h3>
+	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+	                    <div class="team-social">
+		                	<a href="#"><i class="fa fa-facebook"></i></a>
+		                	<a href="#"><i class="fa fa-dribbble"></i></a>
+		                    <a href="#"><i class="fa fa-twitter"></i></a>
+		                </div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- Contact us -->
+        <div class="contact-container section-container section-container-gray">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-12 contact section-description wow fadeIn">
+	                	<h2>Contact us</h2>
+	                    <div class="divider-1 wow fadeInUp"><span></span></div>
+	                    <p>
+	                    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore 
+	                    	et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="row">
+	            	<div class="col-sm-12 contact-form wow fadeInLeft">
+	                    <form role="form" action="{% static 'assets/contact.php' %}" method="post">
+	                    	<div class="form-group">
+	                    		<label class="sr-only" for="contact-email">Email</label>
+	                        	<input type="text" name="email" placeholder="Email..." class="contact-email" id="contact-email">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="contact-subject">Subject</label>
+	                        	<input type="text" name="subject" placeholder="Subject..." class="contact-subject" id="contact-subject">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="sr-only" for="contact-message">Message</label>
+	                        	<textarea name="message" placeholder="Message..." class="contact-message" id="contact-message"></textarea>
+	                        </div>
+	                        <button type="submit" class="btn">Send message</button>
+	                    </form>
+	            	</div>
+	            </div>
+	        </div>
+        </div>
+        
+        <!-- Scroll to top -->
+        <div class="section-container section-container-gray">
+	        <div class="container">
+		        <div class="row">
+		        	<div class="col-sm-12">
+		        		<div class="scroll-to-top">
+		        			<a class="scroll-link" href="#top-content"><i class="fa fa-chevron-up"></i></a>
+		        		</div>
+		        	</div>
+		        </div>
+	        </div>
+        </div>
+                
+        <!-- Footer -->
+        <footer>
+	        <div class="container">
+	            <div class="row">
+                    <div class="col-sm-7 footer-copyright">
+                    	&copy; Riona Bootstrap Template by <a href="http://azmind.com">Azmind</a>.
+                    </div>
+                    <div class="col-sm-5 footer-social">
+                    	<a href="#"><i class="fa fa-facebook"></i></a>
+	                	<a href="#"><i class="fa fa-dribbble"></i></a>
+	                    <a href="#"><i class="fa fa-twitter"></i></a>
+	                    <a href="#"><i class="fa fa-google-plus"></i></a>
+	                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                    </div>
+	            </div>
+	        </div>
+        </footer>
+        
+
+        <!-- Javascript -->
+        <script src="{% static 'assets/js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.backstretch.min.js' %}"></script>
+        <script src="{% static 'assets/js/wow.min.js' %}"></script>
+        <script src="{% static 'assets/js/retina-1.1.0.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'assets/js/masonry.pkgd.min.js' %}"></script>
+        <script src="{% static 'assets/js/scripts.js' %}"></script>
+        
+        <!--[if lt IE 10]>
+            <script src="{% static 'assets/js/placeholder.js' %}"></script>
+        <![endif]-->
+
+    </body>
+
+</html>
