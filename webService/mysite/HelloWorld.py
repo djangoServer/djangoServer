@@ -1,12 +1,12 @@
 from django.http import HttpResponse
-import time
-from threading import Thread
 from django.http import StreamingHttpResponse
-from django.views.decorators.http import condition
+import threading,time
 
 sumTargetA = 0
 sumTargetB = 0
 sumResult = 0
+check = 0
+userLoginDictionary = {}
 
 def hello(request):
     return HttpResponse("Hello World!!")
@@ -23,55 +23,94 @@ def GetSum(request):
     global sumTargetA
     global sumTargetB
     global sumResult
+    global check
     sumResult = sumTargetA + sumTargetB
 
-    return HttpResponse("sum: " + str(sumResult))
+    time.sleep(0.5)
+    if check == 1:
+        check = 0
+        return HttpResponse("sum: " + str(sumResult) + " Connected")
+    elif check ==  2:
+        check = 0
+        return HttpResponse("sum: " + str(sumResult))
+    else:
+        return HttpResponse("No Connection")
 
-def LongPollingEventTest(request):
-    thread = Thread(target=CheckEventIsArrived)
-    thread.start()
-    thread.join()
-    return HttpResponse("event arrived")
+def Connection(request):
+    th = threading.Thread(target=run)
+    th.start()
+    th.join()
+    return HttpResponse("Connected")
 
-
-def CheckEventIsArrived():
+def run():
     global sumResult
-    while True:
-        try:
-            if sumResult == 3:
-                break
-            time.sleep(0.0001)
-        except:
-            print "gg"
+    global check
 
-def StreamingConnectionThread(response):
-    global sumResult
     while True:
-        try:
-            if sumResult == 3:
-                sumResult = 0
-                response.write("hello<br>")
-                return response
-            time.sleep(0.0001)
-        except:
-            print "gg"
+        time.sleep(0.001)
 
-def StreamingConnectionTest(request):
-    response = HttpResponse("", content_type="application/liquid; charset=utf-8")
-    response['Content-Length'] = 0
-    thread = Thread(target=StreamingConnectionThread, args=(response,))
-    thread.start()
-    thread.join()
-    return response
+        if sumResult == 2:
+            check = 1
+            yield HttpResponse("Connection")
+        else:
+            yield HttpResponse("UnConnection")
 
 def StreamFunc():
+    global sumResult
+    global check
+
     yield "hello<br>"
-    for i in range(0, 40):
-        yield " " * 1024
-        yield "%d" % i
-        time.sleep(1)
+    while True:
+        if sumResult == 5:
+            break
+        elif sumResult == 2:
+            check = 1
+            yield "Connection<br>"
+        elif sumResult != 0:
+            check = 2
+            yield "UnConnection<br>"
+
+        time.sleep(0.001)
+
+        if check != 0:
+            while True:
+                if check==0:
+                    sumResult=0
+                    break
+
     yield "bye"
 
-#@condition(etag_func=None):
+# @condition(etag_func=None):
 def StreamView(request):
     return StreamingHttpResponse(StreamFunc(), content_type='text/html')
+
+def StreamingRunThread(myUserId):
+    global userLoginDictionary
+    while True:
+        try:
+            if userLoginDictionary[myUserId] == "bye":
+                break;
+            else:
+                yield "yee<br>"
+            time.sleep(1)
+        except:
+            print "gg"
+
+def UserConnectionSplitTestFunc(request):
+    global userLoginDictionary
+    newUserId = request.GET.get('id', 'N/A')
+    if newUserId != 'N/A':
+        userLoginDictionary[newUserId] = "ok"
+    else:
+        return HttpResponse("fail")
+    return StreamingHttpResponse(StreamingRunThread(newUserId), content_type='text/html')
+
+def MakeEachUserEventTestFunc(request):
+    global userLoginDictionary
+    banUserId = request.GET.get('id', 'N/A')
+    if banUserId != 'N/A':
+        if banUserId in userLoginDictionary:
+            userLoginDictionary[banUserId] = "bye"
+        else:
+            return HttpResponse("ban failed")
+    return HttpResponse("ban " + banUserId)

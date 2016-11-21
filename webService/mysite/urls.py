@@ -21,9 +21,11 @@ urlpatterns = [
     url(r'^$', HelloWorld.hello),
     #url(r'^admin/', admin.site.urls),
 
+    url(r'^Connection/$', HelloWorld.Connection),
+    url(r'^Test/$',HelloWorld.StreamView),
     url(r'^SetVar/$', HelloWorld.SetVar),
     url(r'^GetSum/$', HelloWorld.GetSum),
-    url(r'^EventTest/$', HelloWorld.LongPollingEventTest),
-    url(r'^Streaming/$', HelloWorld.StreamingConnectionTest),
-    url(r'^Streaming2/$', HelloWorld.StreamView),
+
+    url(r'^test/userSplit/$', HelloWorld.UserConnectionSplitTestFunc),
+    url(r'^test/makeEvent/$', HelloWorld.MakeEachUserEventTestFunc),
 ]
