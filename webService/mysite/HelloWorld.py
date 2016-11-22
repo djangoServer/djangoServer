@@ -6,6 +6,7 @@ sumTargetA = 0
 sumTargetB = 0
 sumResult = 0
 check = 0
+userLoginDictionary = {}
 
 def hello(request):
     return HttpResponse("Hello World!!")
@@ -82,3 +83,34 @@ def StreamFunc():
 # @condition(etag_func=None):
 def StreamView(request):
     return StreamingHttpResponse(StreamFunc(), content_type='text/html')
+
+def StreamingRunThread(myUserId):
+    global userLoginDictionary
+    while True:
+        try:
+            if userLoginDictionary[myUserId] == "bye":
+                break;
+            else:
+                yield "yee<br>"
+            time.sleep(1)
+        except:
+            print "gg"
+
+def UserConnectionSplitTestFunc(request):
+    global userLoginDictionary
+    newUserId = request.GET.get('id', 'N/A')
+    if newUserId != 'N/A':
+        userLoginDictionary[newUserId] = "ok"
+    else:
+        return HttpResponse("fail")
+    return StreamingHttpResponse(StreamingRunThread(newUserId), content_type='text/html')
+
+def MakeEachUserEventTestFunc(request):
+    global userLoginDictionary
+    banUserId = request.GET.get('id', 'N/A')
+    if banUserId != 'N/A':
+        if banUserId in userLoginDictionary:
+            userLoginDictionary[banUserId] = "bye"
+        else:
+            return HttpResponse("ban failed")
+    return HttpResponse("ban " + banUserId)

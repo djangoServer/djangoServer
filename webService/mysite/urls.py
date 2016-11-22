@@ -20,15 +20,17 @@ import FrontEnd
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
-
     # url(r'^admin/', include(admin.site.urls)),
     url(r'', include('FrontEnd.urls')),
 
     #url(r'^admin/', include(admin.site.urls)),
     #url(r'', include('blog.urls')),
-
+               
     url(r'^Connection/$', HelloWorld.Connection),
     url(r'^Test/$',HelloWorld.StreamView),
     url(r'^SetVar/$', HelloWorld.SetVar),
     url(r'^GetSum/$', HelloWorld.GetSum),
+
+    url(r'^test/userSplit/$', HelloWorld.UserConnectionSplitTestFunc),
+    url(r'^test/makeEvent/$', HelloWorld.MakeEachUserEventTestFunc),
 ]
