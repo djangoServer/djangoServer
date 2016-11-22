@@ -16,11 +16,19 @@ Including another URLconf
 from django.conf.urls import include,url
 from django.contrib import admin
 import HelloWorld
+import FrontEnd
 
 urlpatterns = [
-    url(r'^$', HelloWorld.hello),
     #url(r'^admin/', admin.site.urls),
 
+    # url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('FrontEnd.urls')),
+
+    #url(r'^admin/', include(admin.site.urls)),
+    #url(r'', include('blog.urls')),
+
+    url(r'^Connection/$', HelloWorld.Connection),
+    url(r'^Test/$',HelloWorld.StreamView),
     url(r'^SetVar/$', HelloWorld.SetVar),
     url(r'^GetSum/$', HelloWorld.GetSum),
 ]
