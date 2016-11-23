@@ -23,9 +23,11 @@ urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'', include('FrontEnd.urls')),
 
+    url(r'^Smoothie/2/', include('BackEnd.urls')),
+
     #url(r'^admin/', include(admin.site.urls)),
     #url(r'', include('blog.urls')),
-               
+
     url(r'^Connection/$', HelloWorld.Connection),
     url(r'^Test/$',HelloWorld.StreamView),
     url(r'^SetVar/$', HelloWorld.SetVar),
