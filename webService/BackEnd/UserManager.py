@@ -24,11 +24,17 @@ def UserConnectionStreaming(myUserID) :
     global zero
     global somethingEventUpdated
     while True:
-        if userInfoData[myUserID][3] == somethingEventUpdated :
-            userInfoData[myUserID][3] = zero
-            #이벤트 발생 요인 처리 과정
-            yield "1"
-        time.sleep(0.1)
+        try :
+            if userInfoData[myUserID][3] == somethingEventUpdated :
+                userInfoData[myUserID][3] = zero
+                #이벤트 발생 요인 처리 과정
+                yield "1"
+            time.sleep(0.1)
+            yield " "
+        except:
+            print "end of client streaming"
+#빈 공간을 클라이언트에게 계속 쏘고 있다가 연결이 끊어지면 더이상 보낼 수 없으므로 예외가 발생한다
+#이때 클라이언트가 연결이 끊어졌음을 알 수 있다
 
 def AddUserToLogin(request) :
     global zero
