@@ -28,12 +28,21 @@ def ClientRequestQuery(request) :
 def LoadUserInfo (request) :
     #userID, userPhoneNumber, targetStoreID
     myUserId = request.GET.get( 'id', 'N/A')
-    myUserPhoneNumber = request.GET.get('phone' , 'N/A')
-    myUserTargetStoreId = request.GET.get('targetStoreId', 'N/A')
-    dbQuery = "SELECT " + str(myUserId) + " FROM 유저"
+    dbQuery = "SELECT 이름,전화번호,지점번호 FROM 유저 WHERE 회원번호 = " + str(myUserId)+ ";"
 
     print dbQuery
-    return HttpResponse(ExecuteQueryToDatabase(dbQuery))
+    returnValue = ExecuteQueryToDatabase(dbQuery)
+
+    """
+    sortValue = ""
+    for index in range(0, returnValue.__len__()) :
+        sortValue = tuple(sortValue) + returnValue[index] + tuple("<br>")
+    return HttpResponse(sortValue)
+    """
+
+    sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
+
+    return HttpResponse(sortValue)
     #return dataArray
 #해당 유저의 정보 조회
 def LoadStoreInfo ( storeID) :

@@ -47,7 +47,13 @@ def AddUserToLogin(request) :
     if newUserId == 'N/A' :
         return HttpResponse("fail")
     else :
-        print userInfoData[newUserId]
+        if newUserId in userInfoData :
+            if userInfoData[newUserId][5] == connection :
+                return HttpResponse("Logged In")
+            else :
+                userInfoData[newUserId][5] = connection
+        else :
+            userInfoData[newUserId] = [newUserName, zero, zero, zero]
     return StreamingHttpResponse(UserConnectionStreaming(newUserId))
 
 def DeleteUserToLogout(myUserId) :
