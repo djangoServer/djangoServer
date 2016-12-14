@@ -24,13 +24,10 @@ zero = 0
 customersMileageStatusSavePoint = 1
 customersMileageChangedEventPoint = 2
 
-
 def MileageFromAddUserToLogin (request) :
     myUserId = request.GET.get('id', 'N/A')
     if(myUserId == 'N/A') :
         return HttpResponse("fail")
-    else:
-        UserManager.userInfoData[myUserId] = UserManager.userInfoData[myUserId]
     return StreamingHttpResponse(UserDataStreaming(myUserId))
 
 def UserDataStreaming(myUserID) :
@@ -53,7 +50,7 @@ def UpdateUserMileage(request) :
     if myUserId == 'N/A' or updateMileage == zero :
         return HttpResponse("fail")
     else :
-        if myUserId in UserManager.userInfoData:
+        if myUserId in UserManager.userInfoData :
             UserManager.userInfoData[myUserId][customersMileageChangedEventPoint] = updateMileage
             UserManager.userInfoData[myUserId][customersMileageStatusSavePoint] = UserManager.userInfoData[myUserId][customersMileageStatusSavePoint] + updateMileage
             return HttpResponse("ok")
