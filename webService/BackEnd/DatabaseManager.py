@@ -121,8 +121,26 @@ def UpdateStoreCalculatedData ( storeCalculatedData) :
     return boolean
 #DB에 매점 정보 갱신
 
-def InsertNewStoreInfoData ( storeInfoData) :
-    return boolean
+def InsertNewStoreInfoData (request) :
+    try :
+        shopAddress = request.GET.get('shopAddress', '')
+        shopLatitude = request.GET.get('shopLatitude', '0')
+        shopLongtitude = request.GET.get('shopLongtitude', '0')
+        shopName = request.GET.get('shopName', '')
+        shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
+        shopIntroduceString = request.GET.get('shopIntroduceString', '')
+        shopCountryCode = request.GET.get('shopCountryCode', '')
+
+        queryResultData = ExecuteQueryToDatabase("insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) "
+                                                 + "select * from (select '" + shopAddress + "', " + shopLatitude + ", " + shopLongtitude
+                                                 + ", '" + shopName + "', '" + shopPhoneNumber + "', '" + shopIntroduceString + "', '"
+                                                 + shopCountryCode + "') as compareTmp where not exists ("
+                                                 + "select `이름`, `전화번호` from `매장정보` where `이름` = '" + shopName + "' and "
+                                                 + "`전화번호` = '" + shopPhoneNumber + "') limit 1;")
+    except :
+        print "error"
+
+    return HttpResponse(queryResultData)
 #DB에 신규 매점 생성
 
 def InsertNewCustomerInfo (request) :
@@ -135,11 +153,15 @@ def InsertNewCustomerInfo (request) :
         customerAndroidSDKVersion = request.GET.get('customerAndroidSDKVersion', '1')
         customerPhoneName = request.GET.get('customerPhoneName', '')
 
+        #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
         queryResultData = ExecuteQueryToDatabase("insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`. `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) "
                                                  + "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '"
                                                  + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', "
-                                                 + customerAndroidSDKVersion + ", '" + customerPhoneName + "');")
+                                                 + customerAndroidSDKVersion + ", '" + customerPhoneName + "') as compareTemp "
+                                                 + "where not exists ("
+                                                 + "select `이름`, `전화번호` from `회원정보` where `이름` = '" + customerName + "' and "
+                                                 + "`전화번호` = '" + customerPhoneNumber + "') limit 1;")
     except:
         print "error"
-    return queryResultData
+    return HttpResponse(queryResultData)
 #DB에 신규 유저 생성
