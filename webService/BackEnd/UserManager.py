@@ -4,7 +4,8 @@
 
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
-import time,MileageManager
+from django.utils import timezone
+import time,MileageManager,DatabaseManager
 
 # userInfoData
 # 0. 이름
@@ -62,8 +63,9 @@ def DeleteUserToLogout(myUserId) :
     return HttpResponse("Disconnection")
 #스트리밍 연결 해제시 논리삭제
 
-def MakeNewUser(userID,userPhoneNumber) :
+def MakeNewUser(request) :
     #보류
+
     return bool
 
 def DropUser(userID,userPhoneNumber) :

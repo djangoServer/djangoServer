@@ -7,7 +7,7 @@ from django.http import HttpResponse
 import pymysql
 
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "asdran", password = "156423", db = "asdran", charset = "utf8")
+    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServerServiceDatabase", charset = "utf8")
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()
@@ -125,6 +125,21 @@ def InsertNewStoreInfoData ( storeInfoData) :
     return boolean
 #DB에 신규 매점 생성
 
-def InsertNewCustomerInfo (customerInfoData) :
-    return boolean
+def InsertNewCustomerInfo (request) :
+    try :
+        customerName = request.GET.get('customerName', '')
+        customerPhoneNumber = request.GET.get('customerPhoneNumber', '')
+        customerEmailAddress = request.GET.get('customerEmailAddress', '')
+        customerBirthDay = request.GET.get('customerBirthDay', '0000-00-00')
+        customerCountryCode = request.GET.get('customerCountryCode', '00')
+        customerAndroidSDKVersion = request.GET.get('customerAndroidSDKVersion', '1')
+        customerPhoneName = request.GET.get('customerPhoneName', '')
+
+        queryResultData = ExecuteQueryToDatabase("insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`. `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) "
+                                                 + "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '"
+                                                 + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', "
+                                                 + customerAndroidSDKVersion + ", '" + customerPhoneName + "');")
+    except:
+        print "error"
+    return queryResultData
 #DB에 신규 유저 생성
