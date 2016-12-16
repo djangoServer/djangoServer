@@ -129,7 +129,7 @@ def InsertNewStoreInfoData (request) :
         shopName = request.GET.get('shopName', '')
         shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
         shopIntroduceString = request.GET.get('shopIntroduceString', '')
-        shopCountryCode = request.GET.get('shopCountryCode', '')
+        shopCountryCode = request.GET.get('shopCountryCode', '00')
 
         queryResultData = ExecuteQueryToDatabase("insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) "
                                                  + "select * from (select '" + shopAddress + "', " + shopLatitude + ", " + shopLongtitude
