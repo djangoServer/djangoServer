@@ -33,6 +33,10 @@ class DataBatchProcessing(threading.Thread):
         batchProcessBookedTime = collections.namedtuple('batchProcessTime', ['hour', 'min'])
         return batchProcessBookedTime(self.batchProcessStartHour, self.batchProcessStartMin)
 
+    def ChangeBatchProcessTime(self, newHour, newMin):
+        self.batchProcessStartHour = newHour
+        self.batchProcessStartMin = newMin
+
 def CaptureThreadVarious(threadVarious):
     global batchProcessingManager
     batchProcessingManager = threadVarious
@@ -42,6 +46,12 @@ def GetBatchProcessTime(request):
     if IsBatchProcessRunning():
         return batchProcessingManager.GetBatchProcessTime()
     return None
+
+def ChangeBatchProcessTime(self, newHour, newMin):
+    if IsBatchProcessRunning():
+        ChangeBatchProcessTime(newHour, newMin)
+        return True
+    return False
 
 def IsBatchProcessRunning(self):
     global batchProcessingManager
