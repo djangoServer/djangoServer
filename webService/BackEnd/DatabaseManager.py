@@ -7,7 +7,7 @@ from django.http import HttpResponse
 import pymysql
 
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "asdran", password = "156423", db = "asdran", charset = "utf8")
+    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServerServiceDatabase", charset = "utf8")
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()
@@ -117,14 +117,101 @@ def UpdateCustomerInfoData (request) :
 #DB에 유저 정보 갱신
 #UPDATE문에 문제가 발생해 제대로 갱신 되지 않음.
 
-def UpdateStoreCalculatedData ( storeCalculatedData) :
-    return boolean
+def UpdateStoreCalculatedData (request) :
+    queryResultData = None
+    updateTargetStoreNumber = None
+
+    updateDataPointName = {"shopAddress" : 1, "shopLatitude" : 2, "shopLongtitude" : 3, "shopName" : 4, "shopPhoneNumber" : 5,
+                           "shopIntroduceString" : 6, "shopCountryCode" : 7}
+    databaseColumnName = {1 : "`주소`", 2 : "`위도`", 3 : "`경도`", 4 : "`이름`", 5 : "`전화번호`", 6 : "`소개글`", 7 : "`국가코드`"}
+
+    updateDatas = []
+    try :
+        updateDatas[updateDataPointName["shopAddress"]] = request.GET.get('shopAddress', None)
+        updateDatas[updateDataPointName["shopLatitude"]] = request.GET.get('shopLatitude', None)
+        updateDatas[updateDataPointName["shopLongtitude"]] = request.GET.get('shopLongtitude', None)
+        updateDatas[updateDataPointName["shopName"]] = request.GET.get('shopName', None)
+        updateDatas[updateDataPointName["shopPhoneNumber"]] = request.GET.get('shopPhoneNumber', None)
+        updateDatas[updateDataPointName["shopIntroduceString"]] = request.GET.get('shopIntroduceString', None)
+        updateDatas[updateDataPointName["shopCountryCode"]] = request.GET.get('shopCountryCode', None)
+        updateTargetStoreNumber = request.GET.get('shopId', None)
+
+        if updateTargetStoreNumber == None:
+            return HttpResponse("Fail")
+
+        queryResultData = "update `매장정보` set"
+        isFirstColumn = True
+        counter = 0
+
+        for writeAvailableColumnData in updateDatas:
+            counter += 1
+            if writeAvailableColumnData != None:
+                if isFirstColumn == True:
+                    isFirstColumn = False
+                else:
+                    queryResultData = queryResultData + ","
+                queryResultData = queryResultData + databaseColumnName[counter] + "="
+                if counter != updateDataPointName["shopLatitude"] and counter != updateDataPointName["shopLongtitude"]:
+                    queryResultData = queryResultData + "'" + writeAvailableColumnData + "'"
+                else :
+                    queryResultData = queryResultData + writeAvailableColumnData
+
+        queryResultData = queryResultData + " where `매장번호` = " + updateTargetStoreNumber + ";"
+
+        queryResultData = ExecuteQueryToDatabase(queryResultData)
+
+    except:
+        print "Error in UpdateStoreCalculatedData"
+    return HttpResponse(queryResultData)
 #DB에 매점 정보 갱신
 
-def InsertNewStoreInfoData ( storeInfoData) :
-    return boolean
+def InsertNewStoreInfoData (request) :
+    queryResultData = None
+    try :
+        shopAddress = request.GET.get('shopAddress', '')
+        shopLatitude = request.GET.get('shopLatitude', '0')
+        shopLongtitude = request.GET.get('shopLongtitude', '0')
+        shopName = request.GET.get('shopName', '')
+        shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
+        shopIntroduceString = request.GET.get('shopIntroduceString', '')
+        shopCountryCode = request.GET.get('shopCountryCode', '00')
+
+        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) "
+        + "select * from (select '" + shopAddress + "', " + shopLatitude + ", " + shopLongtitude
+        + ", '" + shopName + "', '" + shopPhoneNumber + "', '" + shopIntroduceString + "', '"
+        + shopCountryCode + "') as compareTmp where not exists ("
+        + "select `이름`, `전화번호` from `매장정보` where `이름` = '" + shopName + "' and "
+        + "`전화번호` = '" + shopPhoneNumber + "') limit 1;"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except :
+        print "Error in InsertNewStoreInfoData"
+
+    return HttpResponse(queryResultData)
 #DB에 신규 매점 생성
 
-def InsertNewCustomerInfo (customerInfoData) :
-    return boolean
+def InsertNewCustomerInfo (request) :
+    queryResultData = None
+    try :
+        customerName = request.GET.get('customerName', '')
+        customerPhoneNumber = request.GET.get('customerPhoneNumber', '')
+        customerEmailAddress = request.GET.get('customerEmailAddress', '')
+        customerBirthDay = request.GET.get('customerBirthDay', '0000-00-00')
+        customerCountryCode = request.GET.get('customerCountryCode', '00')
+        customerAndroidSDKVersion = request.GET.get('customerAndroidSDKVersion', '1')
+        customerPhoneName = request.GET.get('customerPhoneName', '')
+
+        databaseQuery = "insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`. `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) "
+        + "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '"
+        + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', "
+        + customerAndroidSDKVersion + ", '" + customerPhoneName + "') as compareTemp "
+        + "where not exists ("
+        + "select `이름`, `전화번호` from `회원정보` where `이름` = '" + customerName + "' and "
+        + "`전화번호` = '" + customerPhoneNumber + "') limit 1;"
+
+        #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertNewCustomerInfo"
+    return HttpResponse(queryResultData)
 #DB에 신규 유저 생성
