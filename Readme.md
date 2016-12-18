@@ -1,11 +1,15 @@
 ﻿# 본 프로젝트 설명 
 
 ![alt tag] (webService.png)
+![alt tag] (serverDatabaseModel.png)
 
 > 본 프로젝트는 rest api 를 사용하여 고객과 점주에게 데이터 서비스를 하는 프로그램입니다 DB서버를 연동하는 기능을 가지고 있으며, python 은 BackEnd , (html, css, js)는 FrontEnd 입니다
 
 ## 서버 프로그램 작업 로그
 =======
+
+### 20161219-1
+>서버 데이터베이스 모델링한 이미지 업로드
 
 ### 20161219
 >상점 정보 수정 부분 구현
