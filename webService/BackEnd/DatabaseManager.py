@@ -119,8 +119,47 @@ def UpdateCustomerInfoData (request) :
 
 def UpdateStoreCalculatedData (request) :
     queryResultData = None
+    updateTargetStoreNumber = None
+
+    updateDataPointName = {"shopAddress" : 1, "shopLatitude" : 2, "shopLongtitude" : 3, "shopName" : 4, "shopPhoneNumber" : 5,
+                           "shopIntroduceString" : 6, "shopCountryCode" : 7}
+    databaseColumnName = {1 : "`주소`", 2 : "`위도`", 3 : "`경도`", 4 : "`이름`", 5 : "`전화번호`", 6 : "`소개글`", 7 : "`국가코드`"}
+
+    updateDatas = []
     try :
-        print "test"
+        updateDatas[updateDataPointName["shopAddress"]] = request.GET.get('shopAddress', None)
+        updateDatas[updateDataPointName["shopLatitude"]] = request.GET.get('shopLatitude', None)
+        updateDatas[updateDataPointName["shopLongtitude"]] = request.GET.get('shopLongtitude', None)
+        updateDatas[updateDataPointName["shopName"]] = request.GET.get('shopName', None)
+        updateDatas[updateDataPointName["shopPhoneNumber"]] = request.GET.get('shopPhoneNumber', None)
+        updateDatas[updateDataPointName["shopIntroduceString"]] = request.GET.get('shopIntroduceString', None)
+        updateDatas[updateDataPointName["shopCountryCode"]] = request.GET.get('shopCountryCode', None)
+        updateTargetStoreNumber = request.GET.get('shopId', None)
+
+        if updateTargetStoreNumber == None:
+            return HttpResponse("Fail")
+
+        queryResultData = "update `매장정보` set"
+        isFirstColumn = True
+        counter = 0
+
+        for writeAvailableColumnData in updateDatas:
+            counter += 1
+            if writeAvailableColumnData != None:
+                if isFirstColumn == True:
+                    isFirstColumn = False
+                else:
+                    queryResultData = queryResultData + ","
+                queryResultData = queryResultData + databaseColumnName[counter] + "="
+                if counter != updateDataPointName["shopLatitude"] and counter != updateDataPointName["shopLongtitude"]:
+                    queryResultData = queryResultData + "'" + writeAvailableColumnData + "'"
+                else :
+                    queryResultData = queryResultData + writeAvailableColumnData
+
+        queryResultData = queryResultData + " where `매장번호` = " + updateTargetStoreNumber + ";"
+
+        queryResultData = ExecuteQueryToDatabase(queryResultData)
+
     except:
         print "Error in UpdateStoreCalculatedData"
     return HttpResponse(queryResultData)
