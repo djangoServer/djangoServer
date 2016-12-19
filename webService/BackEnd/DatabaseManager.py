@@ -161,7 +161,7 @@ def UpdateStoreCalculatedData (request) :
         queryResultData = ExecuteQueryToDatabase(queryResultData)
 
     except:
-        print "Error in UpdateStoreCalculatedData"
+        print "Error in UpdateStoreCalculatedData: " + queryResultData
     return HttpResponse(queryResultData)
 #DB에 매점 정보 갱신
 
@@ -185,7 +185,7 @@ def InsertNewStoreInfoData (request) :
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
     except :
-        print "Error in InsertNewStoreInfoData"
+        print "Error in InsertNewStoreInfoData: " + queryResultData
 
     return HttpResponse(queryResultData)
 #DB에 신규 매점 생성
@@ -212,6 +212,68 @@ def InsertNewCustomerInfo (request) :
         #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
     except:
-        print "Error in InsertNewCustomerInfo"
+        print "Error in InsertNewCustomerInfo: " + queryResultData
     return HttpResponse(queryResultData)
 #DB에 신규 유저 생성
+
+def AddToStoreAsNewMember(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        customerId = request.GET.get('customerId', None)
+        storeId = request.GET.get('storeId', None)
+
+        if customerId == None or storeId == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) "
+        + "select * from (select " + customerId + ", " + storeId + ") as compareTemp "
+        + "where not exists ("
+        + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and "
+        + "`매장번호` = " + storeId + ") limit 1;"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in AddToStoreAsNewMember: " + queryResultData
+    return HttpResponse(queryResultData)
+#DB에 신규 매장과 유저 연결 등록
+
+def GetStoreAndCustomerRegiesteredId(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        customerId = request.GET.get('customerId', None)
+        storeId = request.GET.get('storeId', None)
+
+        if customerId == None or storeId == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "select `고유등록번호` from `매장등록 정보` where `회원번호` == " + customerId + " and `매장번호` == " + storeId
+        + " and `회원탈퇴여부` == 0;"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+    except:
+        print "Error in GetStoreAndCustomerRegiesteredId: " + queryResultData
+    return HttpResponse(queryResultData)
+#찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
+
+def DelMemberFromStore(request):
+    queryResultData = None
+    databaseQuery = None
+    try:
+        customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
+
+        if customerAndStoreRegisteredId == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` == " + customerAndStoreRegisteredId
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+    except:
+        print "Error in DelMemberFromStore: " + queryResultData
+
+    return HttpResponse(queryResultData)

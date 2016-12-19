@@ -23,7 +23,7 @@ class DataBatchProcessing(threading.Thread):
                 if nowTimeData.tm_hour == self.batchProcessStartHour and nowTimeData.tm_min == self.batchProcessStartMin:
                     print "processing start"
             except:
-                print "error"
+                print "Error in DataBatchProcessing Run"
             time.sleep(60)
 
     def BreakRunningThread(self):
@@ -56,3 +56,4 @@ def ChangeBatchProcessTime(self, newHour, newMin):
 def IsBatchProcessRunning(self):
     global batchProcessingManager
     return True if batchProcessingManager != None else False
+
