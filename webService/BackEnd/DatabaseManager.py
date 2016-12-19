@@ -313,3 +313,9 @@ def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, c
     except:
         print "Error in InsertCustomerLocationInfo: " + queryResultData
     return HttpResponse(queryResultData)
+
+#def CustomersCouponUseage(request):
+#    queryResultData = None
+#    databaseQuery = None
+#    try:
+
