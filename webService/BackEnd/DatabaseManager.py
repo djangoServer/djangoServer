@@ -3,7 +3,6 @@
 # DB와 연동하는 소스
 
 from django.http import HttpResponse
-
 import pymysql
 
 def ConnectToDatabase():
@@ -276,4 +275,41 @@ def DelMemberFromStore(request):
     except:
         print "Error in DelMemberFromStore: " + queryResultData
 
+    return HttpResponse(queryResultData)
+
+def InsertMileageLog(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
+        customerId = request.GET.get('customerId', None)
+        storeId = request.GET.get('storeId', None)
+        mileageSize = request.GET.get('mileageSize', '0')
+        changedDate = request.GET.get('changedDate', '0000-00-00')
+
+        customerLatitude = request.GET.get('customerLatitude', '0.00')
+        customerLongtitude = request.GET.get('customerLongtitude', '0.00')
+
+        databaseQuery = "insert into `마일리지 로그` values(" + customerAndStoreRegisteredId + ", " + customerId + ", "
+        + storeId + ", " + mileageSize + ", " + changedDate + ");"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongtitude, changedDate)
+    except:
+        print "Error in InsertMileageLog: " + queryResultData
+
+    return HttpResponse(queryResultData)
+
+def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongtitude, changedDate):
+    queryResultData = None
+    databaseQuery = None
+    try :
+        databaseQuery = "insert into `사용자 위치 정보` values(" + customerAndStoreRegisteredId + ", " + customerLatitude
+        + ", " + customerLongtitude + ", " + changedDate + ");"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertCustomerLocationInfo: " + queryResultData
     return HttpResponse(queryResultData)
