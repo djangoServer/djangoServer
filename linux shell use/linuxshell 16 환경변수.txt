@@ -1,0 +1,61 @@
+16화
+환경변수 사용
+
+*사용 이유
+셀스크립트를 사용할 때 서버에 따라 관리용 사용자 이름이 다름
+
+*환경변수 보기
+env
+
+ex)
+mkdir ${HOME}/result
+=> mkdir /home/ohno(username)/result
+
+[leejunghun@localhost ~]$ ls -l
+합계 40
+-rw-rw-r-- 1 leejunghun leejunghun    0 12월  2 21:05 ?
+drwxr-xr-x 3 leejunghun leejunghun 4096 12월  2 21:40 projBred
+-rw-rw-r-- 1 leejunghun leejunghun   11 12월 12 20:45 test.txt
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 공개
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 다운로드
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 문서
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 바탕화면
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 비디오
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 사진
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 서식
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 음악
+[leejunghun@localhost ~]$ ls
+?  projBred  test.txt  공개  다운로드  문서  바탕화면  비디오  사진  서식  음악
+[leejunghun@localhost ~]$ sudo mkdir $HOME/testEV
+[leejunghun@localhost ~]$ ls -l
+합계 44
+-rw-rw-r-- 1 leejunghun leejunghun    0 12월  2 21:05 ?
+drwxr-xr-x 3 leejunghun leejunghun 4096 12월  2 21:40 projBred
+-rw-rw-r-- 1 leejunghun leejunghun   11 12월 12 20:45 test.txt
+drwxr-xr-x 2 root       root       4096 12월 21 19:39 testEV
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 공개
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 다운로드
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 문서
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 바탕화면
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 비디오
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 사진
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 서식
+drwxr-xr-x 2 leejunghun leejunghun 4096 10월  7 21:49 음악
+[leejunghun@localhost ~]$
+
+실수)
+$HOME이라 써야되는데 $home이라 썼더니 빈값이 들어가 있어서 권한 문제로 에러가 리턴됨
+
+
+명령어 치환
+
+*날짜출력
+[leejunghun@localhost ~]$ date +%y%m%d
+161221
+
+*"오늘 날짜" 변수참조
+today=&(date +%Y-%m-%d)
+result-${today}.txt
+
+*파이프라인 변수 정의에서 값에 명령어 치환
+running_process=$(px x | grep "backup.sh" | grep -v grep)
