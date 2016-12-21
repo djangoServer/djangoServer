@@ -24,7 +24,7 @@ class DataBatchProcessing(threading.Thread):
                     print "processing start"
             except:
                 print "Error in DataBatchProcessing Run"
-            time.sleep(60)
+            time.sleep(1)
 
     def BreakRunningThread(self):
         self.keepRunning = False

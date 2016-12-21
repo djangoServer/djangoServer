@@ -319,3 +319,32 @@ def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, c
 #    databaseQuery = None
 #    try:
 
+def InsertNewProductName(request):
+    queryResultData = None
+    databaseQuery = None
+    try:
+        shopId = request.GET.get('shopId', None)
+        productName = request.GET.get('productName', None)
+        if productName == None or shopId == None:
+            return HttpResponse("Fail")
+
+        return HttpResponse("ok")
+    except:
+        print "Error in InsertNewProductName: " + queryResultData
+    return HttpResponse(queryResultData)
+
+def UpdateRegisteredProductName(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        shopId = request.GET.get('shopId', None)
+        productId = request.GET.get('productId', None)
+        newProductName = request.GET.get('newProductName', None)
+
+        if shopId == None or productId == None or newProductName == None:
+            return HttpResponse("fail")
+        return HttpResponse("ok")
+    except:
+        print "Error in UpdateRegisteredProductName: " + queryResultData
+    return HttpResponse(queryResultData)
