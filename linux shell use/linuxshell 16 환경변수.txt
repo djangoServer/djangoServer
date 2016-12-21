@@ -1,10 +1,10 @@
-16È­
-È¯°æº¯¼ö »ç¿ë
+ï»¿16í™”
+í™˜ê²½ë³€ìˆ˜ ì‚¬ìš©
 
-*»ç¿ë ÀÌÀ¯
-¼¿½ºÅ©¸³Æ®¸¦ »ç¿ëÇÒ ¶§ ¼­¹ö¿¡ µû¶ó °ü¸®¿ë »ç¿ëÀÚ ÀÌ¸§ÀÌ ´Ù¸§
+*ì‚¬ìš© ì´ìœ 
+ì…€ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‚¬ìš©í•  ë•Œ ì„œë²„ì— ë”°ë¼ ê´€ë¦¬ìš© ì‚¬ìš©ì ì´ë¦„ì´ ë‹¤ë¦„
 
-*È¯°æº¯¼ö º¸±â
+*í™˜ê²½ë³€ìˆ˜ ë³´ê¸°
 env
 
 ex)
@@ -12,50 +12,50 @@ mkdir ${HOME}/result
 => mkdir /home/ohno(username)/result
 
 [leejunghun@localhost ~]$ ls -l
-ÇÕ°è 40
--rw-rw-r-- 1 leejunghun leejunghun    0 12¿ù  2 21:05 ?
-drwxr-xr-x 3 leejunghun leejunghun 4096 12¿ù  2 21:40 projBred
--rw-rw-r-- 1 leejunghun leejunghun   11 12¿ù 12 20:45 test.txt
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 °ø°³
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ´Ù¿î·Îµå
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¹®¼­
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¹ÙÅÁÈ­¸é
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ºñµğ¿À
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 »çÁø
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¼­½Ä
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 À½¾Ç
+í•©ê³„ 40
+-rw-rw-r-- 1 leejunghun leejunghun    0 12ì›”  2 21:05 ?
+drwxr-xr-x 3 leejunghun leejunghun 4096 12ì›”  2 21:40 projBred
+-rw-rw-r-- 1 leejunghun leejunghun   11 12ì›” 12 20:45 test.txt
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ê³µê°œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë‹¤ìš´ë¡œë“œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë¬¸ì„œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë°”íƒ•í™”ë©´
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë¹„ë””ì˜¤
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ì‚¬ì§„
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ì„œì‹
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ìŒì•…
 [leejunghun@localhost ~]$ ls
-?  projBred  test.txt  °ø°³  ´Ù¿î·Îµå  ¹®¼­  ¹ÙÅÁÈ­¸é  ºñµğ¿À  »çÁø  ¼­½Ä  À½¾Ç
+?  projBred  test.txt  ê³µê°œ  ë‹¤ìš´ë¡œë“œ  ë¬¸ì„œ  ë°”íƒ•í™”ë©´  ë¹„ë””ì˜¤  ì‚¬ì§„  ì„œì‹  ìŒì•…
 [leejunghun@localhost ~]$ sudo mkdir $HOME/testEV
 [leejunghun@localhost ~]$ ls -l
-ÇÕ°è 44
--rw-rw-r-- 1 leejunghun leejunghun    0 12¿ù  2 21:05 ?
-drwxr-xr-x 3 leejunghun leejunghun 4096 12¿ù  2 21:40 projBred
--rw-rw-r-- 1 leejunghun leejunghun   11 12¿ù 12 20:45 test.txt
-drwxr-xr-x 2 root       root       4096 12¿ù 21 19:39 testEV
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 °ø°³
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ´Ù¿î·Îµå
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¹®¼­
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¹ÙÅÁÈ­¸é
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ºñµğ¿À
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 »çÁø
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 ¼­½Ä
-drwxr-xr-x 2 leejunghun leejunghun 4096 10¿ù  7 21:49 À½¾Ç
+í•©ê³„ 44
+-rw-rw-r-- 1 leejunghun leejunghun    0 12ì›”  2 21:05 ?
+drwxr-xr-x 3 leejunghun leejunghun 4096 12ì›”  2 21:40 projBred
+-rw-rw-r-- 1 leejunghun leejunghun   11 12ì›” 12 20:45 test.txt
+drwxr-xr-x 2 root       root       4096 12ì›” 21 19:39 testEV
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ê³µê°œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë‹¤ìš´ë¡œë“œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë¬¸ì„œ
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë°”íƒ•í™”ë©´
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ë¹„ë””ì˜¤
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ì‚¬ì§„
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ì„œì‹
+drwxr-xr-x 2 leejunghun leejunghun 4096 10ì›”  7 21:49 ìŒì•…
 [leejunghun@localhost ~]$
 
-½Ç¼ö)
-$HOMEÀÌ¶ó ½á¾ßµÇ´Âµ¥ $homeÀÌ¶ó ½è´õ´Ï ºó°ªÀÌ µé¾î°¡ ÀÖ¾î¼­ ±ÇÇÑ ¹®Á¦·Î ¿¡·¯°¡ ¸®ÅÏµÊ
+ì‹¤ìˆ˜)
+$HOMEì´ë¼ ì¨ì•¼ë˜ëŠ”ë° $homeì´ë¼ ì¼ë”ë‹ˆ ë¹ˆê°’ì´ ë“¤ì–´ê°€ ìˆì–´ì„œ ê¶Œí•œ ë¬¸ì œë¡œ ì—ëŸ¬ê°€ ë¦¬í„´ë¨
 
 
-¸í·É¾î Ä¡È¯
+ëª…ë ¹ì–´ ì¹˜í™˜
 
-*³¯Â¥Ãâ·Â
+*ë‚ ì§œì¶œë ¥
 [leejunghun@localhost ~]$ date +%y%m%d
 161221
 
-*"¿À´Ã ³¯Â¥" º¯¼öÂüÁ¶
+*"ì˜¤ëŠ˜ ë‚ ì§œ" ë³€ìˆ˜ì°¸ì¡°
 today=&(date +%Y-%m-%d)
 result-${today}.txt
 
-*ÆÄÀÌÇÁ¶óÀÎ º¯¼ö Á¤ÀÇ¿¡¼­ °ª¿¡ ¸í·É¾î Ä¡È¯
+*íŒŒì´í”„ë¼ì¸ ë³€ìˆ˜ ì •ì˜ì—ì„œ ê°’ì— ëª…ë ¹ì–´ ì¹˜í™˜
 running_process=$(px x | grep "backup.sh" | grep -v grep)
