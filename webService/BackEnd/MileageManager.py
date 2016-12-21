@@ -7,10 +7,11 @@ from django.http import StreamingHttpResponse
 import time
 import UserManager
 
-# userInfoData
+# userInfoData --> userMileageInfoData
 # 0. 이름
 # 1. 마일리지
 # 2. 마일리지 변동 여부
+
 #userInfoData = {}
 #userInfoData를 UserManager에 선언되어 있는걸로 재활용 했어
 #그래서 코드가 전부 userInfoData에서 UserManager.userInfoData로 바뀌었을 꺼야
@@ -35,9 +36,9 @@ def UserDataStreaming(myUserID) :
     global customersMileageChangedEventPoint
 
     while True:
-        if UserManager.userInfoData[myUserID][customersMileageChangedEventPoint] != zero:
-            yield "Updated Mileage: " + str(UserManager.userInfoData[myUserID][customersMileageChangedEventPoint]) + "<br>"
-            UserManager.userInfoData[myUserID][customersMileageChangedEventPoint] = zero
+        if UserManager.userMileageInfoData[myUserID][customersMileageChangedEventPoint] != zero:
+            yield "Updated Mileage: " + str(UserManager.userMileageInfoData[myUserID][customersMileageChangedEventPoint]) + "<br>"
+            UserManager.userMileageInfoData[myUserID][customersMileageChangedEventPoint] = zero
         time.sleep(0.1)
 
 def UpdateUserMileage(request) :
@@ -50,8 +51,8 @@ def UpdateUserMileage(request) :
     if myUserId == 'N/A' or updateMileage == zero :
         return HttpResponse("fail")
     else :
-        if myUserId in UserManager.userInfoData :
-            UserManager.userInfoData[myUserId][customersMileageChangedEventPoint] = updateMileage
-            UserManager.userInfoData[myUserId][customersMileageStatusSavePoint] = UserManager.userInfoData[myUserId][customersMileageStatusSavePoint] + updateMileage
+        if myUserId in UserManager.userMileageInfoData :
+            UserManager.userMileageInfoData[myUserId][customersMileageChangedEventPoint] = updateMileage
+            UserManager.userMileageInfoData[myUserId][customersMileageStatusSavePoint] = UserManager.userMileageInfoData[myUserId][customersMileageStatusSavePoint] + updateMileage
             return HttpResponse("ok")
         return HttpResponse("fail")
