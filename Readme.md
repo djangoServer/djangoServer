@@ -8,6 +8,9 @@
 ## 서버 프로그램 작업 로그
 =======
 
+### 20161223-1
+>url링크가 정확히 뭘 뜻하는지 잘 설정 되지 않았던 부분을 수정
+
 ### 20161223
 >[데이터베이스 데이터 시트](https://docs.google.com/document/d/1MZIuIxtH0ZgTP8GMIzLGtpRrXc4WMub1S8PPmved9nI/edit)
 >위 주소에서 데이터베이스 모델링 피드백을 받고 있다.

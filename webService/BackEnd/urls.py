@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^CustomersMileageUpdate/$',MileageManager.UpdateUserMileage),
     url(r'^DatabaseQueryTest/$', DatabaseManager.ClientRequestQuery),
     url(r'^LoadUserInfo/$', DatabaseManager.LoadUserInfo),
-    url(r'^UpdateCustomer/$', DatabaseManager.UpdateCustomerInfoData),
+    url(r'^UpdateCustomerInfo/$', DatabaseManager.UpdateCustomerInfoData),
 
     #제품 관련
     url(r'^InsertNewProductName/$', DatabaseManager.InsertNewProductName),
