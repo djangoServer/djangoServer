@@ -1,0 +1,23 @@
+﻿17화
+CUT
+
+*적절하지 않은 줄 제외 필요한 줄만 집계대상으로
+
+cat /var/log/apache2/access.log | grep - v "/live"
+(xz로 압축로그는 xzcat, gzip은 zcat)
+
+ex)
+*access_log-20161204에 압축로그에 GET방식을 빼고 출력
+=> cat access_log-20161204 | grep -v "GET"
+
+*access_log-20161204에 압축로그에 GET방식을 제외한 방식의경로부분만 잘라서 보여줌
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | less
+
+*access_log-20161204에 압축로그에 GET부분을 제외한 방식을 잘라서 보여줌
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 6 | less
+
+*access_log-20161204에 압축로그에 GET방식을 제외한 로그 중 [를 기준으로 2번째 부분중에 ]를 기준으로 첫번째 부분을 출력하여 날짜를 출력하는 방법
+=> cat access_log-20161204 | grep -v "GET" | cut -d "[" -f 2 | cut -d "]" -f 1
+
+*echo를 사용하여 cut 넘기기
+=> echo "$PWD" | cut -d "/" -f 2
