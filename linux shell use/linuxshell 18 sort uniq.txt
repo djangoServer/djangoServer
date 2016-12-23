@@ -1,0 +1,23 @@
+﻿18
+sort uniq 사용
+
+*sort로 정렬
+=> cat sortuniqutext.txt | sort
+
+*uniq로 중복제거
+=> cat sortuniqutext.txt | uniq
+
+*경로를 sort를 사용 알파벳순으로 정렬해서 uniq로 중복을 제거하고 -c옵션을 사용해 사용 숫자를 셈
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | sort | uniq -c | less
+
+*위에 출력한 결과에서 -r를 사용하여 사용 숫자를 내림차순으로 정렬
+ => cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | sort | uniq -c | sort -r | less
+
+*위에 내용에서 사용수가 많은 상위 10개 출력
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | sort | uniq -c | sort -r | head
+
+*위에 내용에서 사용수가 적은 하위 10개 출력
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | sort | uniq -c | sort -r | tail
+
+*위에 내용에서 하위 출력 개수를 3개로 지정
+=> cat access_log-20161204 | grep -v "GET" | cut -d " " -f 7 | sort | uniq -c | sort -r |tail -n 3
