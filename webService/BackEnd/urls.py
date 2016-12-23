@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import include,url
-import UserManager, MileageManager, DatabaseManager
+import UserManager, MileageManager, DatabaseManager, StoreAndCustomerManager
 
 urlpatterns = [
     url(r'^CustomerPushServiceLogin/$',UserManager.AddUserToLogin),
@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'AddToStoreAsNewMember/$', DatabaseManager.AddToStoreAsNewMember),#매장에 새로운 고객을 등록
     url(r'GetStoreAndCustomerRegiesteredId/$', DatabaseManager.GetStoreAndCustomerRegiesteredId),#매장에 등록된 고객의 고유 번호 추출
     url(r'DelMemberFromStore/$', DatabaseManager.DelMemberFromStore),#매장에 등록되어있던 고객을 논리삭제
+    url(r'^AddNewCustomerToTargetStore/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),
+    url(r'^BanCustomerFromTargetStore/$', StoreAndCustomerManager.BanCustomerFromTargetStore),
 
     #마일리지 관련
     url(r'InsertMileageLog/$', DatabaseManager.InsertMileageLog),#마일리지를 사용 혹은 적립한 내용을 등록함

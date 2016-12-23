@@ -7,6 +7,8 @@
 
 ## 서버 프로그램 작업 로그
 =======
+### 20161221-2
+>유저와 매점간의 관계를 등록하거나 그 관계를 해제하는 소스를 구현하였다.
 
 ### 20161223-2
 >[서버 프로그램 데이터 시트](https://docs.google.com/document/d/1fbzL2NHjN-HIzMGbHUh4M0Ye_eysgHa7CQf1bhNULbQ/edit)
