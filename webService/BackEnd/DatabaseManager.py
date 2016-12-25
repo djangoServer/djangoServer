@@ -324,11 +324,20 @@ def InsertNewProductName(request):
     databaseQuery = None
     try:
         shopId = request.GET.get('shopId', None)
+        productId = request.GET.get('productId', None)
         productName = request.GET.get('productName', None)
         if productName == None or shopId == None:
             return HttpResponse("Fail")
 
-        return HttpResponse("ok")
+        databaseQuery = "insert into `매장 제품 정보` (`매장번호`, `제품코드`, `이름`) "
+        + "select * from (select " + shopId + ", " + productId + ", '" + productName + "') as compareTemp "
+        + "where not exists ("
+        + "select `매장번호`, `제품코드` from `매장 제품 정보` where `매장번호` = " + shopId + " and "
+        + "`제품코드` = " + productId + ") limit 1;"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        #return HttpResponse("ok")
     except:
         print "Error in InsertNewProductName: " + queryResultData
     return HttpResponse(queryResultData)
@@ -344,7 +353,13 @@ def UpdateRegisteredProductName(request):
 
         if shopId == None or productId == None or newProductName == None:
             return HttpResponse("fail")
-        return HttpResponse("ok")
+
+        databaseQuery = "update `매장 제품 정보` set `이름` = '" + newProductName + "'"
+        + " where `매장번호` = " + shopId + " and `productId` = " + productId + ";"
+
+        queryResultData = ExecuteQueryToDatabase(queryResultData)
+        #return HttpResponse("ok")
     except:
         print "Error in UpdateRegisteredProductName: " + queryResultData
     return HttpResponse(queryResultData)
+
