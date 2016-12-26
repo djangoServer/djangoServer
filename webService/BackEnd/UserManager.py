@@ -85,18 +85,23 @@ def DeleteUserToLogout(myUserId) :
     return HttpResponse("Disconnection")
 #스트리밍 연결 해제시 논리삭제
 
-def MakeNewUser(request) :
+def MakeNewCustomer(request) :
     #보류
-
-    return bool
+    DatabaseManager.InsertNewCustomerInfo(request)
+    return HttpResponse("OK")
 
 def DropUser(userID,userPhoneNumber) :
     #보류
-    return bool
+    return HttpResponse("OK")
 
-def UpdateUserInfo(userID,userPhoneNumber) :
+def UpdateCustomerInfo(request) :
     #보류
-    return bool
+    DatabaseManager.UpdateCustomerInfoData(request)
+    return HttpResponse("OK")
+
+def LoadCustomerInfo(request) :
+    DatabaseManager.LoadCustomerInfo(request)
+    return HttpResponse("OK")
 
 def IsThatUserExist(request) :
     myUserId = request.GET.get('id' , 'N/A')

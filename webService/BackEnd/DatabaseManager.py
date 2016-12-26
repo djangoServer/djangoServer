@@ -24,7 +24,7 @@ def ClientRequestQuery(request) :
     print dbQuery
     return HttpResponse(ExecuteQueryToDatabase(dbQuery))
 
-def LoadUserInfo (request) :
+def LoadCustomerInfo (request) :
     #userID, userPhoneNumber, targetStoreID
     myUserId = request.GET.get( 'id', 'N/A')
     myUserPhone = request.GET.get('phone', 'N/A')
@@ -238,7 +238,7 @@ def AddToStoreAsNewMember(request):
     return HttpResponse(queryResultData)
 #DB에 신규 매장과 유저 연결 등록
 
-def GetStoreAndCustomerRegiesteredId(request):
+def GetStoreAndCustomerRegisteredId(request):
     queryResultData = None
     databaseQuery = None
 
@@ -416,3 +416,93 @@ def UpdateStoreNoticeInfo(request):
         print "Error in UpdateStoreNoticeInfo: " + queryResultData
     return HttpResponse(queryResultData)
 
+def InsertCouponShapeInfo(request) :
+    couponShapeCode = request.GET.get('code', None)
+    couponImageAddress = request.GET.get('address', None)
+    couponShapePrice = request.GET.get('price', '0')
+    couponShapeLimitTime = request.GET.get('limit', '-1')
+    couponShapeEx = request.GET.get('ex', None)
+
+    databaseQuery = None
+    queryResultData = None
+
+    try:
+        databaseQuery = "insert into `쿠폰모양 정보` values(" + str(couponShapeCode) + ", " + str(couponImageAddress)\
+                        + ", "+ str(couponShapePrice) + ", " + str(couponShapeLimitTime) + ", " + str(couponShapeEx) + ");"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertCouponShapeInfo: " + queryResultData
+    return HttpResponse(queryResultData)
+
+def UpdateCouponShapeInfo(request) :
+    couponShapeCode = request.GET.get('code', None)
+    couponImageAddress = request.GET.get('address', None)
+    couponShapePrice = request.GET.get('price', '0')
+    couponShapeLimitTime = request.GET.get('limit', '-1')
+    couponShapeEx = request.GET.get('ex', None)
+
+    databaseQuery = None
+    queryResultData = None
+
+    try:
+        databaseQuery = "update `쿠폰모양 정보` set `쿠폰 이미지 저장 경로` = " + str(couponImageAddress) + ", `쿠폰 모양 가격` = " + str(couponShapePrice) \
+                        + ", `쿠폰 모양 기간` = " + str(couponShapeLimitTime) + ", `쿠폰 모양 설명` = " + str(couponShapeEx) \
+                        + "where `쿠폰모양코드` == " + str(couponShapeCode) + ";"
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in UpdateCouponShapeInfo: " + queryResultData
+    return HttpResponse(queryResultData)
+
+def InsertCouponShapeCollectLog(request) :
+    myStoreId = request.GET.get('storeId','0')
+    couponShapeCode = request.GET.get('code', None)
+    couponEditTime = request.GET.get('editTime', None)
+
+    databaseQuery = None
+    queryResultData = None
+
+    try:
+        databaseQuery = "insert into `매장 쿠폰 모양 수집 로그` values(" + str(myStoreId) + ", " + str(couponShapeCode) + ", " + str(couponEditTime) + ");"
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertCouponShapeCollectLog: " + queryResultData
+    return HttpResponse(queryResultData)
+
+
+def InsertProductOptimalStock(request) :
+    productCode = request.GET.get('productCode', None)
+    engineVersion = request.GET.get('engineVersion', None) #엔진버전
+    productOptimalStock = request.GET.get('optimalStock', '0')
+    productDate = request.GET.get('date', '0000-00-00')
+
+    databaseQuery = None
+    queryResultData = None
+
+    try:
+        databaseQuery = "insert into `제품 최적 제고량` values(" + str(productCode) + ", " + str(engineVersion) + ", "\
+                        + str(productOptimalStock) + ", " + str(productDate) + ");"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertProductOptimalStock: " + queryResultData
+    return HttpResponse(queryResultData)
+
+def InsertSalesVolume(request) :
+    productCode = request.GET.get('productCode', None)
+    salesVolume = request.GET.get('salesVolume', '0')
+    productDate = request.GET.get('date', '0000-00-00')
+    projectedSales = request.GET.get('projectedSales','0')
+
+
+    databaseQuery = None
+    queryResultData = None
+
+    try:
+        databaseQuery = "insert into `제품 판매량` values(" + str(productCode) + ", " + str(salesVolume) + ", "\
+                        + str(productDate) + ", " + str(projectedSales) + ");"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in InsertSalesVolume: " + queryResultData
+    return HttpResponse(queryResultData)
