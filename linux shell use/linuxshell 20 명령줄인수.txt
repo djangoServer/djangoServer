@@ -1,0 +1,42 @@
+﻿$ vim cp.sh	/cp.sh에 $1에 내용을 $2에 붙여넣는 방식 구현
+^
+#!/bin/bash
+
+echo "$1 will copy to $2"
+eval "cp $1 $2"
+echo "---jop done---"
+
+$ chmod +x cp.sh	/실행권한 부여
+
+$ touch a.txt		/a.txt만듬
+
+$ vim a.txt		/a.txt에 hellow라는 내용삽입
+^
+hellow
+
+$touch b.txt
+
+$ ./cp.sh a.txt b.txt	/a.txt내용을 b.txt에 붙여넣음
+^
+a.txt will copy to b.txt
+--- jop done ---  
+
+$cat b.txt
+^
+hellow
+
+-------------------------------------------------------
+$ vim rm.sh		/remove하는 방식의 셀스크립트구성
+^
+#!/bin/bash
+
+echo "$1 will move"
+eval "rm $1"
+echo "---done---"
+
+$ chmod +x rm.sh	/실행권한 부여
+
+$./rm.sh a.txt
+^
+a.txt will remove
+---done!---
