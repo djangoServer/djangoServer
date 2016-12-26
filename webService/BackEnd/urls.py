@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
 
     #쿠폰 관련
+    url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록
+    url(r'^UpdateUploadedCoupon/$', DatabaseManager.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
     url(r'^InsertCouponShapeInfo/$',DatabaseManager.InsertCouponShapeInfo),#쿠폰 등록
     url(r'^UpdateCouponShapeInfo/$',DatabaseManager.UpdateCouponShapeInfo),#쿠폰 갱신
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
