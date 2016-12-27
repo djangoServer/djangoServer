@@ -218,6 +218,7 @@ def UpdateRegisteredStoreInfoData(request):
 
 def InsertNewCustomerInfo (request) :
     queryResultData = None
+    databaseQuery = None
     try :
         customerName = request.GET.get('customerName', '')
         customerPhoneNumber = request.GET.get('customerPhoneNumber', '')
@@ -227,19 +228,21 @@ def InsertNewCustomerInfo (request) :
         customerAndroidSDKVersion = request.GET.get('customerAndroidSDKVersion', '1')
         customerPhoneName = request.GET.get('customerPhoneName', '')
 
-        databaseQuery = "insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`. `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) "
-        + "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '"
-        + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', "
-        + customerAndroidSDKVersion + ", '" + customerPhoneName + "') as compareTemp "
-        + "where not exists ("
-        + "select `이름`, `전화번호` from `회원정보` where `이름` = '" + customerName + "' and "
-        + "`전화번호` = '" + customerPhoneNumber + "') limit 1;"
+        databaseQuery = "insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`, `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) " \
+                        "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '" \
+                        "" + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', " \
+                        "" + customerAndroidSDKVersion + ", '" + customerPhoneName + "') as compareTemp " \
+                        "where not exists (" \
+                        "select `이름`, `전화번호`,`이메일`,`생일`,`국가코드`,`안드로이드SDK레벨`,`핸드폰기종` from `회원정보` where `이름` = '" + customerName + "' and " \
+                        "`전화번호` = '" + customerPhoneNumber + "') limit 1;"
+
+        print databaseQuery
 
         #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
     except:
-        print "Error in InsertNewCustomerInfo: " + queryResultData
-    return HttpResponse(queryResultData)
+        print "Error in InsertNewCustomerInfo: " + str(databaseQuery)
+    return HttpResponse("Ok")
 #DB에 신규 유저 생성
 
 def AddToStoreAsNewMember(request):
