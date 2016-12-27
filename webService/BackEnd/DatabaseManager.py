@@ -187,6 +187,33 @@ def InsertNewStoreInfoData (request) :
         print "Error in InsertNewStoreInfoData: " + queryResultData
 
     return HttpResponse(queryResultData)
+
+def UpdateRegisteredStoreInfoData(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        shopId = request.GET.get('shopId', None)
+        shopAddress = request.GET.get('shopAddress', '')
+        shopLatitude = request.GET.get('shopLatitude', '0')
+        shopLongtitude = request.GET.get('shopLongtitude', '0')
+        shopName = request.GET.get('shopName', '')
+        shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
+        shopIntroduceString = request.GET.get('shopIntroduceString', '')
+        shopCountryCode = request.GET.get('shopCountryCode', '00')
+
+        if shopId == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "update `매장정보` "
+        + "set "
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+    except:
+        print "Error in UpdateRegisteredStoreInfoData: " + queryResultData
+    return HttpResponse(queryResultData)
+
 #DB에 신규 매점 생성
 
 def InsertNewCustomerInfo (request) :
@@ -346,6 +373,7 @@ def InsertNewCoupon(request):
 
     return HttpResponse(queryResultData)
 
+#업로드한 쿠폰 정보를 변경
 def UpdateUploadedCoupon(request):
     queryResultData = None
     databaseQuery = None
@@ -374,6 +402,35 @@ def UpdateUploadedCoupon(request):
 
     except:
         print "Error in UpdateUploadedCoupon: " + queryResultData
+
+    return HttpResponse(queryResultData)
+
+#업로드한 쿠폰을 삭제
+def DelUploadedCoupon(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        shopId = request.GET.get('shopId', None)
+        couponId = request.GET.get('couponId', None)
+
+        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
+        shopkeeperLongtitude = request.GET.get('shopkeeperLongtitude', '0.00')
+        changedDate = request.GET.get('changedDate', '0000-00-00')
+
+        if shopId == None or couponId == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "update `매장쿠폰등록정보`"
+        + " set `삭제 여부` = 1"
+        + " where `매장번호` = " + shopId + " and `쿠폰고유번호` = '" + couponId + "';"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongtitude, changedDate)
+
+    except:
+        print "Error in DelUploadedCoupon: " + queryResultData
 
     return HttpResponse(queryResultData)
 

@@ -16,12 +16,15 @@ urlpatterns = [
     #쿠폰 관련
     url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록
     url(r'^UpdateUploadedCoupon/$', DatabaseManager.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
+    url(r'^DelUploadedCoupon/$', DatabaseManager.DelUploadedCoupon),#등록한 쿠폰을 삭제
     url(r'^InsertCouponShapeInfo/$',DatabaseManager.InsertCouponShapeInfo),#쿠폰 등록
     url(r'^UpdateCouponShapeInfo/$',DatabaseManager.UpdateCouponShapeInfo),#쿠폰 갱신
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
 
     #매장 관련
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
+
+    #공지 관련
     url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
     url(r'^UpdateStoreNoticeInfo/$', DatabaseManager.UpdateStoreNoticeInfo),#기존의 공지사항 편집
 
