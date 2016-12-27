@@ -29,9 +29,12 @@ urlpatterns = [
     url(r'^UpdateStoreNoticeInfo/$', DatabaseManager.UpdateStoreNoticeInfo),#기존의 공지사항 편집
 
     #고객 관련
-    url(r'^InsertNewCustomerInfo/$', UserManager.MakeNewCustomer),#새로운 고객 등록
-    url(r'^LoadUserInfo/$', UserManager.LoadCustomerInfo), #유저 정보 조회
-    url(r'^UpdateCustomerInfo/$', UserManager.UpdateCustomerInfo), #유저 정보 갱신
+    url(r'^InsertNewCustomerInfo/$', DatabaseManager.InsertNewCustomerInfo),#새로운 고객 등록
+    url(r'^LoadCustomerInfo/$', DatabaseManager.LoadCustomerInfo),#유저 정보 조회
+    url(r'^UpdateCustomerInfoData/$', DatabaseManager.UpdateCustomerInfoData),#유저 정보 갱신
+    #url(r'^InsertNewCustomerInfo/$', UserManager.MakeNewCustomer),#새로운 고객 등록
+    #url(r'^LoadUserInfo/$', UserManager.LoadCustomerInfo), #유저 정보 조회
+    #url(r'^UpdateCustomerInfo/$', UserManager.UpdateCustomerInfo), #유저 정보 갱신
 
     #매장과 고객 관련
     url(r'AddToStoreAsNewMember/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),#매장에 새로운 고객을 등록
