@@ -175,21 +175,29 @@ def InsertNewStoreInfoData (request) :
         shopAddress = request.GET.get('shopAddress', '')
         shopLatitude = request.GET.get('shopLatitude', '0')
         shopLongtitude = request.GET.get('shopLongtitude', '0')
-        shopName = request.GET.get('shopName', '')
-        shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
+        shopName = request.GET.get('shopName', None)
+        shopPhoneNumber = request.GET.get('shopPhoneNumber', None)
         shopIntroduceString = request.GET.get('shopIntroduceString', '')
         shopCountryCode = request.GET.get('shopCountryCode', '00')
 
-        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) "
-        + "select * from (select '" + shopAddress + "', " + shopLatitude + ", " + shopLongtitude
-        + ", '" + shopName + "', '" + shopPhoneNumber + "', '" + shopIntroduceString + "', '"
-        + shopCountryCode + "') as compareTmp where not exists ("
-        + "select `이름`, `전화번호` from `매장정보` where `이름` = '" + shopName + "' and "
-        + "`전화번호` = '" + shopPhoneNumber + "') limit 1;"
+        if shopName == None or shopPhoneNumber == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) " \
+                        "select * from (select '" + shopAddress + "' as 'address', " + shopLatitude + " as 'latitude', " + shopLongtitude + " as 'longtitude'" \
+                        ", '" + shopName + "' as 'name', '" + shopPhoneNumber + "' as 'phone', '" + shopIntroduceString + "' as 'introduceSentence', '" \
+                        "" + shopCountryCode + "' as 'countryCode') as compareTmp where not exists (" \
+                        "select `이름`, `전화번호` from `매장정보` where `이름` = '" + shopName + "' and " \
+                        "`전화번호` = '" + shopPhoneNumber + "') limit 1;"
+
+        print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return HttpResponse("Ok")
+
     except :
-        print "Error in InsertNewStoreInfoData: " + queryResultData
+        print "Error in InsertNewStoreInfoData: " + str(queryResultData)
 
     return HttpResponse(queryResultData)
 
