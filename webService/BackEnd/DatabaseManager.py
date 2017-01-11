@@ -4,9 +4,10 @@
 
 from django.http import HttpResponse
 import pymysql
+import UserManager
 
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServerServiceDatabase", charset = "utf8")
+    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8")
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()
@@ -71,7 +72,7 @@ def CheckTargetUserExist (request):
     # userID, userPhoneNumber, targetStoreID
     myUserId = request.GET.get('id', 'N/A')
     myUserPhone = request.GET.get('phone', 'N/A')
-    dbQuery = "SELECT * FROM 유저 WHERE 회원번호 = " + str(myUserId) + ";"
+    dbQuery = "SELECT * FROM `회원정보` WHERE 회원번호 = " + str(myUserId) + ";"
 
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
@@ -84,8 +85,8 @@ def CheckTargetUserExist (request):
 
 def CheckTargetStoreExist (request) :
     # userID, userPhoneNumber, targetStoreID
-    myStoreId = request.GET.get('id', 'N/A')
-    dbQuery = "SELECT * FROM 지점 WHERE 지점번호 = " + str(myStoreId) + ";"
+    myStoreId = request.GET.get('이름', 'N/A')
+    dbQuery = "SELECT * FROM `매장정보` WHERE `이름` = `" + str(myStoreId) + "`;"
 
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
@@ -120,7 +121,7 @@ def UpdateStoreCalculatedData (request) :
     queryResultData = None
     updateTargetStoreNumber = None
 
-    updateDataPointName = {"shopAddress" : 1, "shopLatitude" : 2, "shopLongtitude" : 3, "shopName" : 4, "shopPhoneNumber" : 5,
+    updateDataPointName = {"shopAddress" : 1, "shopLatitude" : 2, "shopLongitude" : 3, "shopName" : 4, "shopPhoneNumber" : 5,
                            "shopIntroduceString" : 6, "shopCountryCode" : 7}
     databaseColumnName = {1 : "`주소`", 2 : "`위도`", 3 : "`경도`", 4 : "`이름`", 5 : "`전화번호`", 6 : "`소개글`", 7 : "`국가코드`"}
 
@@ -128,7 +129,7 @@ def UpdateStoreCalculatedData (request) :
     try :
         updateDatas[updateDataPointName["shopAddress"]] = request.GET.get('shopAddress', None)
         updateDatas[updateDataPointName["shopLatitude"]] = request.GET.get('shopLatitude', None)
-        updateDatas[updateDataPointName["shopLongtitude"]] = request.GET.get('shopLongtitude', None)
+        updateDatas[updateDataPointName["shopLongitude"]] = request.GET.get('shopLongitude', None)
         updateDatas[updateDataPointName["shopName"]] = request.GET.get('shopName', None)
         updateDatas[updateDataPointName["shopPhoneNumber"]] = request.GET.get('shopPhoneNumber', None)
         updateDatas[updateDataPointName["shopIntroduceString"]] = request.GET.get('shopIntroduceString', None)
@@ -150,7 +151,7 @@ def UpdateStoreCalculatedData (request) :
                 else:
                     queryResultData = queryResultData + ","
                 queryResultData = queryResultData + databaseColumnName[counter] + "="
-                if counter != updateDataPointName["shopLatitude"] and counter != updateDataPointName["shopLongtitude"]:
+                if counter != updateDataPointName["shopLatitude"] and counter != updateDataPointName["shopLongitude"]:
                     queryResultData = queryResultData + "'" + writeAvailableColumnData + "'"
                 else :
                     queryResultData = queryResultData + writeAvailableColumnData
@@ -169,24 +170,31 @@ def InsertNewStoreInfoData (request) :
     try :
         shopAddress = request.GET.get('shopAddress', '')
         shopLatitude = request.GET.get('shopLatitude', '0')
-        shopLongtitude = request.GET.get('shopLongtitude', '0')
+        shopLongitude = request.GET.get('shopLongitude', '0')
         shopName = request.GET.get('shopName', '')
         shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
         shopIntroduceString = request.GET.get('shopIntroduceString', '')
         shopCountryCode = request.GET.get('shopCountryCode', '00')
 
-        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) "
-        + "select * from (select '" + shopAddress + "', " + shopLatitude + ", " + shopLongtitude
-        + ", '" + shopName + "', '" + shopPhoneNumber + "', '" + shopIntroduceString + "', '"
-        + shopCountryCode + "') as compareTmp where not exists ("
-        + "select `이름`, `전화번호` from `매장정보` where `이름` = '" + shopName + "' and "
-        + "`전화번호` = '" + shopPhoneNumber + "') limit 1;"
+        if shopName == None or shopPhoneNumber == None:
+            return HttpResponse("Fail")
+
+        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) " \
+                        + "select * from (select '" + shopAddress + "' as '주소', " + shopLatitude + " as '위도', " + shopLongitude + " as '경도'" \
+                        + ", '" + shopName + "' as '이름', '" + shopPhoneNumber + "' as '전화번호', '" + shopIntroduceString + "' as '소개글', '" \
+                        + "" + shopCountryCode + "' as '국가코드') as compareTmp where not exists (" \
+                        + "select `주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드` from `매장정보` where `이름` = '" + "100" + "' and " \
+                        + "`전화번호` = '" + "100" + "' ) limit 1;"
+
+        print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        return HttpResponse("OK")
     except :
-        print "Error in InsertNewStoreInfoData: " + queryResultData
+        print "Error in InsertNewStoreInfoData: " + str(queryResultData)
 
     return HttpResponse(queryResultData)
+#DB에 신규 매점 생성
 
 def UpdateRegisteredStoreInfoData(request):
     queryResultData = None
@@ -196,7 +204,7 @@ def UpdateRegisteredStoreInfoData(request):
         shopId = request.GET.get('shopId', None)
         shopAddress = request.GET.get('shopAddress', '')
         shopLatitude = request.GET.get('shopLatitude', '0')
-        shopLongtitude = request.GET.get('shopLongtitude', '0')
+        shopLongitude = request.GET.get('shopLongitude', '0')
         shopName = request.GET.get('shopName', '')
         shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
         shopIntroduceString = request.GET.get('shopIntroduceString', '')
@@ -214,8 +222,6 @@ def UpdateRegisteredStoreInfoData(request):
         print "Error in UpdateRegisteredStoreInfoData: " + queryResultData
     return HttpResponse(queryResultData)
 
-#DB에 신규 매점 생성
-
 def InsertNewCustomerInfo (request) :
     queryResultData = None
     databaseQuery = None
@@ -229,12 +235,12 @@ def InsertNewCustomerInfo (request) :
         customerPhoneName = request.GET.get('customerPhoneName', '')
 
         databaseQuery = "insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`, `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) " \
-                        "select * from (select '" + customerName + "', '" + customerPhoneNumber + "', '" \
-                        "" + customerEmailAddress + "', '" + customerBirthDay + "', '" + customerCountryCode + "', " \
-                        "" + customerAndroidSDKVersion + ", '" + customerPhoneName + "') as compareTemp " \
-                        "where not exists (" \
-                        "select `이름`, `전화번호`,`이메일`,`생일`,`국가코드`,`안드로이드SDK레벨`,`핸드폰기종` from `회원정보` where `이름` = '" + customerName + "' and " \
-                        "`전화번호` = '" + customerPhoneNumber + "') limit 1;"
+                        + "select * from (select '" + customerName + "' as `이름`, '" + customerPhoneNumber + "' as `전화번호`, '" \
+                        + "" + customerEmailAddress + "' as `이메일`, '" + customerBirthDay + "' as `생일`, '" + customerCountryCode + "' as `국가코드`, " \
+                        + "" + customerAndroidSDKVersion + " as `안드로이드SDK레벨`, '" + customerPhoneName + "' as `핸드폰기종`) as compareTemp " \
+                        + "where not exists (" \
+                        + "select `이름`, `전화번호`,`이메일`,`생일`,`국가코드`,`안드로이드SDK레벨`,`핸드폰기종` from `회원정보` where `이름` = '100' and " \
+                        + "`전화번호` = '100') limit 1;"
 
         print databaseQuery
 
@@ -256,10 +262,10 @@ def AddToStoreAsNewMember(request):
         if customerId == None or storeId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) "
-        + "select * from (select " + customerId + ", " + storeId + ") as compareTemp "
-        + "where not exists ("
-        + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and "
+        databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) " \
+        + "select * from (select " + customerId + ", " + storeId + ") as compareTemp " \
+        + "where not exists (" \
+        + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and " \
         + "`매장번호` = " + storeId + ") limit 1;"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
@@ -279,13 +285,14 @@ def GetStoreAndCustomerRegisteredId(request):
         if customerId == None or storeId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "select `고유등록번호` from `매장등록 정보` where `회원번호` == " + customerId + " and `매장번호` == " + storeId
-        + " and `회원탈퇴여부` == 0;"
+        databaseQuery = "select `고유등록번호` from `매장등록 정보` where `회원번호` == " + customerId \
+                        + " and `매장번호` == " + storeId \
+                        + " and `회원탈퇴여부` == 0;"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
     except:
-        print "Error in GetStoreAndCustomerRegiesteredId: " + queryResultData
+        print "Error in GetStoreAndCustomerRegisteredId: " + queryResultData
     return HttpResponse(queryResultData)
 #찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
 
@@ -319,26 +326,26 @@ def InsertMileageLog(request):
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         customerLatitude = request.GET.get('customerLatitude', '0.00')
-        customerLongtitude = request.GET.get('customerLongtitude', '0.00')
+        customerLongitude = request.GET.get('customerLongitude', '0.00')
 
-        databaseQuery = "insert into `마일리지 로그` values(" + customerAndStoreRegisteredId + ", " + customerId + ", "
+        databaseQuery = "insert into `마일리지 로그` values(" + customerAndStoreRegisteredId + ", " + customerId + ", " \
         + storeId + ", " + mileageSize + ", " + changedDate + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongtitude, changedDate)
+        InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate)
     except:
         print "Error in InsertMileageLog: " + queryResultData
 
     return HttpResponse(queryResultData)
 
 
-def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongtitude, changedDate):
+def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate):
     queryResultData = None
     databaseQuery = None
     try :
-        databaseQuery = "insert into `사용자 위치 정보` values(" + customerAndStoreRegisteredId + ", " + customerLatitude
-        + ", " + customerLongtitude + ", " + changedDate + ");"
+        databaseQuery = "insert into `사용자 위치 정보` values(" + customerAndStoreRegisteredId + ", " + customerLatitude \
+        + ", " + customerLongitude + ", " + changedDate + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
     except:
@@ -358,18 +365,18 @@ def InsertNewCoupon(request):
         couponShapeIconCode = request.GET.get('couponShopIconCode', '0')
 
         shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongtitude = request.GET.get('shopkeeperLongtitude', '0.00')
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "insert into `매장쿠폰등록정보` (`매장번호`, `쿠폰고유번호`, `제목`, `내용`, `쿠폰모양코드`) values("
+        databaseQuery = "insert into `매장쿠폰등록정보` (`매장번호`, `쿠폰고유번호`, `제목`, `내용`, `쿠폰모양코드`) values(" \
         + shopId + ", '" + couponId + "', '" + couponTitle + "', '" + couponBody + "', " + couponShapeIconCode + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongtitude, changedDate)
+        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
     except:
         print "Error in InsertNewCoupon: " + queryResultData
@@ -389,19 +396,19 @@ def UpdateUploadedCoupon(request):
         couponShapeIconCode = request.GET.get('couponShopIconCode', '0')
 
         shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongtitude = request.GET.get('shopkeeperLongtitude', '0.00')
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "update `매장쿠폰등록정보`"
-        + " set `제목` = '" + couponTitle + "', `내용` = '" + couponBody + "', `쿠폰모양코드` = " + couponShapeIconCode
+        databaseQuery = "update `매장쿠폰등록정보`" \
+        + " set `제목` = '" + couponTitle + "', `내용` = '" + couponBody + "', `쿠폰모양코드` = " + couponShapeIconCode \
         + " where `매장번호` = " + shopId + " and `쿠폰고유번호` = '" + couponId + "';"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongtitude, changedDate)
+        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
     except:
         print "Error in UpdateUploadedCoupon: " + queryResultData
@@ -418,37 +425,38 @@ def DelUploadedCoupon(request):
         couponId = request.GET.get('couponId', None)
 
         shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongtitude = request.GET.get('shopkeeperLongtitude', '0.00')
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "update `매장쿠폰등록정보`"
-        + " set `삭제 여부` = 1"
+        databaseQuery = "update `매장쿠폰등록정보`" \
+        + " set `삭제 여부` = 1" \
         + " where `매장번호` = " + shopId + " and `쿠폰고유번호` = '" + couponId + "';"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongtitude, changedDate)
+        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
     except:
         print "Error in DelUploadedCoupon: " + queryResultData
 
     return HttpResponse(queryResultData)
 
-def InsertShopkeeperLocationInfo(storeId, shopkeeperLatitude, shopkeeperLongtitude, changedDate):
+def InsertShopkeeperLocationInfo(storeId, shopkeeperLatitude, shopkeeperLongitude, changedDate):
     queryResultData = None
     databaseQuery = None
     try :
-        databaseQuery = "insert into `업로더 위치 정보` values(" + storeId + ", " + shopkeeperLatitude
-        + ", " + shopkeeperLongtitude + ", " + changedDate + ");"
+        databaseQuery = "insert into `업로더 위치 정보` values(" + storeId + ", " + shopkeeperLatitude \
+        + ", " + shopkeeperLongitude + ", " + changedDate + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
     except:
         print "Error in InsertCustomerLocationInfo: " + queryResultData
     return HttpResponse(queryResultData)
 
+#제품 추가
 def InsertNewProductName(request):
     queryResultData = None
     databaseQuery = None
@@ -459,10 +467,10 @@ def InsertNewProductName(request):
         if productName == None or shopId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "insert into `매장 제품 정보` (`매장번호`, `제품코드`, `이름`) "
-        + "select * from (select " + shopId + ", " + productId + ", '" + productName + "') as compareTemp "
-        + "where not exists ("
-        + "select `매장번호`, `제품코드` from `매장 제품 정보` where `매장번호` = " + shopId + " and "
+        databaseQuery = "insert into `매장 제품 정보` (`매장번호`, `제품코드`, `이름`) " \
+        + "select * from (select " + shopId + ", " + productId + ", '" + productName + "') as compareTemp " \
+        + "where not exists (" \
+        + "select `매장번호`, `제품코드` from `매장 제품 정보` where `매장번호` = " + shopId + " and " \
         + "`제품코드` = " + productId + ") limit 1;"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
@@ -472,6 +480,7 @@ def InsertNewProductName(request):
         print "Error in InsertNewProductName: " + queryResultData
     return HttpResponse(queryResultData)
 
+#제품 수정
 def UpdateRegisteredProductName(request):
     queryResultData = None
     databaseQuery = None
@@ -484,7 +493,28 @@ def UpdateRegisteredProductName(request):
         if shopId == None or productId == None or newProductName == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "update `매장 제품 정보` set `이름` = '" + newProductName + "'"
+        databaseQuery = "update `매장 제품 정보` set `이름` = '" + newProductName + "'" \
+        + " where `매장번호` = " + shopId + " and `productId` = " + productId + ";"
+
+        queryResultData = ExecuteQueryToDatabase(queryResultData)
+        #return HttpResponse("ok")
+    except:
+        print "Error in UpdateRegisteredProductName: " + queryResultData
+    return HttpResponse(queryResultData)
+
+#제품 삭제
+def DelRegisteredProductName(request):
+    queryResultData = None
+    databaseQuery = None
+
+    try:
+        shopId = request.GET.get('shopId', None)
+        productId = request.GET.get('productId', None)
+
+        if shopId == None or productId == None :
+            return HttpResponse("Fail")
+
+        databaseQuery = "update `매장 제품 정보` set `삭제 여부` = 1" \
         + " where `매장번호` = " + shopId + " and `productId` = " + productId + ";"
 
         queryResultData = ExecuteQueryToDatabase(queryResultData)
@@ -509,8 +539,8 @@ def InsertNewStoreNoticeInfo(request):
         if shopId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "insert into `매장공지 정보` (`매장번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`)"
-        + " values (" + shopId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', '"
+        databaseQuery = "insert into `매장공지 정보` (`매장번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`)" \
+        + " values (" + shopId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', '" \
         + noticeLastUpdateDate + "');"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
@@ -535,15 +565,33 @@ def UpdateStoreNoticeInfo(request):
         if shopId == None and noticeId == None:
             return HttpResponse("Fail")
 
-        databaseQuery = "update `매장공지 정보`"
-        + " set `제목` = '" + noticeTitle + "', `내용` = '" + noticeBody + "', `공지 시작 날짜` = '" + noticeStartDate + "', "
-        + "`공지 마감 날짜` = '" + noticeStopDate + "', `마지막 편집 날짜` = '" + noticeLastUpdateDate + "' "
+        databaseQuery = "update `매장공지 정보`" \
+        + " set `제목` = '" + noticeTitle + "', `내용` = '" + noticeBody + "', `공지 시작 날짜` = '" + noticeStartDate + "', " \
+        + "`공지 마감 날짜` = '" + noticeStopDate + "', `마지막 편집 날짜` = '" + noticeLastUpdateDate + "' " \
         + "where `매장번호` = " + shopId + " and `공지번호` = " + noticeId + ";"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
     except:
         print "Error in UpdateStoreNoticeInfo: " + queryResultData
+    return HttpResponse(queryResultData)
+
+#기존의 공지사항 삭제
+def DelStoreNoticeInfo(request):
+    queryResultData = None
+    databaseQuery = None
+
+    shopId = request.GET.get('shopId', None)
+    noticeId = request.GET.get('noticeId', None)
+
+    try :
+        databaseQuery = "update `매장공지 정보`"\
+                        + "set `삭제 여부` = 1" \
+                        + "where `매장번호` = " + shopId + " and `공지번호` = " + noticeId + ";"
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except :
+        print "Error in DelStoreNoticeInfo: " + queryResultData
+
     return HttpResponse(queryResultData)
 
 def InsertCouponShapeInfo(request) :
@@ -557,7 +605,7 @@ def InsertCouponShapeInfo(request) :
     queryResultData = None
 
     try:
-        databaseQuery = "insert into `쿠폰모양 정보` values(" + str(couponShapeCode) + ", " + str(couponImageAddress)\
+        databaseQuery = "insert into `쿠폰모양 정보` values(" + str(couponShapeCode) + ", " + str(couponImageAddress) \
                         + ", "+ str(couponShapePrice) + ", " + str(couponShapeLimitTime) + ", " + str(couponShapeEx) + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
@@ -637,3 +685,13 @@ def InsertSalesVolume(request) :
         print "Error in InsertSalesVolume: " + queryResultData
     return HttpResponse(queryResultData)
 
+def LoadMileageSum(myUserId,myUniqueId) :
+    queryResultData = None
+
+    try:
+        databaseQuery = "SELECT SUM(`마일리지 변동 량`) FROM `마일리지 로그` WHERE `고유등록번호` = '" + myUniqueId +"';"
+
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+    except:
+        print "Error in LoadMileageSum: " + queryResultData
+    return HttpResponse(queryResultData+UserManager.userMileageInfoData[myUserId][1])
