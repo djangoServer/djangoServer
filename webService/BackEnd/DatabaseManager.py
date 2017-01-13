@@ -7,7 +7,7 @@ import pymysql
 import UserManager
 
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8")
+    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()
@@ -17,6 +17,7 @@ def ExecuteQueryToDatabase(executeAbleQuery) :
     databaseResultDataCursor = databaseConnection.cursor()
     databaseResultDataCursor.execute(executeAbleQuery)
     databaseResultDataRows = databaseResultDataCursor.fetchall()
+    databaseConnection.commit()
     DisconnectDatabase(databaseConnection)
     return databaseResultDataRows
 
@@ -25,11 +26,18 @@ def ClientRequestQuery(request) :
     print dbQuery
     return HttpResponse(ExecuteQueryToDatabase(dbQuery))
 
+def TestQuery(request):
+
+    ExecuteQueryToDatabase('insert into User2 (`a`, `b`, `c`, `d`) values(1, 2, 3, 4);');
+
+    return HttpResponse("test")
+
 def LoadCustomerInfo (request) :
     #userID, userPhoneNumber, targetStoreID
-    myUserId = request.GET.get( 'id', 'N/A')
-    myUserPhone = request.GET.get('phone', 'N/A')
-    dbQuery = "SELECT 이름, 전화번호, 지점번호 FROM 유저 WHERE 회원번호 = " + str(myUserId) + ";"
+    #myUserId = request.GET.get( 'id', None)
+    myUserName = request.GET.get('name', None)
+    myUserPhone = request.GET.get('phone', None)
+    dbQuery = "SELECT * FROM `회원정보` WHERE `이름` = '" + myUserName + "' and `전화번호` = '" + myUserPhone + "';"
 
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
@@ -43,13 +51,17 @@ def LoadCustomerInfo (request) :
     if returnValue.__len__() == 0 :
         return HttpResponse("Nothing")
 
-    sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
+    #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
 
     """
     returnValue[0][2]는 숫자형(integer)은  returnValue[0][0],[1]과는 다른 형태라 unicode 형식을 부여 안하면 에러남
     """
 
-    return HttpResponse(sortValue)
+    customerInfoData = ",".join(str(x) for x in returnValue[0])
+    #print returnValue[0].decode('utf-8').encode('utf-8')
+    #print returnValue[0][1]
+
+    return HttpResponse(customerInfoData)
     #return dataArray
 #해당 유저의 정보 조회
 
@@ -185,7 +197,6 @@ def InsertNewStoreInfoData (request) :
                         + "" + shopCountryCode + "' as '국가코드') as compareTmp where not exists (" \
                         + "select `주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드` from `매장정보` where `이름` = '" + "100" + "' and " \
                         + "`전화번호` = '" + "100" + "' ) limit 1;"
-
         print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
