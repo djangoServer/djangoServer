@@ -5,6 +5,7 @@ import UserManager, MileageManager, DatabaseManager, StoreAndCustomerManager
 urlpatterns = [
 
     url(r'^DatabaseQueryTest/$', DatabaseManager.ClientRequestQuery), #클라이언트의 쿼리 처리
+    url(r'^TestQuery/$', DatabaseManager.TestQuery),
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련

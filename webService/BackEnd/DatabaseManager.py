@@ -7,7 +7,7 @@ import pymysql
 import UserManager
 
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8")
+    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()
@@ -17,6 +17,7 @@ def ExecuteQueryToDatabase(executeAbleQuery) :
     databaseResultDataCursor = databaseConnection.cursor()
     databaseResultDataCursor.execute(executeAbleQuery)
     databaseResultDataRows = databaseResultDataCursor.fetchall()
+    databaseConnection.commit()
     DisconnectDatabase(databaseConnection)
     return databaseResultDataRows
 
@@ -24,6 +25,12 @@ def ClientRequestQuery(request) :
     dbQuery = request.GET.get('query',';')
     print dbQuery
     return HttpResponse(ExecuteQueryToDatabase(dbQuery))
+
+def TestQuery(request):
+
+    ExecuteQueryToDatabase('insert into User2 (`a`, `b`, `c`, `d`) values(1, 2, 3, 4);');
+
+    return HttpResponse("test")
 
 def LoadCustomerInfo (request) :
     #userID, userPhoneNumber, targetStoreID
@@ -175,15 +182,9 @@ def InsertNewStoreInfoData (request) :
     try :
         shopAddress = request.GET.get('shopAddress', '')
         shopLatitude = request.GET.get('shopLatitude', '0')
-<<<<<<< HEAD
-        shopLongtitude = request.GET.get('shopLongtitude', '0')
-        shopName = request.GET.get('shopName', None)
-        shopPhoneNumber = request.GET.get('shopPhoneNumber', None)
-=======
         shopLongitude = request.GET.get('shopLongitude', '0')
         shopName = request.GET.get('shopName', '')
         shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
->>>>>>> origin/오타,SQL수정사항_공지,제품기능추가
         shopIntroduceString = request.GET.get('shopIntroduceString', '')
         shopCountryCode = request.GET.get('shopCountryCode', '00')
 
