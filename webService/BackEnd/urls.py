@@ -1,33 +1,41 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import include,url
 import UserManager, MileageManager, DatabaseManager, StoreAndCustomerManager
+from Database import CouponDatabase,CouponShapeDatabase,NoticeDatabase,ProductDatabase
 
 urlpatterns = [
 
     url(r'^DatabaseQueryTest/$', DatabaseManager.ClientRequestQuery), #클라이언트의 쿼리 처리
-    url(r'^TestQuery/$', DatabaseManager.TestQuery),
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련
-    url(r'^InsertNewProductName/$', DatabaseManager.InsertNewProductName),#새로운 제품 등록
-    url(r'^UpdateRegisteredProductName/$', DatabaseManager.UpdateRegisteredProductName),#기존 제품 이름 변경
+    url(r'^InsertNewProductName/$', ProductDatabase.InsertNewProductName),#새로운 제품 등록
+    url(r'^UpdateRegisteredProductName/$', ProductDatabase.UpdateRegisteredProductName),#기존 제품 이름 변경
+    url(r'^DelProduct/$', ProductDatabase.DelProduct),#제품 제거
+
+    #제품 관련 서브
     url(r'^InsertProductOptimalStock/$', DatabaseManager.InsertProductOptimalStock), #최적 재고량
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
 
     #쿠폰 관련
-    url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록
-    url(r'^UpdateUploadedCoupon/$', DatabaseManager.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
-    url(r'^DelUploadedCoupon/$', DatabaseManager.DelUploadedCoupon),#등록한 쿠폰을 삭제
-    url(r'^InsertCouponShapeInfo/$',DatabaseManager.InsertCouponShapeInfo),#쿠폰 등록
-    url(r'^UpdateCouponShapeInfo/$',DatabaseManager.UpdateCouponShapeInfo),#쿠폰 갱신
-    url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
+    url(r'^InsertNewCoupon/$', CouponDatabase.InsertNewCoupon),#새로운 쿠폰 등록
+    url(r'^UpdateUploadedCoupon/$', CouponDatabase.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
+    url(r'^DelUploadedCoupon/$', CouponDatabase.DelUploadedCoupon),#등록한 쿠폰을 삭제
+
+    #쿠폰 모양 관련
+    url(r'^InsertCouponShapeInfo/$',CouponShapeDatabase.InsertCouponShapeInfo),#쿠폰 모양 등록
+    url(r'^UpdateCouponShapeInfo/$',CouponShapeDatabase.UpdateCouponShapeInfo),#쿠폰 모양 갱신
+    url(r'^InsertCouponShapeCollectLog/$',CouponShapeDatabase.InsertCouponShapeCollectLog),#쿠폰 모양 로그
 
     #매장 관련
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
+    url(r'^CheckTargetUserExist/$', DatabaseManager.CheckTargetUserExist),#새로운 매장 등록
+
 
     #공지 관련
-    url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
-    url(r'^UpdateStoreNoticeInfo/$', DatabaseManager.UpdateStoreNoticeInfo),#기존의 공지사항 편집
+    url(r'^InsertNewStoreNoticeInfo/$', NoticeDatabase.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
+    url(r'^UpdateStoreNoticeInfo/$', NoticeDatabase.UpdateStoreNoticeInfo),#기존의 공지사항 편집
+    url(r'^DelStoreNoticeInfo/$', NoticeDatabase.DelStoreNoticeInfo),#기존의 공지사항 편집
 
     #고객 관련
     url(r'^InsertNewCustomerInfo/$', DatabaseManager.InsertNewCustomerInfo),#새로운 고객 등록
