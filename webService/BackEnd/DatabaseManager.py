@@ -1072,6 +1072,47 @@ def DelStoreNoticeInfo(request):
     except :
         return JsonResponse({'Result' : 'Fail'})
 
+def ShowTargetStoreNoticeList(request):
+
+    noticeListData = {}
+    storeNoticeInfo = {}
+
+    storeNoticeInfo['매장번호'] = 0
+    storeNoticeInfo['공지번호'] = 1
+    storeNoticeInfo['제목'] = 2
+    storeNoticeInfo['내용'] = 3
+    storeNoticeInfo['공지 시작 날짜'] = 4
+    storeNoticeInfo['공지 마감 날짜'] = 5
+    storeNoticeInfo['마지막 편집 날짜'] = 6
+    storeNoticeInfo['이미지 저장 경로'] = 7
+    storeNoticeInfo['삭제 여부'] = 8
+
+    shopId = request.GET.get('shopId', None)
+
+    if shopId == None:
+        return JsonResponse({'Result' : 'Ok'})
+
+    try:
+        databaseQuery = "select * from `매장공지 정보` where `매장번호` = " + shopId + ";"
+        print databaseQuery
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        for indexOfResult in range(0, queryResultData.__len__()):
+            noticeListData[indexOfResult] = {
+                                            '매장번호' : queryResultData[indexOfResult][storeNoticeInfo['매장번호']],
+                                            '공지번호' : queryResultData[indexOfResult][storeNoticeInfo['공지번호']],
+                                            '제목' : queryResultData[indexOfResult][storeNoticeInfo['제목']],
+                                            '내용' : queryResultData[indexOfResult][storeNoticeInfo['내용']],
+                                            '공지 시작 날짜' : str(queryResultData[indexOfResult][storeNoticeInfo['공지 시작 날짜']]),
+                                            '공지 마감 날짜' : str(queryResultData[indexOfResult][storeNoticeInfo['공지 마감 날짜']]),
+                                            '마지막 편집 날짜' : str(queryResultData[indexOfResult][storeNoticeInfo['마지막 편집 날짜']]),
+                                            '이미지 저장 경로' : queryResultData[indexOfResult][storeNoticeInfo['이미지 저장 경로']],
+                                            '삭제 여부' : queryResultData[indexOfResult][storeNoticeInfo['삭제 여부']],
+                                            }
+        return JsonResponse(noticeListData)
+    except:
+        return JsonResponse({'Result' : 'Fail'})
+
 def InsertCouponShapeInfo(request) :
     couponShapeCode = request.GET.get('code', None)
     couponImageAddress = request.GET.get('address', None)
