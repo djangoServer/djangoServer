@@ -35,6 +35,7 @@ urlpatterns = [
     #공지 관련
     url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
     url(r'^UpdateStoreNoticeInfo/$', DatabaseManager.UpdateStoreNoticeInfo),#기존의 공지사항 편집
+    url(r'^DelStoreNoticeInfo/$', DatabaseManager.DelStoreNoticeInfo),#기존의 공지사항을 삭제
 
     #고객 관련
     url(r'^InsertNewCustomerInfo/$', DatabaseManager.InsertNewCustomerInfo),#새로운 고객 등록
