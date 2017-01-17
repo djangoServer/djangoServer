@@ -255,33 +255,74 @@ def UpdateStoreInfoData (request) :
 #DB에 매점 정보 갱신
 
 def InsertNewStoreInfoData (request) :
-    queryResultData = None
+
+    storeInfoData = {}
+
+    storeInfoData['주소'] = request.GET.get('address', None)
+    storeInfoData['위도'] = request.GET.get('latitude', None)
+    storeInfoData['경도'] = request.GET.get('longtitude', None)
+    storeInfoData['이름'] = request.GET.get('name', None)
+    storeInfoData['전화번호'] = request.GET.get('phone', None)
+    storeInfoData['소개글'] = request.GET.get('introduce', None)
+    #storeInfoData['매장 이미지 저장 경로'] = request.GET.get('imageSave', None)
+    storeInfoData['국가코드'] = request.GET.get('countryCode', None)
+    storeInfoData['서비스 가입 날짜'] = request.GET.get('serviceRegisterDate', None)
+    storeInfoData['정보 변경 날짜'] = request.GET.get('updateInfoDate', None)
+    storeInfoData['매장 개장 시간'] = request.GET.get('openTime', None)
+    storeInfoData['매장 마감 시간'] = request.GET.get('closeTime', None)
+    storeInfoData['서비스 탈퇴 여부'] = request.GET.get('disable', None)
+
+    if storeInfoData['이름'] == None or storeInfoData['전화번호'] == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    databaseQuery = "insert into `매장정보` ("
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in storeInfoData:
+        if storeInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+            databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "`"
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + ") select * from (select "
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in storeInfoData:
+        if storeInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+            if indexOfAvailableKey != "위도" and indexOfAvailableKey != "경도" and indexOfAvailableKey != "서비스 탈퇴 여부":
+                databaseQuery = databaseQuery + "'" + storeInfoData[indexOfAvailableKey] + "' as `" + indexOfAvailableKey + "`"
+            else:
+                databaseQuery = databaseQuery + storeInfoData[indexOfAvailableKey] + " as `" + indexOfAvailableKey + "`"
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + ") as compareTmp where not exists (select "
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in storeInfoData:
+        if storeInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+            databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "`"
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + " from `매장정보` where `이름` = '" + storeInfoData['이름'] + "' and `전화번호` = '" + storeInfoData['전화번호'] \
+                    + "') limit 1;"
+
     try :
-        shopAddress = request.GET.get('shopAddress', '')
-        shopLatitude = request.GET.get('shopLatitude', '0')
-        shopLongitude = request.GET.get('shopLongitude', '0')
-        shopName = request.GET.get('shopName', '')
-        shopPhoneNumber = request.GET.get('shopPhoneNumber', '')
-        shopIntroduceString = request.GET.get('shopIntroduceString', '')
-        shopCountryCode = request.GET.get('shopCountryCode', '00')
-
-        if shopName == None or shopPhoneNumber == None:
-            return HttpResponse("Fail")
-
-        databaseQuery = "insert into `매장정보` (`주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드`) " \
-                        + "select * from (select '" + shopAddress + "' as '주소', " + shopLatitude + " as '위도', " + shopLongitude + " as '경도'" \
-                        + ", '" + shopName + "' as '이름', '" + shopPhoneNumber + "' as '전화번호', '" + shopIntroduceString + "' as '소개글', '" \
-                        + "" + shopCountryCode + "' as '국가코드') as compareTmp where not exists (" \
-                        + "select `주소`, `위도`, `경도`, `이름`, `전화번호`, `소개글`, `국가코드` from `매장정보` where `이름` = '" + "100" + "' and " \
-                        + "`전화번호` = '" + "100" + "' ) limit 1;"
         print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
-        return HttpResponse("OK")
+        return JsonResponse({'Result' : 'Ok'})
     except :
-        print "Error in InsertNewStoreInfoData: " + str(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
 
-    return HttpResponse(queryResultData)
+    #return HttpResponse(queryResultData)
 #DB에 신규 매점 생성
 
 def UpdateRegisteredStoreInfoData(request):
