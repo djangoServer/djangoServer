@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^UpdateRegisteredProductInfo/$', DatabaseManager.UpdateRegisteredProductInfo),#기존 제품 이름 변경
     url(r'^InsertProductOptimalStock/$', DatabaseManager.InsertProductOptimalStock), #최적 재고량
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
+    url(r'^DelRegisteredProduct/$', DatabaseManager.DelRegisteredProduct),#등록한 제품 삭제
 
     #쿠폰 관련
     url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록

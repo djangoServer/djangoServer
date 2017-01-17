@@ -856,25 +856,26 @@ def UpdateRegisteredProductInfo(request):
         return JsonResponse({'Result' : 'Fail'})
 
 #제품 삭제
-def DelRegisteredProductName(request):
+def DelRegisteredProduct(request):
     queryResultData = None
     databaseQuery = None
 
+    shopId = request.GET.get('shopId', None)
+    productId = request.GET.get('productId', None)
+
+    if shopId == None or productId == None :
+        return JsonResponse({'Result' : 'Fail'})
+
     try:
-        shopId = request.GET.get('shopId', None)
-        productId = request.GET.get('productId', None)
+        databaseQuery = "update `매장 제품 정보` set `사용여부` = 0" \
+        + " where `매장번호` = " + shopId + " and `제품코드` = " + productId + ";"
 
-        if shopId == None or productId == None :
-            return HttpResponse("Fail")
-
-        databaseQuery = "update `매장 제품 정보` set `삭제 여부` = 1" \
-        + " where `매장번호` = " + shopId + " and `productId` = " + productId + ";"
-
-        queryResultData = ExecuteQueryToDatabase(queryResultData)
+        print databaseQuery
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
         #return HttpResponse("ok")
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in UpdateRegisteredProductName: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result': 'Fail'})
 
 #새로운 공지사항 추가
 def InsertNewStoreNoticeInfo(request):
