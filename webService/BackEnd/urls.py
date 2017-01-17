@@ -5,6 +5,7 @@ import UserManager, MileageManager, DatabaseManager, StoreAndCustomerManager
 urlpatterns = [
 
     url(r'^DatabaseQueryTest/$', DatabaseManager.ClientRequestQuery), #클라이언트의 쿼리 처리
+    url(r'^TestQuery/$', DatabaseManager.TestQuery),
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련
@@ -22,7 +23,10 @@ urlpatterns = [
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
 
     #매장 관련
+    url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
+    url(r'^UpdateStoreInfoData/$', DatabaseManager.UpdateStoreInfoData), #기종 매장 정보 수정
+    url(r'^LoadAllStoreInfo/$', DatabaseManager.LoadAllStoreInfo),#모든 매장 정보 출력
 
     #공지 관련
     url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
