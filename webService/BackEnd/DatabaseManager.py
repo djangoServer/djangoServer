@@ -991,23 +991,28 @@ def InsertNewStoreNoticeInfo(request):
 
     try:
         shopId = request.GET.get('shopId', None)
+        noticeId = request.GET.get('noticeId', None)
         noticeTitle = request.GET.get('noticeTitle', '')
         noticeBody = request.GET.get('noticeBody', '')
         noticeStartDate = request.GET.get('noticeStartDate', '0000-00-00')
         noticeStopDate = request.GET.get('noticeStopDate', '0000-00-00')
-        noticeLastUpdateDate = request.GET.get('noticeLastUpdateDate', '0000-00-00')
+        noticeLastUpdateDate = request.GET.get('noticeLastUpdateDate', None)
 
-        if shopId == None:
-            return HttpResponse("Fail")
+        if shopId == None or noticeId == None:
+            return JsonResponse({'Result' : 'Fail'})
 
-        databaseQuery = "insert into `매장공지 정보` (`매장번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`)" \
-        + " values (" + shopId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', '" \
-        + noticeLastUpdateDate + "');"
-
+        if noticeLastUpdateDate != None:
+            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`)" \
+                            + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', '" \
+                            + noticeLastUpdateDate + "');"
+        else:
+            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`)" \
+                            + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "');"
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        return JsonResponse({'Result': 'Ok'})
     except:
-        print "Error in InsertNewStoreNoticeInfo: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result': 'Fail'})
 
 #기존의 공지사항 편집
 def UpdateStoreNoticeInfo(request):
