@@ -484,7 +484,7 @@ def AddToStoreAsNewMember(request):
         storeId = request.GET.get('storeId', None)
 
         if customerId == None or storeId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result': 'Fail'})
 
         databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) " \
         + "select * from (select " + customerId + ", " + storeId + ") as compareTemp " \
@@ -493,9 +493,11 @@ def AddToStoreAsNewMember(request):
         + "`매장번호` = " + storeId + ") limit 1;"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in AddToStoreAsNewMember: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
+    return JsonResponse({'Result': 'Fail'})
 #DB에 신규 매장과 유저 연결 등록
 
 def GetStoreAndCustomerRegisteredId(request):
