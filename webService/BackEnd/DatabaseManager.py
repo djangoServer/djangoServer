@@ -484,7 +484,7 @@ def AddToStoreAsNewMember(request):
         storeId = request.GET.get('storeId', None)
 
         if customerId == None or storeId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result': 'Fail'})
 
         databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) " \
         + "select * from (select " + customerId + ", " + storeId + ") as compareTemp " \
@@ -493,31 +493,55 @@ def AddToStoreAsNewMember(request):
         + "`매장번호` = " + storeId + ") limit 1;"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in AddToStoreAsNewMember: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
+    return JsonResponse({'Result': 'Fail'})
 #DB에 신규 매장과 유저 연결 등록
 
-def GetStoreAndCustomerRegisteredId(request):
-    queryResultData = None
-    databaseQuery = None
+def GetStoreAndCustomerRegisteredInfo(request):
+
+    storeAndCustomerInfo = {}
+
+    storeAndCustomerInfo['고유등록번호'] = 0
+    storeAndCustomerInfo['회원번호'] = 1
+    storeAndCustomerInfo['매장번호'] = 2
+    storeAndCustomerInfo['회원탈퇴여부'] = 3
+
+    registeredInfoData = {}
 
     try:
         customerId = request.GET.get('customerId', None)
         storeId = request.GET.get('storeId', None)
 
-        if customerId == None or storeId == None:
-            return HttpResponse("Fail")
+        if customerId == None and storeId == None:
+            return JsonResponse({'Result': 'Fail'})
 
-        databaseQuery = "select `고유등록번호` from `매장등록 정보` where `회원번호` == " + customerId \
-                        + " and `매장번호` == " + storeId \
-                        + " and `회원탈퇴여부` == 0;"
+        if customerId == None:
+            databaseQuery = "select * from `매장등록 정보` where `매장번호` = " + storeId + ";"
+        elif storeId == None:
+            databaseQuery = "select * from `매장등록 정보` where `회원번호` = " + customerId + ";"
+        else:
+            databaseQuery = "select * from `매장등록 정보` where `회원번호` = " + customerId \
+                            + " and `매장번호` = " + storeId \
+                            + ";"
+
+        print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
+        for indexOfData in range(0, queryResultData.__len__()):
+            registeredInfoData[indexOfData] = {'고유등록번호' : str(queryResultData[0][storeAndCustomerInfo['고유등록번호']]),
+                                                '회원번호' : str(queryResultData[0][storeAndCustomerInfo['회원번호']]),
+                                                '매장번호' : str(queryResultData[0][storeAndCustomerInfo['매장번호']]),
+                                                '회원탈퇴여부' : str(queryResultData[0][storeAndCustomerInfo['회원탈퇴여부']])
+                                                }
+
+        return JsonResponse(registeredInfoData)
     except:
-        print "Error in GetStoreAndCustomerRegisteredId: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
+    return JsonResponse({'Result': 'Fail'})
 #찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
 
 def DelMemberFromStore(request):
@@ -527,42 +551,67 @@ def DelMemberFromStore(request):
         customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
 
         if customerAndStoreRegisteredId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result': 'Fail'})
 
-        databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` == " + customerAndStoreRegisteredId
-
+        databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` = " + customerAndStoreRegisteredId
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in DelMemberFromStore: " + queryResultData
+        return JsonResponse({'Result' : 'Fail'})
 
-    return HttpResponse(queryResultData)
+    return JsonResponse({'Result' : 'Fail'})
 
 def InsertMileageLog(request):
-    queryResultData = None
-    databaseQuery = None
+
+    mileageInfo = {}
 
     try:
-        customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
-        customerId = request.GET.get('customerId', None)
-        storeId = request.GET.get('storeId', None)
-        mileageSize = request.GET.get('mileageSize', '0')
-        changedDate = request.GET.get('changedDate', '0000-00-00')
+        mileageInfo['고유등록번호'] = request.GET.get('customerAndStoreRegisteredId', None)
+        mileageInfo['마일리지 변동 량'] = request.GET.get('mileageSize', '0')
+        mileageInfo['변경 날짜'] = request.GET.get('changedDate', None)
 
-        customerLatitude = request.GET.get('customerLatitude', '0.00')
-        customerLongitude = request.GET.get('customerLongitude', '0.00')
+        customerLatitude = request.GET.get('customerLatitude', None)
+        customerLongitude = request.GET.get('customerLongitude', None)
 
-        databaseQuery = "insert into `마일리지 로그` values(" + customerAndStoreRegisteredId + ", " + customerId + ", " \
-        + storeId + ", " + mileageSize + ", " + changedDate + ");"
+        if mileageInfo['고유등록번호'] == None:
+            return JsonResponse({'Result' : 'Fail'})
 
+        if mileageInfo['변경 날짜'] != None:
+            databaseQuery = "insert into `마일리지 로그` values(" + mileageInfo['고유등록번호'] + ", " + mileageInfo['마일리지 변동 량'] + ", " \
+                            + mileageInfo['변경 날짜'] + ");"
+        else:
+            databaseQuery = "insert into `마일리지 로그` (`고유등록번호`, `마일리지 변동 량`) values(" + mileageInfo['고유등록번호'] + ", " + mileageInfo['마일리지 변동 량'] + ");"
+
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate)
+        if customerLatitude != None and customerLongitude != None:
+            InsertCustomerLocationInfo(mileageInfo['고유등록번호'], customerLatitude, customerLongitude, mileageInfo['변경 날짜'])
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in InsertMileageLog: " + queryResultData
+        return JsonResponse({'Result' : 'Fail'})
 
-    return HttpResponse(queryResultData)
+    return JsonResponse({'Result' : 'Fail'})
 
+def GetMileageSum(request):
+    mileageInfo = {}
+
+    mileageInfo['고유등록번호'] = request.GET.get('customerAndStoreRegisteredId', None)
+
+    if mileageInfo['고유등록번호'] == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    databaseQuery = "select sum(`마일리지 변동 량`) from `마일리지 로그` where `고유등록번호` = " + mileageInfo['고유등록번호'] + ";"
+
+    print databaseQuery
+    try:
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        return JsonResponse({'마일리지 량' : queryResultData[0][0]})
+    except:
+        return JsonResponse({'Result' : 'Fail'})
 
 def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate):
     queryResultData = None

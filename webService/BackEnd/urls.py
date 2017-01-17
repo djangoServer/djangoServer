@@ -42,11 +42,12 @@ urlpatterns = [
 
     #매장과 고객 관련
     url(r'AddToStoreAsNewMember/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),#매장에 새로운 고객을 등록
-    url(r'GetStoreAndCustomerRegisteredId/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredId),#매장에 등록된 고객의 고유 번호 추출
+    url(r'GetStoreAndCustomerRegisteredInfo/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredInfo),#매장에 등록된 고객의 고유 번호 추출
     url(r'DelMemberFromStore/$', StoreAndCustomerManager.BanCustomerFromTargetStore),#매장에 등록되어있던 고객을 논리삭제
 
     #마일리지 관련
     url(r'InsertMileageLog/$', DatabaseManager.InsertMileageLog),#마일리지를 사용 혹은 적립한 내용을 등록함
+    url(r'GetMileageSum/$', DatabaseManager.GetMileageSum),#총 마일리지 누적량을 반환
     url(r'^CustomerPushServiceLogin/$', UserManager.AddUserToLogin),#유저 접속
     url(r'^CustomersMileagePushServiceLogin/$', MileageManager.MileageFromAddUserToLogin),#마일리지 기능 접속
     url(r'^CustomersMileageUpdate/$', MileageManager.UpdateUserMileage),#마일리지 변화
