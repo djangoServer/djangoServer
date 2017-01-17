@@ -50,7 +50,7 @@ def LoadCustomerInfo (request) :
     return HttpResponse(sortValue)
     """
     if returnValue.__len__() == 0 :
-        return HttpResponse("Nothing")
+        return JsonResponse({'Result' : 'Fail'})
 
     #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
 
@@ -96,7 +96,7 @@ def LoadStoreInfo ( request) :
     returnValue = ExecuteQueryToDatabase(dbQuery)
 
     if returnValue.__len__() == 0 :
-        return HttpResponse("Nothing")
+        return JsonResponse({'Result' : 'Fail'})
 
     #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + returnValue[0][2]
     storeInfoDictionary = {}
@@ -158,18 +158,50 @@ def CheckTargetStoreExist (request) :
 
 def UpdateCustomerInfoData (request) :
     # customerInfoData
-    myUserId = request.GET.get('id', 'N/A')
-    myUserName = request.GET.get('name', 'N/A')
-    myUserPhone = request.GET.get('phone', 'N/A')
-    dbQuery = "UPDATE `유저` SET `이름` = \"" + str(myUserName) + "\", `전화번호` = \"" + str(myUserPhone) + "\" WHERE `회원번호` = \"" + str(myUserId) + "\";"
-    print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
-    print returnValue
+    #myUserId = request.GET.get('', 'N/A')
+    #myUserName = request.GET.get('name', 'N/A')
+    #myUserPhone = request.GET.get('phone', 'N/A')
 
-    if returnValue == 0 :
-        return HttpResponse("Nothing")
+    updateCustomerData = {}
 
-    return HttpResponse(returnValue)
+    myUserEmail = request.GET.get('email', None)
+    updateCustomerData['이름'] = request.GET.get('name', None)
+    updateCustomerData['전화번호'] = request.GET.get('phone', None)
+    updateCustomerData['생일'] = request.GET.get('birthday', None)
+    updateCustomerData['국가코드'] = request.GET.get('countryCode', None)
+    updateCustomerData['회원등급'] = request.GET.get('level', None)
+    updateCustomerData['정보 변경 날짜'] = request.GET.get('updatedDate', None)
+    updateCustomerData['안드로이드SDK레벨'] = request.GET.get('androidSDKLevel', None)
+    updateCustomerData['핸드폰기종'] = request.GET.get('deviceName', None)
+    updateCustomerData['회원비활성화'] = request.GET.get('disableCustomer', None)
+
+    if myUserEmail == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    dbQuery = "update `회원정보` set "
+
+    multipleUpdate = False
+
+    for indexOfAvailableKey in updateCustomerData:
+        if updateCustomerData[indexOfAvailableKey] != None:
+            if multipleUpdate == True:
+                dbQuery = dbQuery + ", "
+            if indexOfAvailableKey != "회원등급" and indexOfAvailableKey != "안드로이드SDK레벨" and indexOfAvailableKey != "회원비활성화":
+                dbQuery = dbQuery + " `" + indexOfAvailableKey + "` = '" + updateCustomerData[indexOfAvailableKey] + "'"
+            else :
+                dbQuery = dbQuery + " `" + indexOfAvailableKey + "` = " + updateCustomerData[indexOfAvailableKey] + ""
+            multipleUpdate = True
+    dbQuery = dbQuery + " where `이메일` = '" + myUserEmail + "';"
+
+
+    #dbQuery = "UPDATE `유저` SET `이름` = \"" + str(myUserName) + "\", `전화번호` = \"" + str(myUserPhone) + "\" WHERE `회원번호` = \"" + str(myUserId) + "\";"
+    try:
+        print dbQuery
+        returnValue = ExecuteQueryToDatabase(dbQuery)
+        print returnValue
+        return JsonResponse({'Result' : 'Ok'})
+    except:
+        return JsonResponse({'Result' : 'Fail'})
 #DB에 유저 정보 갱신
 #UPDATE문에 문제가 발생해 제대로 갱신 되지 않음.
 
