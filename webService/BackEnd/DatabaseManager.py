@@ -712,12 +712,12 @@ def DelUploadedCoupon(request):
         shopId = request.GET.get('shopId', None)
         couponId = request.GET.get('couponId', None)
 
-        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
+        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', None)
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', None)
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result' : 'Fail'})
 
         databaseQuery = "update `매장쿠폰등록정보`" \
         + " set `삭제 여부` = 1" \
@@ -725,12 +725,13 @@ def DelUploadedCoupon(request):
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
-
+        if shopkeeperLongitude != None and shopkeeperLatitude != None:
+            InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in DelUploadedCoupon: " + queryResultData
+        return JsonResponse({'Result': 'Fail'})
 
-    return HttpResponse(queryResultData)
+    #return HttpResponse(queryResultData)
 
 def InsertShopkeeperLocationInfo(storeId, shopkeeperLatitude, shopkeeperLongitude, changedDate):
     queryResultData = None
