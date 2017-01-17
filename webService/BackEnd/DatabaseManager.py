@@ -952,6 +952,37 @@ def UseTargetCoupon(request):
     except:
         return JsonResponse({'Result' : 'Fail'})
 
+def CouponUseageStatus(request):
+    couponUseageData = {}
+    couponUseageInfo = {}
+    couponUseageInfo['고유등록번호'] = request.GET.get('customerAndStoreId', None)
+    # couponUseageInfo['사용 여부'] = request.GET.get('useInfo', None)
+    couponUseageInfo['쿠폰고유번호'] = request.GET.get('couponId', None)
+
+    if couponUseageInfo['고유등록번호'] == None and couponUseageInfo['쿠폰고유번호'] == None:
+        return JsonResponse({'Result': 'Fail'})
+
+    if couponUseageInfo['고유등록번호'] == None:
+        dabaseQuery = "select * from `매장 쿠폰 사용 로그` where `쿠폰고유번호` = '" + couponUseageInfo['쿠폰고유번호'] + "';"
+    elif couponUseageInfo['쿠폰고유번호'] == None:
+        dabaseQuery = "select * from `매장 쿠폰 사용 로그` where `고유등록번호` = " + couponUseageInfo['고유등록번호'] + ";"
+    else:
+        dabaseQuery = "select * from `매장 쿠폰 사용 로그` where `고유등록번호` = " + couponUseageInfo['고유등록번호'] + " and `쿠폰고유번호` = '" + couponUseageInfo['쿠폰고유번호'] + "';"
+
+    try:
+        print dabaseQuery
+        queryResult = ExecuteQueryToDatabase(dabaseQuery)
+
+        for indexOfResult in range(0, queryResult.__len__()):
+            couponUseageData[indexOfResult] = {
+                                                '고유등록번호' : queryResult[indexOfResult][0],
+                                                '변경 날짜' : str(queryResult[indexOfResult][1]),
+                                                '사용 여부' : queryResult[indexOfResult][2],
+                                                '쿠폰고유번호' : str(queryResult[indexOfResult][3])
+                                                }
+        return JsonResponse(couponUseageData)
+    except:
+        return JsonResponse({'Result' : 'Fail'})
 
 #새로운 공지사항 추가
 def InsertNewStoreNoticeInfo(request):

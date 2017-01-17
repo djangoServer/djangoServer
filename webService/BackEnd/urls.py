@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
     url(r'^InsertNewCouponUseage/$', DatabaseManager.InsertNewCouponUseage),#쿠폰 사용 현황 등록
     url(r'^UseTargetCoupon/$', DatabaseManager.UseTargetCoupon),#쿠폰 사용
+    url(r'^CouponUseageStatus/$', DatabaseManager.CouponUseageStatus),#쿠폰 현제 상태
 
     #매장 관련
     url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
