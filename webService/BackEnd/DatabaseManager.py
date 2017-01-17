@@ -205,52 +205,53 @@ def UpdateCustomerInfoData (request) :
 #DB에 유저 정보 갱신
 #UPDATE문에 문제가 발생해 제대로 갱신 되지 않음.
 
-def UpdateStoreCalculatedData (request) :
-    queryResultData = None
-    updateTargetStoreNumber = None
+def UpdateStoreInfoData (request) :
 
-    updateDataPointName = {"shopAddress" : 1, "shopLatitude" : 2, "shopLongitude" : 3, "shopName" : 4, "shopPhoneNumber" : 5,
-                           "shopIntroduceString" : 6, "shopCountryCode" : 7}
-    databaseColumnName = {1 : "`주소`", 2 : "`위도`", 3 : "`경도`", 4 : "`이름`", 5 : "`전화번호`", 6 : "`소개글`", 7 : "`국가코드`"}
+    updateStoreInfo = {}
 
-    updateDatas = []
+    myStoreId = request.GET.get('storeId', None)
+    updateStoreInfo['주소'] = request.GET.get('address', None)
+    updateStoreInfo['위도'] = request.GET.get('latitude', None)
+    updateStoreInfo['경도'] = request.GET.get('longtitude', None)
+    updateStoreInfo['이름'] = request.GET.get('name', None)
+    updateStoreInfo['전화번호'] = request.GET.get('phone', None)
+    updateStoreInfo['소개글'] = request.GET.get('introduce', None)
+    #updateStoreInfo['매장 이미지 저장 경로'] = request.GET.get('imageSave', None)
+    updateStoreInfo['국가코드'] = request.GET.get('countryCode', None)
+    updateStoreInfo['서비스 가입 날짜'] = request.GET.get('serviceRegisterDate', None)
+    updateStoreInfo['정보 변경 날짜'] = request.GET.get('updateInfoDate', None)
+    updateStoreInfo['매장 개장 시간'] = request.GET.get('openTime', None)
+    updateStoreInfo['매장 마감 시간'] = request.GET.get('closeTime', None)
+    updateStoreInfo['서비스 탈퇴 여부'] = request.GET.get('disable', None)
+
+    if myStoreId == None:
+        print "test"
+        return JsonResponse({'Result' : 'Fail'})
+
+    dbQuery = "update `매장정보` set "
+
+    multipleUpdate = False
+
+    for indexOfAvailableKey in updateStoreInfo:
+        if updateStoreInfo[indexOfAvailableKey] != None:
+            if multipleUpdate == True:
+                dbQuery = dbQuery + ", "
+            if indexOfAvailableKey != "위도" and indexOfAvailableKey != "경도" and indexOfAvailableKey != "서비스 탈퇴 여부":
+                dbQuery = dbQuery + " `" + indexOfAvailableKey + "` = '" + updateStoreInfo[indexOfAvailableKey] + "'"
+            else :
+                dbQuery = dbQuery + " `" + indexOfAvailableKey + "` = " + updateStoreInfo[indexOfAvailableKey] + ""
+
+            multipleUpdate = True
+
+    dbQuery = dbQuery + " where `매장번호` = " + myStoreId + ";"
+
     try :
-        updateDatas[updateDataPointName["shopAddress"]] = request.GET.get('shopAddress', None)
-        updateDatas[updateDataPointName["shopLatitude"]] = request.GET.get('shopLatitude', None)
-        updateDatas[updateDataPointName["shopLongitude"]] = request.GET.get('shopLongitude', None)
-        updateDatas[updateDataPointName["shopName"]] = request.GET.get('shopName', None)
-        updateDatas[updateDataPointName["shopPhoneNumber"]] = request.GET.get('shopPhoneNumber', None)
-        updateDatas[updateDataPointName["shopIntroduceString"]] = request.GET.get('shopIntroduceString', None)
-        updateDatas[updateDataPointName["shopCountryCode"]] = request.GET.get('shopCountryCode', None)
-        updateTargetStoreNumber = request.GET.get('shopId', None)
-
-        if updateTargetStoreNumber == None:
-            return HttpResponse("Fail")
-
-        queryResultData = "update `매장정보` set"
-        isFirstColumn = True
-        counter = 0
-
-        for writeAvailableColumnData in updateDatas:
-            counter += 1
-            if writeAvailableColumnData != None:
-                if isFirstColumn == True:
-                    isFirstColumn = False
-                else:
-                    queryResultData = queryResultData + ","
-                queryResultData = queryResultData + databaseColumnName[counter] + "="
-                if counter != updateDataPointName["shopLatitude"] and counter != updateDataPointName["shopLongitude"]:
-                    queryResultData = queryResultData + "'" + writeAvailableColumnData + "'"
-                else :
-                    queryResultData = queryResultData + writeAvailableColumnData
-
-        queryResultData = queryResultData + " where `매장번호` = " + updateTargetStoreNumber + ";"
-
-        queryResultData = ExecuteQueryToDatabase(queryResultData)
-
+        print dbQuery
+        returnValue = ExecuteQueryToDatabase(dbQuery)
+        print returnValue
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in UpdateStoreCalculatedData: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
 #DB에 매점 정보 갱신
 
 def InsertNewStoreInfoData (request) :
