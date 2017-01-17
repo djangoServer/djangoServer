@@ -564,29 +564,37 @@ def DelMemberFromStore(request):
     return JsonResponse({'Result' : 'Fail'})
 
 def InsertMileageLog(request):
-    queryResultData = None
-    databaseQuery = None
+
+    mileageInfo = {}
 
     try:
-        customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
-        customerId = request.GET.get('customerId', None)
-        storeId = request.GET.get('storeId', None)
-        mileageSize = request.GET.get('mileageSize', '0')
-        changedDate = request.GET.get('changedDate', '0000-00-00')
+        mileageInfo['고유등록번호'] = request.GET.get('customerAndStoreRegisteredId', None)
+        mileageInfo['마일리지 변동 량'] = request.GET.get('mileageSize', '0')
+        mileageInfo['변경 날짜'] = request.GET.get('changedDate', None)
 
-        customerLatitude = request.GET.get('customerLatitude', '0.00')
-        customerLongitude = request.GET.get('customerLongitude', '0.00')
+        customerLatitude = request.GET.get('customerLatitude', None)
+        customerLongitude = request.GET.get('customerLongitude', None)
 
-        databaseQuery = "insert into `마일리지 로그` values(" + customerAndStoreRegisteredId + ", " + customerId + ", " \
-        + storeId + ", " + mileageSize + ", " + changedDate + ");"
+        if mileageInfo['고유등록번호'] == None:
+            return JsonResponse({'Result' : 'Fail'})
 
+        if mileageInfo['변경 날짜'] != None:
+            databaseQuery = "insert into `마일리지 로그` values(" + mileageInfo['고유등록번호'] + ", " + mileageInfo['마일리지 변동 량'] + ", " \
+                            + mileageInfo['변경 날짜'] + ");"
+        else:
+            databaseQuery = "insert into `마일리지 로그` (`고유등록번호`, `마일리지 변동 량`) values(" + mileageInfo['고유등록번호'] + ", " + mileageInfo['마일리지 변동 량'] + ");"
+
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate)
-    except:
-        print "Error in InsertMileageLog: " + queryResultData
+        if customerLatitude != None and customerLongitude != None:
+            InsertCustomerLocationInfo(mileageInfo['고유등록번호'], customerLatitude, customerLongitude, mileageInfo['변경 날짜'])
 
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Ok'})
+    except:
+        return JsonResponse({'Result' : 'Fail'})
+
+    return JsonResponse({'Result' : 'Fail'})
 
 
 def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate):
