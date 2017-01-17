@@ -89,8 +89,13 @@ def LoadCustomerInfo (request) :
 #해당 유저의 정보 조회
 
 def LoadStoreInfo ( request) :
-    myStoreId = request.GET.get( 'storeId', 'N/A')
-    dbQuery = "SELECT * FROM `매장정보` WHERE `매장번호` = " + str(myStoreId)+ ";"
+    myStoreName = request.GET.get('name', None)
+    myStorePhone = request.GET.get('phone', None)
+
+    if myStoreName == None or myStorePhone == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    dbQuery = "SELECT * FROM `매장정보` WHERE `이름` = '" + str(myStoreName)+ "' and `전화번호` = '" + myStorePhone + "';"
 
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
