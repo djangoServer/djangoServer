@@ -9,10 +9,11 @@ urlpatterns = [
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련
-    url(r'^InsertNewProductName/$', DatabaseManager.InsertNewProductName),#새로운 제품 등록
-    url(r'^UpdateRegisteredProductName/$', DatabaseManager.UpdateRegisteredProductName),#기존 제품 이름 변경
+    url(r'^InsertNewProductInfo/$', DatabaseManager.InsertNewProductInfo),#새로운 제품 등록
+    url(r'^UpdateRegisteredProductInfo/$', DatabaseManager.UpdateRegisteredProductInfo),#기존 제품 이름 변경
     url(r'^InsertProductOptimalStock/$', DatabaseManager.InsertProductOptimalStock), #최적 재고량
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
+    url(r'^DelRegisteredProduct/$', DatabaseManager.DelRegisteredProduct),#등록한 제품 삭제
 
     #쿠폰 관련
     url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록
@@ -21,6 +22,9 @@ urlpatterns = [
     url(r'^InsertCouponShapeInfo/$',DatabaseManager.InsertCouponShapeInfo),#쿠폰 등록
     url(r'^UpdateCouponShapeInfo/$',DatabaseManager.UpdateCouponShapeInfo),#쿠폰 갱신
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
+    url(r'^InsertNewCouponUseage/$', DatabaseManager.InsertNewCouponUseage),#쿠폰 사용 현황 등록
+    url(r'^UseTargetCoupon/$', DatabaseManager.UseTargetCoupon),#쿠폰 사용
+    url(r'^CouponUseageStatus/$', DatabaseManager.CouponUseageStatus),#쿠폰 현제 상태
 
     #매장 관련
     url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
