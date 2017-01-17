@@ -9,8 +9,8 @@ urlpatterns = [
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련
-    url(r'^InsertNewProductName/$', DatabaseManager.InsertNewProductName),#새로운 제품 등록
-    url(r'^UpdateRegisteredProductName/$', DatabaseManager.UpdateRegisteredProductName),#기존 제품 이름 변경
+    url(r'^InsertNewProductInfo/$', DatabaseManager.InsertNewProductInfo),#새로운 제품 등록
+    url(r'^UpdateRegisteredProductInfo/$', DatabaseManager.UpdateRegisteredProductInfo),#기존 제품 이름 변경
     url(r'^InsertProductOptimalStock/$', DatabaseManager.InsertProductOptimalStock), #최적 재고량
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
 
