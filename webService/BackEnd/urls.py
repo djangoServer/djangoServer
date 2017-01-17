@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
     url(r'^UpdateStoreInfoData/$', DatabaseManager.UpdateStoreInfoData), #기종 매장 정보 수정
+    url(r'^LoadAllStoreInfo/$', DatabaseManager.LoadAllStoreInfo),#모든 매장 정보 출력
 
     #공지 관련
     url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
