@@ -877,6 +877,54 @@ def DelRegisteredProduct(request):
     except:
         return JsonResponse({'Result': 'Fail'})
 
+def InsertNewCouponUseage(request):
+    couponUseageInfo = {}
+
+    couponUseageInfo['고유등록번호'] = request.GET.get('customerAndStoreId', None)
+    couponUseageInfo['변경 날짜'] = request.GET.get('updateDate', None)
+    #couponUseageInfo['사용 여부'] = request.GET.get('useInfo', None)
+    couponUseageInfo['쿠폰고유번호'] = request.GET.get('couponId', None)
+
+    if couponUseageInfo['고유등록번호'] == None or couponUseageInfo['쿠폰고유번호'] == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    databaseQuery = "insert into `매장 쿠폰 사용 로그` ("
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in couponUseageInfo:
+        if couponUseageInfo[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+
+            databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "`"
+
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + " ) values ("
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in couponUseageInfo:
+        if couponUseageInfo[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+
+            if indexOfAvailableKey != "고유등록번호" and indexOfAvailableKey != "사용 여부":
+                databaseQuery = databaseQuery + "'" + couponUseageInfo[indexOfAvailableKey] + "'"
+            else :
+                databaseQuery = databaseQuery + couponUseageInfo[indexOfAvailableKey]
+
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + ");"
+
+    try:
+        ExecuteQueryToDatabase(databaseQuery)
+        return JsonResponse({'Result' : 'Ok'})
+    except:
+        return JsonResponse({'Result' : 'Fail'})
+
 #새로운 공지사항 추가
 def InsertNewStoreNoticeInfo(request):
     queryResultData = None
