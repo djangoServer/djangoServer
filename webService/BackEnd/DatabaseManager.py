@@ -1113,38 +1113,45 @@ def InsertProductOptimalStock(request) :
     productCode = request.GET.get('productCode', None)
     engineVersion = request.GET.get('engineVersion', None) #엔진버전
     productOptimalStock = request.GET.get('optimalStock', '0')
-    productDate = request.GET.get('date', '0000-00-00')
+    productDate = request.GET.get('date', None)
 
-    databaseQuery = None
-    queryResultData = None
+    if productCode == None or engineVersion == None or productDate == None:
+        return JsonResponse({'Result' : 'Fail'})
 
     try:
-        databaseQuery = "insert into `제품 최적 제고량` values(" + str(productCode) + ", " + str(engineVersion) + ", "\
-                        + str(productOptimalStock) + ", " + str(productDate) + ");"
 
+        databaseQuery = "insert into `제품 최적 재고량` values(" + str(productCode) + ", " + str(engineVersion) + ", "\
+                        + str(productOptimalStock) + ", '" + str(productDate) + "');"
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in InsertProductOptimalStock: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
 
 def InsertSalesVolume(request) :
     productCode = request.GET.get('productCode', None)
     salesVolume = request.GET.get('salesVolume', '0')
-    productDate = request.GET.get('date', '0000-00-00')
+    productDate = request.GET.get('date', None)
     projectedSales = request.GET.get('projectedSales','0')
 
+    if productCode == None:
+        return JsonResponse({'Result' : 'Fail'})
 
-    databaseQuery = None
-    queryResultData = None
+    if productDate == None:
+        databaseQuery = "insert into `제품 판매량` (`제품코드`, `판매량`, `예상 판매량`) values(" + str(productCode) + ", " + \
+                        salesVolume + ", " + projectedSales + ");"
+    else:
+        databaseQuery = "insert into `제품 판매량` values(" + str(productCode) + ", " + str(salesVolume) + ", '"\
+                        + str(productDate) + "', " + str(projectedSales) + ");"
 
     try:
-        databaseQuery = "insert into `제품 판매량` values(" + str(productCode) + ", " + str(salesVolume) + ", "\
-                        + str(productDate) + ", " + str(projectedSales) + ");"
-
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in InsertSalesVolume: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
 
 def LoadMileageSum(myUserId,myUniqueId) :
     queryResultData = None
