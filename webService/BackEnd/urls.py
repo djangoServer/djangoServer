@@ -42,7 +42,7 @@ urlpatterns = [
 
     #매장과 고객 관련
     url(r'AddToStoreAsNewMember/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),#매장에 새로운 고객을 등록
-    url(r'GetStoreAndCustomerRegisteredId/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredId),#매장에 등록된 고객의 고유 번호 추출
+    url(r'GetStoreAndCustomerRegisteredInfo/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredInfo),#매장에 등록된 고객의 고유 번호 추출
     url(r'DelMemberFromStore/$', StoreAndCustomerManager.BanCustomerFromTargetStore),#매장에 등록되어있던 고객을 논리삭제
 
     #마일리지 관련

@@ -500,26 +500,48 @@ def AddToStoreAsNewMember(request):
     return JsonResponse({'Result': 'Fail'})
 #DB에 신규 매장과 유저 연결 등록
 
-def GetStoreAndCustomerRegisteredId(request):
-    queryResultData = None
-    databaseQuery = None
+def GetStoreAndCustomerRegisteredInfo(request):
+
+    storeAndCustomerInfo = {}
+
+    storeAndCustomerInfo['고유등록번호'] = 0
+    storeAndCustomerInfo['회원번호'] = 1
+    storeAndCustomerInfo['매장번호'] = 2
+    storeAndCustomerInfo['회원탈퇴여부'] = 3
+
+    registeredInfoData = {}
 
     try:
         customerId = request.GET.get('customerId', None)
         storeId = request.GET.get('storeId', None)
 
-        if customerId == None or storeId == None:
-            return HttpResponse("Fail")
+        if customerId == None and storeId == None:
+            return JsonResponse({'Result': 'Fail'})
 
-        databaseQuery = "select `고유등록번호` from `매장등록 정보` where `회원번호` == " + customerId \
-                        + " and `매장번호` == " + storeId \
-                        + " and `회원탈퇴여부` == 0;"
+        if customerId == None:
+            databaseQuery = "select * from `매장등록 정보` where `매장번호` = " + storeId + ";"
+        elif storeId == None:
+            databaseQuery = "select * from `매장등록 정보` where `회원번호` = " + customerId + ";"
+        else:
+            databaseQuery = "select * from `매장등록 정보` where `회원번호` = " + customerId \
+                            + " and `매장번호` = " + storeId \
+                            + ";"
+
+        print databaseQuery
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
+        for indexOfData in range(0, queryResultData.__len__()):
+            registeredInfoData[indexOfData] = {'고유등록번호' : str(queryResultData[0][storeAndCustomerInfo['고유등록번호']]),
+                                                '회원번호' : str(queryResultData[0][storeAndCustomerInfo['회원번호']]),
+                                                '매장번호' : str(queryResultData[0][storeAndCustomerInfo['매장번호']]),
+                                                '회원탈퇴여부' : str(queryResultData[0][storeAndCustomerInfo['회원탈퇴여부']])
+                                                }
+
+        return JsonResponse(registeredInfoData)
     except:
-        print "Error in GetStoreAndCustomerRegisteredId: " + queryResultData
-    return HttpResponse(queryResultData)
+        return JsonResponse({'Result' : 'Fail'})
+    return JsonResponse({'Result': 'Fail'})
 #찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
 
 def DelMemberFromStore(request):

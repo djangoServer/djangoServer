@@ -22,8 +22,8 @@ def BanCustomerFromTargetStore(request) :
 
     return HttpResponse(DatabaseManager.DelMemberFromStore(request))
 
-def GetStoreAndCustomerRegisteredId(request) :
-    return HttpResponse(DatabaseManager.GetStoreAndCustomerRegisteredId(request))
+def GetStoreAndCustomerRegisteredInfo(request) :
+    return HttpResponse(DatabaseManager.GetStoreAndCustomerRegisteredInfo(request))
 
 def SendNotificationMessage(request) :
     return HttpResponse(DatabaseManager.SendNotificationMessage(request))
