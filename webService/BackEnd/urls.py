@@ -47,6 +47,7 @@ urlpatterns = [
 
     #마일리지 관련
     url(r'InsertMileageLog/$', DatabaseManager.InsertMileageLog),#마일리지를 사용 혹은 적립한 내용을 등록함
+    url(r'GetMileageSum/$', DatabaseManager.GetMileageSum),#총 마일리지 누적량을 반환
     url(r'^CustomerPushServiceLogin/$', UserManager.AddUserToLogin),#유저 접속
     url(r'^CustomersMileagePushServiceLogin/$', MileageManager.MileageFromAddUserToLogin),#마일리지 기능 접속
     url(r'^CustomersMileageUpdate/$', MileageManager.UpdateUserMileage),#마일리지 변화

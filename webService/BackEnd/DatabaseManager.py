@@ -596,6 +596,22 @@ def InsertMileageLog(request):
 
     return JsonResponse({'Result' : 'Fail'})
 
+def GetMileageSum(request):
+    mileageInfo = {}
+
+    mileageInfo['고유등록번호'] = request.GET.get('customerAndStoreRegisteredId', None)
+
+    if mileageInfo['고유등록번호'] == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    databaseQuery = "select sum(`마일리지 변동 량`) from `마일리지 로그` where `고유등록번호` = " + mileageInfo['고유등록번호'] + ";"
+
+    print databaseQuery
+    try:
+        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        return JsonResponse({'마일리지 량' : queryResultData[0][0]})
+    except:
+        return JsonResponse({'Result' : 'Fail'})
 
 def InsertCustomerLocationInfo(customerAndStoreRegisteredId, customerLatitude, customerLongitude, changedDate):
     queryResultData = None
