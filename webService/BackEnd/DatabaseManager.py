@@ -89,8 +89,8 @@ def LoadCustomerInfo (request) :
 #해당 유저의 정보 조회
 
 def LoadStoreInfo ( request) :
-    myStoreId = request.GET.get( 'id', 'N/A')
-    dbQuery = "SELECT 위도,경도,임시 FROM 지점 WHERE 지점번호 = " + str(myStoreId)+ ";"
+    myStoreId = request.GET.get( 'storeId', 'N/A')
+    dbQuery = "SELECT * FROM `매장정보` WHERE `매장번호` = " + str(myStoreId)+ ";"
 
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
@@ -98,9 +98,30 @@ def LoadStoreInfo ( request) :
     if returnValue.__len__() == 0 :
         return HttpResponse("Nothing")
 
-    sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + returnValue[0][2]
+    #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + returnValue[0][2]
+    storeInfoDictionary = {}
+    storeInfoDictionary['매장번호'] = 0
+    storeInfoDictionary['주소'] = 1
+    storeInfoDictionary['위도'] = 2
+    storeInfoDictionary['경도'] = 3
+    storeInfoDictionary['이름'] = 4
+    storeInfoDictionary['전화번호'] = 5
+    storeInfoDictionary['소개글'] = 6
+    storeInfoDictionary['매장 이미지 저장 경로'] = 7
+    storeInfoDictionary['국가코드'] = 8
+    storeInfoDictionary['서비스 가입 날짜'] = 9
+    storeInfoDictionary['정보 변경 날짜'] = 10
+    storeInfoDictionary['매장 개장 시간'] = 11
+    storeInfoDictionary['매장 마감 시간'] = 12
+    storeInfoDictionary['서비스 탈퇴 여부'] = 13
 
-    return HttpResponse(sortValue)
+    return JsonResponse({'매장번호' : returnValue[0][storeInfoDictionary['매장번호']], '주소' : returnValue[0][storeInfoDictionary['주소']],
+                         '위도': returnValue[0][storeInfoDictionary['위도']], '경도' : returnValue[0][storeInfoDictionary['경도']],
+                         '이름': returnValue[0][storeInfoDictionary['이름']], '전화번호' : returnValue[0][storeInfoDictionary['전화번호']],
+                         '소개글': returnValue[0][storeInfoDictionary['소개글']], '매장 이미지 저장 경로' : returnValue[0][storeInfoDictionary['매장 이미지 저장 경로']],
+                         '국가코드': returnValue[0][storeInfoDictionary['국가코드']], '서비스 가입 날짜' : returnValue[0][storeInfoDictionary['서비스 가입 날짜']],
+                         '정보 변경 날짜': returnValue[0][storeInfoDictionary['정보 변경 날짜']], '매장 개장 시간' : str(returnValue[0][storeInfoDictionary['매장 개장 시간']]),
+                         '매장 마감 시간': str(returnValue[0][storeInfoDictionary['매장 마감 시간']]), '서비스 탈퇴 여부' : returnValue[0][storeInfoDictionary['서비스 탈퇴 여부']] })
 #해당 매점의 정보 조회
 
 def CheckTargetUserExist (request):

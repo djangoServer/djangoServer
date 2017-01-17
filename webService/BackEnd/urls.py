@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 로그
 
     #매장 관련
+    url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
 
     #공지 관련
