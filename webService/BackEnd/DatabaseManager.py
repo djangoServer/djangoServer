@@ -40,6 +40,9 @@ def LoadCustomerInfo (request) :
     #myUserPhone = request.GET.get('phone', None)
     dbQuery = "SELECT * FROM `회원정보` WHERE `이메일` = '" + myUserEmail + "';"
 
+    if myUserEmail == None:
+        return JsonResponse({'Result' : 'Fail'})
+
     print dbQuery
     returnValue = ExecuteQueryToDatabase(dbQuery)
 
