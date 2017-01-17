@@ -529,16 +529,17 @@ def DelMemberFromStore(request):
         customerAndStoreRegisteredId = request.GET.get('customerAndStoreRegisteredId', None)
 
         if customerAndStoreRegisteredId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result': 'Fail'})
 
-        databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` == " + customerAndStoreRegisteredId
-
+        databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` = " + customerAndStoreRegisteredId
+        print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in DelMemberFromStore: " + queryResultData
+        return JsonResponse({'Result' : 'Fail'})
 
-    return HttpResponse(queryResultData)
+    return JsonResponse({'Result' : 'Fail'})
 
 def InsertMileageLog(request):
     queryResultData = None
