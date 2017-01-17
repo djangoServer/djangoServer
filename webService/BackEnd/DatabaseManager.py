@@ -406,32 +406,73 @@ def UpdateRegisteredStoreInfoData(request):
     return HttpResponse(queryResultData)
 
 def InsertNewCustomerInfo (request) :
-    queryResultData = None
-    databaseQuery = None
-    try :
-        customerName = request.GET.get('customerName', '')
-        customerPhoneNumber = request.GET.get('customerPhoneNumber', '')
-        customerEmailAddress = request.GET.get('customerEmailAddress', '')
-        customerBirthDay = request.GET.get('customerBirthDay', '0000-00-00')
-        customerCountryCode = request.GET.get('customerCountryCode', '00')
-        customerAndroidSDKVersion = request.GET.get('customerAndroidSDKVersion', '1')
-        customerPhoneName = request.GET.get('customerPhoneName', '')
 
-        databaseQuery = "insert into `회원정보` (`이름`, `전화번호`, `이메일`, `생일`, `국가코드`, `안드로이드SDK레벨`, `핸드폰기종`) " \
-                        + "select * from (select '" + customerName + "' as `이름`, '" + customerPhoneNumber + "' as `전화번호`, '" \
-                        + "" + customerEmailAddress + "' as `이메일`, '" + customerBirthDay + "' as `생일`, '" + customerCountryCode + "' as `국가코드`, " \
-                        + "" + customerAndroidSDKVersion + " as `안드로이드SDK레벨`, '" + customerPhoneName + "' as `핸드폰기종`) as compareTemp " \
-                        + "where not exists (" \
-                        + "select `이름`, `전화번호`,`이메일`,`생일`,`국가코드`,`안드로이드SDK레벨`,`핸드폰기종` from `회원정보` where `이름` = '100' and " \
-                        + "`전화번호` = '100') limit 1;"
+    customerInfoData = {}
+
+    customerInfoData['이름'] = request.GET.get('name', None)
+    customerInfoData['전화번호'] = request.GET.get('phone', None)
+    customerInfoData['이메일'] = request.GET.get('email', None)
+    customerInfoData['생일'] = request.GET.get('birthday', None)
+    customerInfoData['국가코드'] = request.GET.get('countryCode', None)
+    #customerInfoData['회원 이미지 저장 경로'] = request.GET.get('imageSavedPath', None)
+    customerInfoData['회원 등급'] = request.GET.get('level', None)
+    customerInfoData['정보 변경 날짜'] = request.GET.get('updateInfoDate', None)
+    customerInfoData['안드로이드SDK레벨'] = request.GET.get('androidSDKLevel', None)
+    customerInfoData['핸드폰기종'] = request.GET.get('deviceName', None)
+
+    if customerInfoData['이메일'] == None:
+        return JsonResponse({'Result' : 'Fail'})
+
+    databaseQuery = "insert into `회원정보` ("
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in customerInfoData:
+        if customerInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+            databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "`"
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + ") select * from (select "
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in customerInfoData:
+        if customerInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+
+            if indexOfAvailableKey != "회원 등급" and indexOfAvailableKey != "안드로이드SDK레벨":
+                databaseQuery = databaseQuery + "'" + customerInfoData[indexOfAvailableKey] + "' as `" + indexOfAvailableKey + "` "
+            else:
+                databaseQuery = databaseQuery + customerInfoData[indexOfAvailableKey] + " as `" + indexOfAvailableKey + "` "
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + ") as compareTemp where not exists (select "
+
+    multipleInsert = False
+
+    for indexOfAvailableKey in customerInfoData:
+        if customerInfoData[indexOfAvailableKey] != None:
+            if multipleInsert == True:
+                databaseQuery = databaseQuery + ", "
+            databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "` "
+            multipleInsert = True
+
+    databaseQuery = databaseQuery + " from `회원정보` where `이메일` = '" + customerInfoData['이메일'] + "') limit 1;"
+
+    try :
 
         print databaseQuery
 
         #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in InsertNewCustomerInfo: " + str(databaseQuery)
-    return HttpResponse("Ok")
+        return JsonResponse({'Result' : 'Fail'})
+    return JsonResponse({'Result' : 'Fail'})
 #DB에 신규 유저 생성
 
 def AddToStoreAsNewMember(request):
