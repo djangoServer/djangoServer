@@ -4,6 +4,8 @@
 
 from django.http import HttpResponse
 import pymysql
+from django.http import JsonResponse
+import UploaderLocationDatabase
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -32,52 +34,67 @@ def InsertNewCoupon(request):
         couponBody = request.GET.get('couponBody', '')
         couponShapeIconCode = request.GET.get('couponShopIconCode', '0')
 
-        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
+        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', None)
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', None)
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result' : 'Fail'})
 
         databaseQuery = "insert into `매장쿠폰등록정보` (`매장번호`, `쿠폰고유번호`, `제목`, `내용`, `쿠폰모양코드`) values(" \
         + shopId + ", '" + couponId + "', '" + couponTitle + "', '" + couponBody + "', " + couponShapeIconCode + ");"
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        if shopkeeperLatitude != None and shopkeeperLongitude != None:
+            UploaderLocationDatabase.InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
-
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in InsertNewCoupon: " + queryResultData
+        return JsonResponse({'Result' : 'Fail'})
 
-    return HttpResponse(queryResultData)
+    #return HttpResponse(queryResultData)
 
 #업로드한 쿠폰 정보를 변경
 def UpdateUploadedCoupon(request):
-    queryResultData = None
-    databaseQuery = None
+
+    couponInfoData = {}
 
     try:
-        shopId = request.GET.get('shopId', None)
-        couponId = request.GET.get('couponId', None)
-        couponTitle = request.GET.get('couponTitle', '')
-        couponBody = request.GET.get('couponBody', '')
-        couponShapeIconCode = request.GET.get('couponShopIconCode', '0')
+        couponInfoData['매장번호'] = request.GET.get('shopId', None)
+        couponInfoData['쿠폰고유번호'] = request.GET.get('couponId', None)
+        couponInfoData['제목'] = request.GET.get('couponTitle', None)
+        couponInfoData['내용'] = request.GET.get('couponBody', None)
+        couponInfoData['쿠폰모양코드'] = request.GET.get('couponShopIconCode', None)
 
-        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
+        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', None)
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', None)
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
-        if shopId == None or couponId == None:
-            return HttpResponse("Fail")
+        if couponInfoData['매장번호'] == None or couponInfoData['쿠폰고유번호'] == None:
+            return JsonResponse({'Result' : 'Fail'})
 
-        databaseQuery = "update `매장쿠폰등록정보`" \
-        + " set `제목` = '" + couponTitle + "', `내용` = '" + couponBody + "', `쿠폰모양코드` = " + couponShapeIconCode \
-        + " where `매장번호` = " + shopId + " and `쿠폰고유번호` = '" + couponId + "';"
+        databaseQuery = "update `매장쿠폰등록정보` set "
 
+        multipleUpdate = False
+
+        for indexOfAvailableKey in couponInfoData:
+            if couponInfoData[indexOfAvailableKey] != None:
+                if multipleUpdate == True:
+                    databaseQuery = databaseQuery + ", "
+                if indexOfAvailableKey != "쿠폰모양코드":
+                    databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "` = '" + couponInfoData[indexOfAvailableKey] + "'"
+                else:
+                    databaseQuery = databaseQuery + "`" + indexOfAvailableKey + "` = " + couponInfoData[
+                        indexOfAvailableKey]
+                multipleUpdate = True
+
+        print  databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
+        if shopkeeperLatitude != None and shopkeeperLongitude != None:
+            UploaderLocationDatabase.InsertShopkeeperLocationInfo(couponInfoData['매장번호'], shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
+        return JsonResponse({'Result' : 'Ok'})
     except:
         print "Error in UpdateUploadedCoupon: " + queryResultData
 
@@ -92,12 +109,12 @@ def DelUploadedCoupon(request):
         shopId = request.GET.get('shopId', None)
         couponId = request.GET.get('couponId', None)
 
-        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', '0.00')
-        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', '0.00')
+        shopkeeperLatitude = request.GET.get('shopkeeperLatitude', None)
+        shopkeeperLongitude = request.GET.get('shopkeeperLongitude', None)
         changedDate = request.GET.get('changedDate', '0000-00-00')
 
         if shopId == None or couponId == None:
-            return HttpResponse("Fail")
+            return JsonResponse({'Result' : 'Fail'})
 
         databaseQuery = "update `매장쿠폰등록정보`" \
         + " set `삭제 여부` = 1" \
@@ -105,21 +122,10 @@ def DelUploadedCoupon(request):
 
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
-        InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
-
+        if shopkeeperLongitude != None and shopkeeperLatitude != None:
+            UploaderLocationDatabase.InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
+        return JsonResponse({'Result' : 'Ok'})
     except:
-        print "Error in DelUploadedCoupon: " + queryResultData
+        return JsonResponse({'Result': 'Fail'})
 
-    return HttpResponse(queryResultData)
-
-def InsertShopkeeperLocationInfo(storeId, shopkeeperLatitude, shopkeeperLongitude, changedDate):
-    queryResultData = None
-    databaseQuery = None
-    try :
-        databaseQuery = "insert into `업로더 위치 정보` values(" + storeId + ", " + shopkeeperLatitude \
-        + ", " + shopkeeperLongitude + ", " + changedDate + ");"
-
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
-    except:
-        print "Error in InsertCustomerLocationInfo: " + queryResultData
-    return HttpResponse(queryResultData)
+    #return HttpResponse(queryResultData)

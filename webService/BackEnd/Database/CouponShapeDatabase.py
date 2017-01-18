@@ -4,6 +4,7 @@
 
 from django.http import HttpResponse
 import pymysql
+from django.http import JsonResponse
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
