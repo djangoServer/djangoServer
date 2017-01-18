@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from django.conf.urls import include,url
 import UserManager, MileageManager, DatabaseManager, StoreAndCustomerManager
 from Database import CouponDatabase,CouponShapeDatabase,NoticeDatabase,ProductDatabase
@@ -9,33 +9,42 @@ urlpatterns = [
     #윗부분은 테스트 용도 인것 같으니 처리 바람
 
     #제품 관련
-    url(r'^InsertNewProductName/$', ProductDatabase.InsertNewProductName),#새로운 제품 등록
-    url(r'^UpdateRegisteredProductName/$', ProductDatabase.UpdateRegisteredProductName),#기존 제품 이름 변경
+    url(r'^InsertNewProductInfo/$', DatabaseManager.InsertNewProductInfo),#새로운 제품 등록
+    url(r'^UpdateRegisteredProductInfo/$', DatabaseManager.UpdateRegisteredProductInfo),#기존 제품 이름 변경
     url(r'^DelProduct/$', ProductDatabase.DelProduct),#제품 제거
 
     #제품 관련 서브
     url(r'^InsertProductOptimalStock/$', DatabaseManager.InsertProductOptimalStock), #최적 재고량
     url(r'^InsertSalesVolume/$', DatabaseManager.InsertSalesVolume), #판매량
+    url(r'^DelRegisteredProduct/$', DatabaseManager.DelRegisteredProduct),#등록한 제품 삭제
 
     #쿠폰 관련
-    url(r'^InsertNewCoupon/$', CouponDatabase.InsertNewCoupon),#새로운 쿠폰 등록
-    url(r'^UpdateUploadedCoupon/$', CouponDatabase.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
-    url(r'^DelUploadedCoupon/$', CouponDatabase.DelUploadedCoupon),#등록한 쿠폰을 삭제
+    url(r'^InsertNewCoupon/$', DatabaseManager.InsertNewCoupon),#새로운 쿠폰 등록
+    url(r'^UpdateUploadedCoupon/$', DatabaseManager.UpdateUploadedCoupon),#이미 등록한 쿠폰 정보 변경
+    url(r'^DelUploadedCoupon/$', DatabaseManager.DelUploadedCoupon),#등록한 쿠폰을 삭제
 
     #쿠폰 모양 관련
-    url(r'^InsertCouponShapeInfo/$',CouponShapeDatabase.InsertCouponShapeInfo),#쿠폰 모양 등록
-    url(r'^UpdateCouponShapeInfo/$',CouponShapeDatabase.UpdateCouponShapeInfo),#쿠폰 모양 갱신
-    url(r'^InsertCouponShapeCollectLog/$',CouponShapeDatabase.InsertCouponShapeCollectLog),#쿠폰 모양 로그
+    url(r'^InsertCouponShapeInfo/$',DatabaseManager.InsertCouponShapeInfo),#쿠폰 모양 등록
+    url(r'^UpdateCouponShapeInfo/$',DatabaseManager.UpdateCouponShapeInfo),#쿠폰 모양 갱신
+    url(r'^InsertCouponShapeCollectLog/$',DatabaseManager.InsertCouponShapeCollectLog),#쿠폰 모양 로그
+   
+    #쿠폰 사용 현황
+    url(r'^InsertNewCouponUseage/$', DatabaseManager.InsertNewCouponUseage),#쿠폰 사용 현황 등록
+    url(r'^UseTargetCoupon/$', DatabaseManager.UseTargetCoupon),#쿠폰 사용
+    url(r'^CouponUseageStatus/$', DatabaseManager.CouponUseageStatus),#쿠폰 현제 상태
 
     #매장 관련
+    url(r'^LoadStoreInfo/$', DatabaseManager.LoadStoreInfo),#매장 정보 리턴
     url(r'^InsertNewStoreInfoData/$', DatabaseManager.InsertNewStoreInfoData),#새로운 매장 등록
-    url(r'^CheckTargetUserExist/$', DatabaseManager.CheckTargetUserExist),#새로운 매장 등록
-
+    url(r'^CheckTargetUserExist/$', DatabaseManager.CheckTargetUserExist),#기존 매장 존재 여부
+    url(r'^UpdateStoreInfoData/$', DatabaseManager.UpdateStoreInfoData),#기존 매장 정보 수정
+    url(r'^LoadAllStoreInfo/$', DatabaseManager.LoadAllStoreInfo),#모든 매장 정보 출력
 
     #공지 관련
-    url(r'^InsertNewStoreNoticeInfo/$', NoticeDatabase.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
-    url(r'^UpdateStoreNoticeInfo/$', NoticeDatabase.UpdateStoreNoticeInfo),#기존의 공지사항 편집
-    url(r'^DelStoreNoticeInfo/$', NoticeDatabase.DelStoreNoticeInfo),#기존의 공지사항 편집
+    url(r'^InsertNewStoreNoticeInfo/$', DatabaseManager.InsertNewStoreNoticeInfo),#새로운 공지사항 등록
+    url(r'^UpdateStoreNoticeInfo/$', DatabaseManager.UpdateStoreNoticeInfo),#기존의 공지사항 편집
+    url(r'^DelStoreNoticeInfo/$', DatabaseManager.DelStoreNoticeInfo),#기존의 공지사항을 삭제
+    url(r'^ShowTargetStoreNoticeList/$', DatabaseManager.ShowTargetStoreNoticeList),#해당 매장의 모든 공지 출력
 
     #고객 관련
     url(r'^InsertNewCustomerInfo/$', DatabaseManager.InsertNewCustomerInfo),#새로운 고객 등록
@@ -47,11 +56,12 @@ urlpatterns = [
 
     #매장과 고객 관련
     url(r'AddToStoreAsNewMember/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),#매장에 새로운 고객을 등록
-    url(r'GetStoreAndCustomerRegisteredId/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredId),#매장에 등록된 고객의 고유 번호 추출
+    url(r'GetStoreAndCustomerRegisteredInfo/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredInfo),#매장에 등록된 고객의 고유 번호 추출
     url(r'DelMemberFromStore/$', StoreAndCustomerManager.BanCustomerFromTargetStore),#매장에 등록되어있던 고객을 논리삭제
 
     #마일리지 관련
     url(r'InsertMileageLog/$', DatabaseManager.InsertMileageLog),#마일리지를 사용 혹은 적립한 내용을 등록함
+    url(r'GetMileageSum/$', DatabaseManager.GetMileageSum),#총 마일리지 누적량을 반환
     url(r'^CustomerPushServiceLogin/$', UserManager.AddUserToLogin),#유저 접속
     url(r'^CustomersMileagePushServiceLogin/$', MileageManager.MileageFromAddUserToLogin),#마일리지 기능 접속
     url(r'^CustomersMileageUpdate/$', MileageManager.UpdateUserMileage),#마일리지 변화
