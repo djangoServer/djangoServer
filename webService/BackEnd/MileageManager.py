@@ -5,7 +5,8 @@
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 import time
-import UserManager,DatabaseManager
+import UserManager,Database
+from Database import MileageLogDatabase
 
 # userInfoData --> userMileageInfoData
 # 0. 이름
@@ -57,9 +58,5 @@ def UpdateUserMileage(request) :
             return HttpResponse("ok")
         return HttpResponse("fail")
 
-def LoadMileageSum(request) :
-    global zero
-    myUserId = request.GET.get('userId','N/A')
-    myUniqueId = request.GET.get('uniqueId', 'N/A')
-
-    DatabaseManager.LoadMileageSum(myUserId,myUniqueId)
+def GetMileageSum(request) :
+    MileageLogDatabase.GetMileageSum(request)

@@ -5,7 +5,7 @@
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 from django.utils import timezone
-import time,MileageManager,DatabaseManager
+import time,MileageManager,Database
 
 # userInfoData
 #  0. 회원번호
@@ -87,7 +87,7 @@ def DeleteUserToLogout(myUserId) :
 
 def MakeNewCustomer(request) :
     #보류
-    DatabaseManager.InsertNewCustomerInfo(request)
+    Database.InsertNewCustomerInfo(request)
     return HttpResponse("OK")
 
 def DropUser(userID,userPhoneNumber) :
@@ -96,11 +96,11 @@ def DropUser(userID,userPhoneNumber) :
 
 def UpdateCustomerInfo(request) :
     #보류
-    DatabaseManager.UpdateCustomerInfoData(request)
+    Database.UpdateCustomerInfoData(request)
     return HttpResponse("OK")
 
 def LoadCustomerInfo(request) :
-    DatabaseManager.LoadCustomerInfo(request)
+    Database.LoadCustomerInfo(request)
     return HttpResponse("OK")
 
 def IsThatUserExist(request) :
