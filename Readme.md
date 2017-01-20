@@ -7,7 +7,7 @@
 
 ##데이터 시트 바로가기
 
->[서버 프로그램 데이터 시트](https://docs.google.com/document/d/1fbzL2NHjN-HIzMGbHUh4M0Ye_eysgHa7CQf1bhNULbQ/edit)
+>[서버 프로그램 데이터 시트](https://docs.google.com/document/d/1fbzL2NHjN-HIzMGbHUh4M0Ye_eysgHa7CQf1bhNULbQ/edit)  <br></br>
 >[데이터베이스 데이터 시트](https://docs.google.com/document/d/1MZIuIxtH0ZgTP8GMIzLGtpRrXc4WMub1S8PPmved9nI/edit)
 
 ## 서버 프로그램 작업 로그
