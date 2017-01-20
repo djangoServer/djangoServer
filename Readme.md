@@ -5,7 +5,15 @@
 
 > 본 프로젝트는 rest api 를 사용하여 고객과 점주에게 데이터 서비스를 하는 프로그램입니다 DB서버를 연동하는 기능을 가지고 있으며, python 은 BackEnd , (html, css, js)는 FrontEnd 입니다
 
+##데이터 시트 바로가기
+
+>[서버 프로그램 데이터 시트](https://docs.google.com/document/d/1fbzL2NHjN-HIzMGbHUh4M0Ye_eysgHa7CQf1bhNULbQ/edit)
+>[데이터베이스 데이터 시트](https://docs.google.com/document/d/1MZIuIxtH0ZgTP8GMIzLGtpRrXc4WMub1S8PPmved9nI/edit)
+
 ## 서버 프로그램 작업 로그
+
+### 20170120
+>잘못 작성 하였던 import 선언 및 호출 파일을 수정함
 
 ### 20170119
 >Database에 접속 하는 테이블에 접근하는 함수들을 각 테이블 별 파이썬 파일을 만들어서 구조화 시킴 , Useage라는 어색한 단어를 Availability라는 단어로 변경함

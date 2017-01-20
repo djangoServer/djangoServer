@@ -5,7 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
-import UploaderLocationDatabase
+import CustomerLocationDatabase
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -47,12 +47,11 @@ def InsertMileageLog(request):
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
         if customerLatitude != None and customerLongitude != None:
-            UploaderLocationDatabase.InsertCustomerLocationInfo(mileageInfo['고유등록번호'], customerLatitude, customerLongitude, mileageInfo['변경 날짜'])
+            CustomerLocationDatabase.InsertCustomerLocationInfo(mileageInfo['고유등록번호'], customerLatitude, customerLongitude, mileageInfo['변경 날짜'])
 
         return JsonResponse({'Result' : 'Ok'})
     except:
         return JsonResponse({'Result' : 'Fail'})
-
 
 def GetMileageSum(request):
     mileageInfo = {}
