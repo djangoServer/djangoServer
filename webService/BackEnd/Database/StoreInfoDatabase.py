@@ -5,6 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -170,7 +171,7 @@ def LoadAllStoreInfo(request):
         indexNumber = 0
 
         for indexNumber in range(0, returnValue.__len__()):
-            allStoreData[indexNumber] = {'매장번호': returnValue[indexNumber][storeInfoDictionary['매장번호']], '주소': returnValue[indexNumber][storeInfoDictionary['주소']],
+            allStoreData[indexNumber] = {'매장번호' : returnValue[indexNumber][storeInfoDictionary['매장번호']], '주소': returnValue[indexNumber][storeInfoDictionary['주소']],
              '위도': returnValue[indexNumber][storeInfoDictionary['위도']], '경도': returnValue[indexNumber][storeInfoDictionary['경도']],
              '이름': returnValue[indexNumber][storeInfoDictionary['이름']], '전화번호': returnValue[indexNumber][storeInfoDictionary['전화번호']],
              '소개글': returnValue[indexNumber][storeInfoDictionary['소개글']],
@@ -181,6 +182,9 @@ def LoadAllStoreInfo(request):
              '매장 개장 시간': str(returnValue[indexNumber][storeInfoDictionary['매장 개장 시간']]),
              '매장 마감 시간': str(returnValue[indexNumber][storeInfoDictionary['매장 마감 시간']]),
              '서비스 탈퇴 여부': returnValue[indexNumber][storeInfoDictionary['서비스 탈퇴 여부']]}
+
+        d = {"테스트" : "우왕"}
+        return HttpResponse(json.dumps(d, ensure_ascii=False), content_type="application/json")
 
         return JsonResponse(allStoreData)
 
