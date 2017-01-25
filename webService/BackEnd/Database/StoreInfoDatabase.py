@@ -177,16 +177,13 @@ def LoadAllStoreInfo(request):
              '소개글': returnValue[indexNumber][storeInfoDictionary['소개글']],
              '매장 이미지 저장 경로': returnValue[indexNumber][storeInfoDictionary['매장 이미지 저장 경로']],
              '국가코드': returnValue[indexNumber][storeInfoDictionary['국가코드']],
-             '서비스 가입 날짜': returnValue[indexNumber][storeInfoDictionary['서비스 가입 날짜']],
-             '정보 변경 날짜': returnValue[indexNumber][storeInfoDictionary['정보 변경 날짜']],
+             '서비스 가입 날짜': str(returnValue[indexNumber][storeInfoDictionary['서비스 가입 날짜']]),
+             '정보 변경 날짜': str(returnValue[indexNumber][storeInfoDictionary['정보 변경 날짜']]),
              '매장 개장 시간': str(returnValue[indexNumber][storeInfoDictionary['매장 개장 시간']]),
              '매장 마감 시간': str(returnValue[indexNumber][storeInfoDictionary['매장 마감 시간']]),
              '서비스 탈퇴 여부': returnValue[indexNumber][storeInfoDictionary['서비스 탈퇴 여부']]}
 
-        d = {"테스트" : "우왕"}
-        return HttpResponse(json.dumps(d, ensure_ascii=False), content_type="application/json")
-
-        return JsonResponse(allStoreData)
+        return HttpResponse(json.dumps(allStoreData, ensure_ascii=False), content_type="application/json")
 
     except:
         return JsonResponse({'Result' : 'Fail'})
