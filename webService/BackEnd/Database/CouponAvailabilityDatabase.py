@@ -5,6 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -124,6 +125,6 @@ def CouponAvailabilityStatus(request):
                                                 '사용 여부' : queryResult[indexOfResult][2],
                                                 '쿠폰고유번호' : str(queryResult[indexOfResult][3])
                                                 }
-        return JsonResponse(couponAvailabilityData)
+        return HttpResponse(json.dumps(couponAvailabilityData, ensure_ascii=False), content_type="application/json")
     except:
         return JsonResponse({'Result' : 'Fail'})

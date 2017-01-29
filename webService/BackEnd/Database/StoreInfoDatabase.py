@@ -171,9 +171,13 @@ def LoadAllStoreInfo(request):
         indexNumber = 0
 
         for indexNumber in range(0, returnValue.__len__()):
-            allStoreData[indexNumber] = {'매장번호' : returnValue[indexNumber][storeInfoDictionary['매장번호']], '주소': returnValue[indexNumber][storeInfoDictionary['주소']],
-             '위도': returnValue[indexNumber][storeInfoDictionary['위도']], '경도': returnValue[indexNumber][storeInfoDictionary['경도']],
-             '이름': returnValue[indexNumber][storeInfoDictionary['이름']], '전화번호': returnValue[indexNumber][storeInfoDictionary['전화번호']],
+            allStoreData[indexNumber] = {
+             '매장번호' : returnValue[indexNumber][storeInfoDictionary['매장번호']],
+             '주소': returnValue[indexNumber][storeInfoDictionary['주소']],
+             '위도': returnValue[indexNumber][storeInfoDictionary['위도']],
+             '경도': returnValue[indexNumber][storeInfoDictionary['경도']],
+             '이름': returnValue[indexNumber][storeInfoDictionary['이름']],
+             '전화번호': returnValue[indexNumber][storeInfoDictionary['전화번호']],
              '소개글': returnValue[indexNumber][storeInfoDictionary['소개글']],
              '매장 이미지 저장 경로': returnValue[indexNumber][storeInfoDictionary['매장 이미지 저장 경로']],
              '국가코드': returnValue[indexNumber][storeInfoDictionary['국가코드']],
@@ -184,6 +188,8 @@ def LoadAllStoreInfo(request):
              '서비스 탈퇴 여부': returnValue[indexNumber][storeInfoDictionary['서비스 탈퇴 여부']]}
 
         return HttpResponse(json.dumps(allStoreData, ensure_ascii=False), content_type="application/json")
+
+        #return JsonResponse(allStoreData)
 
     except:
         return JsonResponse({'Result' : 'Fail'})
@@ -221,13 +227,25 @@ def LoadStoreInfo ( request) :
     storeInfoDictionary['매장 마감 시간'] = 12
     storeInfoDictionary['서비스 탈퇴 여부'] = 13
 
-    return JsonResponse({'매장번호' : returnValue[0][storeInfoDictionary['매장번호']], '주소' : returnValue[0][storeInfoDictionary['주소']],
-                         '위도': returnValue[0][storeInfoDictionary['위도']], '경도' : returnValue[0][storeInfoDictionary['경도']],
-                         '이름': returnValue[0][storeInfoDictionary['이름']], '전화번호' : returnValue[0][storeInfoDictionary['전화번호']],
-                         '소개글': returnValue[0][storeInfoDictionary['소개글']], '매장 이미지 저장 경로' : returnValue[0][storeInfoDictionary['매장 이미지 저장 경로']],
-                         '국가코드': returnValue[0][storeInfoDictionary['국가코드']], '서비스 가입 날짜' : returnValue[0][storeInfoDictionary['서비스 가입 날짜']],
-                         '정보 변경 날짜': returnValue[0][storeInfoDictionary['정보 변경 날짜']], '매장 개장 시간' : str(returnValue[0][storeInfoDictionary['매장 개장 시간']]),
-                         '매장 마감 시간': str(returnValue[0][storeInfoDictionary['매장 마감 시간']]), '서비스 탈퇴 여부' : returnValue[0][storeInfoDictionary['서비스 탈퇴 여부']] })
+    storeData = {}
+
+    storeData = {
+                 '매장번호' : returnValue[0][storeInfoDictionary['매장번호']],
+                 '주소' : returnValue[0][storeInfoDictionary['주소']],
+                 '위도': returnValue[0][storeInfoDictionary['위도']],
+                 '경도' : returnValue[0][storeInfoDictionary['경도']],
+                 '이름': returnValue[0][storeInfoDictionary['이름']],
+                 '전화번호' : returnValue[0][storeInfoDictionary['전화번호']],
+                 '소개글': returnValue[0][storeInfoDictionary['소개글']],
+                 '매장 이미지 저장 경로' : returnValue[0][storeInfoDictionary['매장 이미지 저장 경로']],
+                 '국가코드': returnValue[0][storeInfoDictionary['국가코드']],
+                 '서비스 가입 날짜' : returnValue[0][storeInfoDictionary['서비스 가입 날짜']],
+                 '정보 변경 날짜': returnValue[0][storeInfoDictionary['정보 변경 날짜']],
+                 '매장 개장 시간' : str(returnValue[0][storeInfoDictionary['매장 개장 시간']]),
+                 '매장 마감 시간': str(returnValue[0][storeInfoDictionary['매장 마감 시간']]),
+                 '서비스 탈퇴 여부' : returnValue[0][storeInfoDictionary['서비스 탈퇴 여부']] }
+
+    return HttpResponse(json.dumps(storeData, ensure_ascii=False), content_type="application/json")
 #해당 매점의 정보 조회
 
 def CheckTargetStoreExist (request) :

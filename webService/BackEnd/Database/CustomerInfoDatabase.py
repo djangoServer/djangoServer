@@ -5,6 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -70,12 +71,14 @@ def LoadCustomerInfo (request) :
     #print returnValue[0][1]
 
     #return HttpResponse(customerInfoData)
-    return JsonResponse({'회원번호' : returnValue[0][customerInfoDictionary['회원번호']], '이름' : returnValue[0][customerInfoDictionary['이름']],
+    customerInfoData = {'회원번호' : returnValue[0][customerInfoDictionary['회원번호']], '이름' : returnValue[0][customerInfoDictionary['이름']],
                          '전화번호' : returnValue[0][customerInfoDictionary['전화번호']], '이메일' : returnValue[0][customerInfoDictionary['이메일']],
                          '생일' : returnValue[0][customerInfoDictionary['생일']], '국가코드' : returnValue[0][customerInfoDictionary['국가코드']],
                          '회원 이미지 저장 경로' : returnValue[0][customerInfoDictionary['회원 이미지 저장 경로']], '회원 등급' : returnValue[0][customerInfoDictionary['회원 등급']],
                          '정보 변경 날짜' : returnValue[0][customerInfoDictionary['정보 변경 날짜']], '안드로이드SDK레벨' : returnValue[0][customerInfoDictionary['안드로이드SDK레벨']],
-                         '핸드폰기종' : returnValue[0][customerInfoDictionary['핸드폰기종']], '회원비활성화' : returnValue[0][customerInfoDictionary['회원비활성화']]})
+                         '핸드폰기종' : returnValue[0][customerInfoDictionary['핸드폰기종']], '회원비활성화' : returnValue[0][customerInfoDictionary['회원비활성화']]}
+
+    return HttpResponse(json.dumps(customerInfoData, ensure_ascii=False), content_type="application/json")
     #return dataArray
 #해당 유저의 정보 조회
 

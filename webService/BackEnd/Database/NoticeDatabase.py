@@ -5,6 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -146,7 +147,7 @@ def ShowTargetStoreNoticeList(request):
                                             '이미지 저장 경로' : queryResultData[indexOfResult][storeNoticeInfo['이미지 저장 경로']],
                                             '삭제 여부' : queryResultData[indexOfResult][storeNoticeInfo['삭제 여부']],
                                             }
-        return JsonResponse(noticeListData)
+        return HttpResponse(json.dumps(noticeListData, ensure_ascii=False), content_type="application/json")
     except:
         return JsonResponse({'Result' : 'Fail'})
 

@@ -30,7 +30,7 @@ def ClientRequestQuery(request) :
 ####테스트 쿼리
 def TestQuery(request):
 
-    ExecuteQueryToDatabase('insert into User2 (`a`, `b`, `c`, `d`) values(1, 2, 3, 4);');
+    ExecuteQueryToDatabase('insert into User2 (`a`, `b`, `c`, `d`) values(1, 2, 3, 4);')
 
     return HttpResponse("test")
 

@@ -5,6 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -88,7 +89,7 @@ def GetStoreAndCustomerRegisteredInfo(request):
                                                 '회원탈퇴여부' : str(queryResultData[0][storeAndCustomerInfo['회원탈퇴여부']])
                                                 }
 
-        return JsonResponse(registeredInfoData)
+        return HttpResponse(json.dumps(registeredInfoData, ensure_ascii=False), content_type="application/json")
     except:
         return JsonResponse({'Result' : 'Fail'})
 #찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
