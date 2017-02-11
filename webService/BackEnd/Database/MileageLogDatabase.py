@@ -6,6 +6,7 @@ from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
 import CustomerLocationDatabase
+import json
 
 def ConnectToDatabase():
     return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
@@ -64,8 +65,10 @@ def GetMileageSum(request):
     databaseQuery = "select sum(`마일리지 변동 량`) from `마일리지 로그` where `고유등록번호` = " + mileageInfo['고유등록번호'] + ";"
 
     print databaseQuery
+
     try:
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
-        return JsonResponse({'마일리지 량' : queryResultData[0][0]})
+        mileageSumData = {'마일리지 량' : str(queryResultData[0][0])}
+        return HttpResponse(json.dumps(mileageSumData, ensure_ascii=False), content_type="application/json")
     except:
         return JsonResponse({'Result' : 'Fail'})
