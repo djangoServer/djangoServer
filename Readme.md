@@ -13,6 +13,10 @@
 ### 서버 프로그램 실행
 >nohup python -u manage.py runserver 0.0.0.0:4200 &
 
+### 작업환경
+>python : 2.7.12
+>django : 1.10.2
+
 ## 서버 프로그램 작업 로그
 
 ### 20170211
