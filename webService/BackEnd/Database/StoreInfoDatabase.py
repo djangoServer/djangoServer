@@ -239,8 +239,8 @@ def LoadStoreInfo ( request) :
                  '소개글': returnValue[0][storeInfoDictionary['소개글']],
                  '매장 이미지 저장 경로' : returnValue[0][storeInfoDictionary['매장 이미지 저장 경로']],
                  '국가코드': returnValue[0][storeInfoDictionary['국가코드']],
-                 '서비스 가입 날짜' : returnValue[0][storeInfoDictionary['서비스 가입 날짜']],
-                 '정보 변경 날짜': returnValue[0][storeInfoDictionary['정보 변경 날짜']],
+                 '서비스 가입 날짜' : str(returnValue[0][storeInfoDictionary['서비스 가입 날짜']]),
+                 '정보 변경 날짜': str(returnValue[0][storeInfoDictionary['정보 변경 날짜']]),
                  '매장 개장 시간' : str(returnValue[0][storeInfoDictionary['매장 개장 시간']]),
                  '매장 마감 시간': str(returnValue[0][storeInfoDictionary['매장 마감 시간']]),
                  '서비스 탈퇴 여부' : returnValue[0][storeInfoDictionary['서비스 탈퇴 여부']] }
