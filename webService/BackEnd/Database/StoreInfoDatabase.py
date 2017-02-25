@@ -168,7 +168,6 @@ def LoadAllStoreInfo(request):
         storeInfoDictionary['서비스 탈퇴 여부'] = 13
 
         allStoreData = {}
-        indexNumber = 0
 
         for indexNumber in range(0, returnValue.__len__()):
             allStoreData[indexNumber] = {

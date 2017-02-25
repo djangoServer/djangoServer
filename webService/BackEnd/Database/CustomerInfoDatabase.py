@@ -214,3 +214,68 @@ def CheckTargetUserExist (request):
     else :
         return HttpResponse("Exist")
 #DB에 해당 유저 존재 여부
+
+
+def LoadStoreInAllCustomerInfo (userId) :
+    #userID, userPhoneNumber, targetStoreID
+    #myUserId = request.GET.get( 'id', None)
+    #myUserEmail = request.GET.get('email', None)
+    #myUserPhone = request.GET.get('phone', None)
+    dbQuery = "SELECT * FROM `회원정보` WHERE `회원번호` = '" + userId + "';"
+
+
+    print dbQuery
+    returnValue = ExecuteQueryToDatabase(dbQuery)
+
+    """
+    sortValue = ""
+    for index in range(0, returnValue.__len__()) :
+        sortValue = tuple(sortValue) + returnValue[index] + tuple("<br>")
+    return HttpResponse(sortValue)
+    """
+    if returnValue.__len__() == 0 :
+        return JsonResponse({'Result' : 'Fail'})
+
+    #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
+
+    """
+    returnValue[0][2]는 숫자형(integer)은  returnValue[0][0],[1]과는 다른 형태라 unicode 형식을 부여 안하면 에러남
+    """
+    customerInfoDictionary = {}
+    customerInfoDictionary['회원번호'] = 0
+    customerInfoDictionary['이름'] = 1
+    customerInfoDictionary['전화번호'] = 2
+    customerInfoDictionary['이메일'] = 3
+    customerInfoDictionary['생일'] = 4
+    customerInfoDictionary['국가코드'] = 5
+    customerInfoDictionary['회원 이미지 저장 경로'] = 6
+    customerInfoDictionary['회원 등급'] = 7
+    customerInfoDictionary['정보 변경 날짜'] = 8
+    customerInfoDictionary['안드로이드SDK레벨'] = 9
+    customerInfoDictionary['핸드폰기종'] = 10
+    customerInfoDictionary['회원비활성화'] = 11
+
+    #customerInfoData = ",".join(str(x) for x in returnValue[0])
+    #for customerInfoDataIndex in returnValue[0]:
+
+
+    #print returnValue[0].decode('utf-8').encode('utf-8')
+    #print returnValue[0][1]
+
+    #return HttpResponse(customerInfoData)
+    customerInfoData = {'회원번호': returnValue[0][customerInfoDictionary['회원번호']],
+                        '이름': returnValue[0][customerInfoDictionary['이름']],
+                        '전화번호': returnValue[0][customerInfoDictionary['전화번호']],
+                        '이메일': returnValue[0][customerInfoDictionary['이메일']],
+                        '생일': returnValue[0][customerInfoDictionary['생일']],
+                        '국가코드': returnValue[0][customerInfoDictionary['국가코드']],
+                        '회원 이미지 저장 경로': returnValue[0][customerInfoDictionary['회원 이미지 저장 경로']],
+                        '회원 등급': returnValue[0][customerInfoDictionary['회원 등급']],
+                        '정보 변경 날짜': returnValue[0][customerInfoDictionary['정보 변경 날짜']],
+                        '안드로이드SDK레벨': returnValue[0][customerInfoDictionary['안드로이드SDK레벨']],
+                        '핸드폰기종': returnValue[0][customerInfoDictionary['핸드폰기종']],
+                        '회원비활성화': returnValue[0][customerInfoDictionary['회원비활성화']]}
+
+    return customerInfoData
+    #return dataArray
+#해당 유저의 정보 조회

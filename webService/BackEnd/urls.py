@@ -57,6 +57,9 @@ urlpatterns = [
     url(r'^AddToStoreAsNewMember/$', StoreAndCustomerManager.AddNewCustomerToTargetStore),#매장에 새로운 고객을 등록
     url(r'^GetStoreAndCustomerRegisteredInfo/$', StoreAndCustomerManager.GetStoreAndCustomerRegisteredInfo),#매장에 등록된 고객의 고유 번호 추출
     url(r'^DelMemberFromStore/$', StoreAndCustomerManager.BanCustomerFromTargetStore),#매장에 등록되어있던 고객을 논리삭제
+    url(r'^GetCustomerRegisteredInfo', StoreRegisteredCustomerDatabase.GetCustomerRegisteredInfo),
+    url(r'^GetStoreAndCustomerRegisteredInfo', StoreRegisteredCustomerDatabase.GetStoreAndCustomerRegisteredInfo),
+    #GetStoreAndCustomerRegisteredInfo
 
     #마일리지 관련
     url(r'^InsertMileageLog/$', MileageLogDatabase.InsertMileageLog),#마일리지를 사용 혹은 적립한 내용을 등록함

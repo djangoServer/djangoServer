@@ -65,7 +65,6 @@ def GetMileageSum(request):
     databaseQuery = "select sum(`마일리지 변동 량`) from `마일리지 로그` where `고유등록번호` = " + mileageInfo['고유등록번호'] + ";"
 
     print databaseQuery
-
     try:
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
         mileageSumData = {'마일리지 량' : str(queryResultData[0][0])}
