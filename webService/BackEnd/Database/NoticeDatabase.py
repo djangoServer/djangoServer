@@ -35,17 +35,18 @@ def InsertNewStoreNoticeInfo(request):
         noticeStartDate = request.GET.get('noticeStartDate', '0000-00-00')
         noticeStopDate = request.GET.get('noticeStopDate', '0000-00-00')
         noticeLastUpdateDate = request.GET.get('noticeLastUpdateDate', None)
+        noticeType = request.GET.get('noticeType', 0)
 
         if shopId == None or noticeId == None:
             return JsonResponse({'Result' : 'Fail'})
 
         if noticeLastUpdateDate != None:
-            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`)" \
+            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `마지막 편집 날짜`, `공지 종류`)" \
                             + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', '" \
-                            + noticeLastUpdateDate + "');"
+                            + noticeLastUpdateDate + "', " + noticeType + ");"
         else:
-            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`)" \
-                            + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "');"
+            databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `공지 종류`)" \
+                            + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', " + noticeType + ");"
         print databaseQuery
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result': 'Ok'})

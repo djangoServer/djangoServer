@@ -221,7 +221,7 @@ def LoadStoreInAllCustomerInfo (userId) :
     #myUserId = request.GET.get( 'id', None)
     #myUserEmail = request.GET.get('email', None)
     #myUserPhone = request.GET.get('phone', None)
-    dbQuery = "SELECT * FROM `회원정보` WHERE `회원번호` = '" + userId + "';"
+    dbQuery = "SELECT * FROM `회원정보` WHERE `회원번호` = '" + str(userId) + "';"
 
 
     print dbQuery
@@ -234,7 +234,7 @@ def LoadStoreInAllCustomerInfo (userId) :
     return HttpResponse(sortValue)
     """
     if returnValue.__len__() == 0 :
-        return JsonResponse({'Result' : 'Fail'})
+        return JsonResponse({'Result' : 'C Fail'})
 
     #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
 

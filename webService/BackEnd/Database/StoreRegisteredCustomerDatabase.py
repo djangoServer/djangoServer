@@ -122,6 +122,7 @@ def GetCustomerRegisteredInfo(request):
     storeAndCustomerInfo['회원탈퇴여부'] = 3
 
     registeredInfoData = {}
+    customerData = {}
 
     customerInfoDictionary = {}
     customerInfoDictionary['회원번호'] = 0
@@ -150,19 +151,22 @@ def GetCustomerRegisteredInfo(request):
         queryResultData = ExecuteQueryToDatabase(databaseQuery)
 
         for indexOfData in range(0, queryResultData.__len__()):
-            #customerInfoData = CustomerInfoDatabase.LoadStoreInAllCustomerInfo(queryResultData[indexOfData][storeAndCustomerInfo['회원번호']])
+            print queryResultData[indexOfData][storeAndCustomerInfo['회원번호']]
+            customerInfoData = CustomerInfoDatabase.LoadStoreInAllCustomerInfo(queryResultData[indexOfData][storeAndCustomerInfo['회원번호']])
 
             registeredInfoData[indexOfData] = {'고유등록번호' : str(queryResultData[indexOfData][storeAndCustomerInfo['고유등록번호']]),
                                                '회원번호' : str(queryResultData[indexOfData][storeAndCustomerInfo['회원번호']]),
-                                               #'이름' : str(customerInfoData[indexOfData][customerInfoDictionary['이름']]),
-                                               #'전화번호' : str(customerInfoData[indexOfData][customerInfoDictionary['전화번호']]),
-                                               #'이메일' : str(customerInfoData[indexOfData][customerInfoDictionary['이메일']]),
-                                               #'생일' : str(customerInfoData[indexOfData][customerInfoDictionary['생일']]),
-                                               #'회원비활성화' : str(customerInfoData[indexOfData][customerInfoDictionary['회원비활성화']]),
                                                '회원탈퇴여부' : str(queryResultData[indexOfData][storeAndCustomerInfo['회원탈퇴여부']]),
                                                }
 
+            customerData[indexOfData] = { '이름': str(customerInfoData[0][customerInfoDictionary['이름']]),
+                                          '전화번호': str(customerInfoData[0][customerInfoDictionary['전화번호']]),
+                                          '이메일': str(customerInfoData[0][customerInfoDictionary['이메일']]),
+                                          '생일': str(customerInfoData[0][customerInfoDictionary['생일']]),
+                                          '회원비활성화': str(customerInfoData[0][customerInfoDictionary['회원비활성화']]),
+                                        }
+
         return HttpResponse(json.dumps(registeredInfoData, ensure_ascii=False), content_type="application/json")
     except:
-        return JsonResponse({'Result' : 'Fail'})
+        return JsonResponse({'Result' : 'D Fail'})
 #찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
