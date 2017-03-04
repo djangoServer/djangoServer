@@ -7,8 +7,10 @@ import pymysql
 import UserManager
 from django.http import JsonResponse
 
+databaseHostName = "stories3.iptime.org"
+
 def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
+    return pymysql.connect(host = databaseHostName, user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
 
 def DisconnectDatabase(databaseConnection) :
     databaseConnection.close()

@@ -5,21 +5,7 @@
 from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
-
-def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
-
-def DisconnectDatabase(databaseConnection) :
-    databaseConnection.close()
-
-def ExecuteQueryToDatabase(executeAbleQuery) :
-    databaseConnection = ConnectToDatabase()
-    databaseResultDataCursor = databaseConnection.cursor()
-    databaseResultDataCursor.execute(executeAbleQuery)
-    databaseResultDataRows = databaseResultDataCursor.fetchall()
-    databaseConnection.commit()
-    DisconnectDatabase(databaseConnection)
-    return databaseResultDataRows
+from .. import DatabaseManager
 
 #제품 추가
 def InsertNewProductInfo(request):

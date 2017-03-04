@@ -6,21 +6,7 @@ from django.http import HttpResponse
 import pymysql
 from django.http import JsonResponse
 import json
-
-def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
-
-def DisconnectDatabase(databaseConnection) :
-    databaseConnection.close()
-
-def ExecuteQueryToDatabase(executeAbleQuery) :
-    databaseConnection = ConnectToDatabase()
-    databaseResultDataCursor = databaseConnection.cursor()
-    databaseResultDataCursor.execute(executeAbleQuery)
-    databaseResultDataRows = databaseResultDataCursor.fetchall()
-    databaseConnection.commit()
-    DisconnectDatabase(databaseConnection)
-    return databaseResultDataRows
+from .. import DatabaseManager
 
 def LoadCustomerInfo (request) :
     #userID, userPhoneNumber, targetStoreID
@@ -33,7 +19,7 @@ def LoadCustomerInfo (request) :
         return JsonResponse({'Result' : 'Fail'})
 
     print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
+    returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
     """
     sortValue = ""

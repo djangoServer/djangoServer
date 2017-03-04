@@ -7,21 +7,7 @@ import pymysql
 from django.http import JsonResponse
 import CustomerLocationDatabase
 import json
-
-def ConnectToDatabase():
-    return pymysql.connect(host = "lamb.kangnam.ac.kr", user = "serviceAdmin", password = "1029384756", db = "ServiceDatabase", charset = "utf8", autocommit=True)
-
-def DisconnectDatabase(databaseConnection) :
-    databaseConnection.close()
-
-def ExecuteQueryToDatabase(executeAbleQuery) :
-    databaseConnection = ConnectToDatabase()
-    databaseResultDataCursor = databaseConnection.cursor()
-    databaseResultDataCursor.execute(executeAbleQuery)
-    databaseResultDataRows = databaseResultDataCursor.fetchall()
-    databaseConnection.commit()
-    DisconnectDatabase(databaseConnection)
-    return databaseResultDataRows
+from .. import DatabaseManager
 
 def InsertMileageLog(request):
 
