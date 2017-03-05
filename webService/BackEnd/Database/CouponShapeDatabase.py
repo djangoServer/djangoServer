@@ -21,7 +21,7 @@ def InsertCouponShapeInfo(request) :
         databaseQuery = "insert into `쿠폰모양 정보` values(" + str(couponShapeCode) + ", " + str(couponImageAddress) \
                         + ", "+ str(couponShapePrice) + ", " + str(couponShapeLimitTime) + ", " + str(couponShapeEx) + ");"
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
     except:
         print "Error in InsertCouponShapeInfo: " + queryResultData
     return HttpResponse(queryResultData)
@@ -40,7 +40,7 @@ def UpdateCouponShapeInfo(request) :
         databaseQuery = "update `쿠폰모양 정보` set `쿠폰 이미지 저장 경로` = " + str(couponImageAddress) + ", `쿠폰 모양 가격` = " + str(couponShapePrice) \
                         + ", `쿠폰 모양 기간` = " + str(couponShapeLimitTime) + ", `쿠폰 모양 설명` = " + str(couponShapeEx) \
                         + "where `쿠폰모양코드` == " + str(couponShapeCode) + ";"
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
     except:
         print "Error in UpdateCouponShapeInfo: " + queryResultData
     return HttpResponse(queryResultData)
@@ -55,7 +55,7 @@ def InsertCouponShapeCollectLog(request) :
 
     try:
         databaseQuery = "insert into `매장 쿠폰 모양 수집 로그` values(" + str(myStoreId) + ", " + str(couponShapeCode) + ", " + str(couponEditTime) + ");"
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
     except:
         print "Error in InsertCouponShapeCollectLog: " + queryResultData
     return HttpResponse(queryResultData)

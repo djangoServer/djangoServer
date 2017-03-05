@@ -71,7 +71,7 @@ def InsertNewStoreInfoData (request) :
     try :
         print databaseQuery
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result' : 'Ok'})
     except :
         return JsonResponse({'Result' : 'Fail'})
@@ -121,7 +121,7 @@ def UpdateStoreInfoData (request) :
 
     try :
         print dbQuery
-        returnValue = ExecuteQueryToDatabase(dbQuery)
+        returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
         print returnValue
         return JsonResponse({'Result' : 'Ok'})
     except:
@@ -132,7 +132,7 @@ def LoadAllStoreInfo(request):
     dbQuery = "select * from `매장정보`;"
 
     try:
-        returnValue = ExecuteQueryToDatabase(dbQuery)
+        returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
         if returnValue.__len__() == 0 :
             return JsonResponse({'Result' : 'Fail'})
@@ -190,7 +190,7 @@ def LoadStoreInfo ( request) :
     dbQuery = "SELECT * FROM `매장정보` WHERE `이름` = '" + str(myStoreName)+ "' and `전화번호` = '" + myStorePhone + "' limit 1;"
 
     print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
+    returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
     if returnValue.__len__() == 0 :
         return JsonResponse({'Result' : 'Fail'})
@@ -239,7 +239,7 @@ def CheckTargetStoreExist (request) :
     dbQuery = "SELECT * FROM `매장정보` WHERE `이름` = `" + str(myStoreId) + "`;"
 
     print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
+    returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
     """
     returnValue.__len__() 는 returnValue 의 길이 값

@@ -51,7 +51,7 @@ def InsertNewCouponAvailability(request):
     databaseQuery = databaseQuery + ");"
 
     try:
-        ExecuteQueryToDatabase(databaseQuery)
+        DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result' : 'Ok'})
     except:
         return JsonResponse({'Result' : 'Fail'})
@@ -78,7 +78,7 @@ def UseTargetCoupon(request):
 
     try:
         print databaseQuery
-        ExecuteQueryToDatabase(databaseQuery)
+        DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result' : 'Ok'})
     except:
         return JsonResponse({'Result' : 'Fail'})
@@ -102,7 +102,7 @@ def CouponAvailabilityStatus(request):
 
     try:
         print databaseQuery
-        queryResult = ExecuteQueryToDatabase(databaseQuery)
+        queryResult = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         for indexOfResult in range(0, queryResult.__len__()):
             couponAvailabilityData[indexOfResult] = {

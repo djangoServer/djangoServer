@@ -30,7 +30,7 @@ def InsertNewCoupon(request):
         databaseQuery = "insert into `매장쿠폰등록정보` (`매장번호`, `쿠폰고유번호`, `제목`, `내용`, `쿠폰모양코드`) values(" \
         + shopId + ", '" + couponId + "', '" + couponTitle + "', '" + couponBody + "', " + couponShapeIconCode + ");"
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         if shopkeeperLatitude != None and shopkeeperLongitude != None:
             UploaderLocationDatabase.InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)
 
@@ -75,7 +75,7 @@ def UpdateUploadedCoupon(request):
                 multipleUpdate = True
 
         print  databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         if shopkeeperLatitude != None and shopkeeperLongitude != None:
             UploaderLocationDatabase.InsertShopkeeperLocationInfo(couponInfoData['매장번호'], shopkeeperLatitude, shopkeeperLongitude, changedDate)
@@ -106,7 +106,7 @@ def DelUploadedCoupon(request):
         + " set `삭제 여부` = 1" \
         + " where `매장번호` = " + shopId + " and `쿠폰고유번호` = '" + couponId + "';"
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         if shopkeeperLongitude != None and shopkeeperLatitude != None:
             UploaderLocationDatabase.InsertShopkeeperLocationInfo(shopId, shopkeeperLatitude, shopkeeperLongitude, changedDate)

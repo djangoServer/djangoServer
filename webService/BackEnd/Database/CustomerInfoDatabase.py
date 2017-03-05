@@ -130,7 +130,7 @@ def InsertNewCustomerInfo (request) :
         print databaseQuery
 
         #유저를 추가할때 이미 등록되어 있지 않았을때만 새로 등록해줌
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
     except:
@@ -178,7 +178,7 @@ def UpdateCustomerInfoData (request) :
     #dbQuery = "UPDATE `유저` SET `이름` = \"" + str(myUserName) + "\", `전화번호` = \"" + str(myUserPhone) + "\" WHERE `회원번호` = \"" + str(myUserId) + "\";"
     try:
         print dbQuery
-        returnValue = ExecuteQueryToDatabase(dbQuery)
+        returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
         print returnValue
         return JsonResponse({'Result' : 'Ok'})
     except:
@@ -193,7 +193,7 @@ def CheckTargetUserExist (request):
     dbQuery = "SELECT * FROM `회원정보` WHERE 회원번호 = " + str(myUserId) + ";"
 
     print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
+    returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
     if returnValue.__len__() == 0 :
         return HttpResponse("Nothing")
@@ -211,7 +211,7 @@ def LoadStoreInAllCustomerInfo (userId) :
 
 
     print dbQuery
-    returnValue = ExecuteQueryToDatabase(dbQuery)
+    returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
 
     """
     sortValue = ""

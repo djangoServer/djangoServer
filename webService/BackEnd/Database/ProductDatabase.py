@@ -68,7 +68,7 @@ def InsertNewProductInfo(request):
     try:
         print databaseQuery
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
         #return HttpResponse("ok")
@@ -110,7 +110,7 @@ def UpdateRegisteredProductInfo(request):
     try:
         print databaseQuery
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         #return HttpResponse("ok")
         print queryResultData
         return JsonResponse({'Result' : 'Ok'})
@@ -133,7 +133,7 @@ def DelRegisteredProduct(request):
         + " where `매장번호` = " + shopId + " and `제품코드` = " + productId + ";"
 
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         #return HttpResponse("ok")
         return JsonResponse({'Result' : 'Ok'})
     except:

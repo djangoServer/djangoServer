@@ -14,7 +14,7 @@ def InsertShopkeeperLocationInfo(storeId, shopkeeperLatitude, shopkeeperLongitud
         databaseQuery = "insert into `업로더 위치 정보` values(" + storeId + ", " + shopkeeperLatitude \
         + ", " + shopkeeperLongitude + ", " + changedDate + ");"
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
     except:
         print "Error in InsertCustomerLocationInfo: " + queryResultData
     return HttpResponse(queryResultData)

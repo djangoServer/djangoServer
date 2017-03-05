@@ -12,7 +12,7 @@ from .. import DatabaseManager
 def ClientRequestQuery(request) :
     dbQuery = request.GET.get('query',';')
     print dbQuery
-    return HttpResponse(ExecuteQueryToDatabase(dbQuery))
+    return HttpResponse(DatabaseManager.ExecuteQueryToDatabase(dbQuery))
 
 def AddToStoreAsNewMember(request):
     queryResultData = None
@@ -31,7 +31,7 @@ def AddToStoreAsNewMember(request):
         + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and " \
         + "`매장번호` = " + storeId + ") limit 1;"
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
     except:
@@ -67,7 +67,7 @@ def GetStoreAndCustomerRegisteredInfo(request):
 
         print databaseQuery
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         for indexOfData in range(0, queryResultData.__len__()):
             registeredInfoData[indexOfData] = {'고유등록번호' : str(queryResultData[indexOfData][storeAndCustomerInfo['고유등록번호']]),
@@ -92,7 +92,7 @@ def DelMemberFromStore(request):
 
         databaseQuery = "update `매장등록 정보` set `회원탈퇴여부` = 1 where `고유등록번호` = " + customerAndStoreRegisteredId
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
     except:
@@ -119,7 +119,7 @@ def GetCustomerRegisteredInfo(request):
 
         print databaseQuery
 
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         for indexOfData in range(0, queryResultData.__len__()):
             print queryResultData[indexOfData][storeAndCustomerInfo['회원번호']]

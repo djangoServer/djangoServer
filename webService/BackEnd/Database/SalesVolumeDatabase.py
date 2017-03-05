@@ -25,7 +25,7 @@ def InsertSalesVolume(request) :
 
     try:
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
     except:

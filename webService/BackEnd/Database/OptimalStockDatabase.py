@@ -21,7 +21,7 @@ def InsertProductOptimalStock(request) :
         databaseQuery = "insert into `제품 최적 재고량` values(" + str(productCode) + ", " + str(engineVersion) + ", "\
                         + str(productOptimalStock) + ", '" + str(productDate) + "');"
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         return JsonResponse({'Result' : 'Ok'})
     except:

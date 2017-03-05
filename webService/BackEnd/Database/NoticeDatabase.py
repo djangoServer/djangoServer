@@ -34,7 +34,7 @@ def InsertNewStoreNoticeInfo(request):
             databaseQuery = "insert into `매장공지 정보` (`매장번호`, `공지번호`, `제목`, `내용`, `공지 시작 날짜`, `공지 마감 날짜`, `공지 종류`)" \
                             + " values (" + shopId + ", " + noticeId + ", '" + noticeTitle + "', '" + noticeBody + "', '" + noticeStartDate + "', '" + noticeStopDate + "', " + noticeType + ");"
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result': 'Ok'})
     except:
         return JsonResponse({'Result': 'Fail'})
@@ -71,7 +71,7 @@ def UpdateStoreNoticeInfo(request):
 
     try:
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result': 'Ok'})
     except:
         return JsonResponse({'Result': 'Fail'})
@@ -92,7 +92,7 @@ def DelStoreNoticeInfo(request):
                         + " set `삭제 여부` = 1 " \
                         + "where `매장번호` = " + shopId + " and `공지번호` = " + noticeId + ";"
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         return JsonResponse({'Result' : 'Ok'})
     except :
         return JsonResponse({'Result' : 'Fail'})
@@ -120,7 +120,7 @@ def ShowTargetStoreNoticeList(request):
     try:
         databaseQuery = "select * from `매장공지 정보` where `매장번호` = " + shopId + ";"
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         for indexOfResult in range(0, queryResultData.__len__()):
             noticeListData[indexOfResult] = {

@@ -31,7 +31,7 @@ def InsertMileageLog(request):
             databaseQuery = "insert into `마일리지 로그` (`고유등록번호`, `마일리지 변동 량`) values(" + mileageInfo['고유등록번호'] + ", " + mileageInfo['마일리지 변동 량'] + ");"
 
         print databaseQuery
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
         if customerLatitude != None and customerLongitude != None:
             CustomerLocationDatabase.InsertCustomerLocationInfo(mileageInfo['고유등록번호'], customerLatitude, customerLongitude, mileageInfo['변경 날짜'])
@@ -52,7 +52,7 @@ def GetMileageSum(request):
 
     print databaseQuery
     try:
-        queryResultData = ExecuteQueryToDatabase(databaseQuery)
+        queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
         mileageSumData = {'마일리지 량' : str(queryResultData[0][0])}
         return HttpResponse(json.dumps(mileageSumData, ensure_ascii=False), content_type="application/json")
     except:
