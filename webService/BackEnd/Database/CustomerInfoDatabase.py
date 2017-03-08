@@ -202,13 +202,13 @@ def CheckTargetUserExist (request):
 #DB에 해당 유저 존재 여부
 
 
-def LoadStoreInAllCustomerInfo (userId) :
+def LoadStoreInAllCustomerInfo (userId,date) :
     #userID, userPhoneNumber, targetStoreID
     #myUserId = request.GET.get( 'id', None)
     #myUserEmail = request.GET.get('email', None)
     #myUserPhone = request.GET.get('phone', None)
-    dbQuery = "SELECT * FROM `회원정보` WHERE `회원번호` = '" + str(userId) + "';"
-
+    dbQuery = "SELECT * FROM `회원정보` WHERE `회원번호` = '" + str(userId) + "' AND '" + str(date) + "' < `정보 변경 날짜`;"
+    #print str(date)
 
     print dbQuery
     returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
@@ -219,9 +219,14 @@ def LoadStoreInAllCustomerInfo (userId) :
         sortValue = tuple(sortValue) + returnValue[index] + tuple("<br>")
     return HttpResponse(sortValue)
     """
+    """
     if returnValue.__len__() == 0 :
-        return JsonResponse({'Result' : 'C Fail'})
+        return JsonResponse({'Result' : 'Fail'})
 
+    """
+    if returnValue.__len__()==0 :
+        customerInfoData={}
+        return 0
     #sortValue = returnValue[0][0] + " " + returnValue[0][1] + " " + unicode(returnValue[0][2])
 
     """
@@ -248,6 +253,7 @@ def LoadStoreInAllCustomerInfo (userId) :
     #print returnValue[0].decode('utf-8').encode('utf-8')
     #print returnValue[0][1]
 
+    print returnValue[0][customerInfoDictionary['정보 변경 날짜']]
     #return HttpResponse(customerInfoData)
     customerInfoData = {'회원번호': returnValue[0][customerInfoDictionary['회원번호']],
                         '이름': returnValue[0][customerInfoDictionary['이름']],

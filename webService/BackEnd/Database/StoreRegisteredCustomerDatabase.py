@@ -111,6 +111,8 @@ def GetCustomerRegisteredInfo(request):
 
     try:
         storeId = request.GET.get('storeId', None)
+        date = request.GET.get('date', 0000-00-00)
+        #print str(date)
 
         if storeId == None:
             return JsonResponse({'Result': 'Fail'})
@@ -123,7 +125,8 @@ def GetCustomerRegisteredInfo(request):
 
         for indexOfData in range(0, queryResultData.__len__()):
             print queryResultData[indexOfData][storeAndCustomerInfo['회원번호']]
-            customerInfoData = CustomerInfoDatabase.LoadStoreInAllCustomerInfo(queryResultData[indexOfData][storeAndCustomerInfo['회원번호']])
+            customerInfoData = CustomerInfoDatabase.LoadStoreInAllCustomerInfo(queryResultData[indexOfData][storeAndCustomerInfo['회원번호']],date)
+            if customerInfoData == 0 : continue
             print customerInfoData['이름']
 
             registeredInfoData[indexOfData] = {'고유등록번호' : str(queryResultData[indexOfData][storeAndCustomerInfo['고유등록번호']]),
@@ -138,5 +141,5 @@ def GetCustomerRegisteredInfo(request):
 
         return HttpResponse(json.dumps(registeredInfoData, ensure_ascii=False), content_type="application/json")
     except:
-        return JsonResponse({'Result' : 'D Fail'})
-#찾고자하는 고객과 매점이 연결되어있는것만 추출하여 리턴
+        return JsonResponse({'Result' : 'Fail'})
+# limit 전체-count
