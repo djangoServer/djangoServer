@@ -1,8 +1,22 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+
 <html lang="en">
 
     <head>
+		<meta http-equiv="content-type" content="text/html" charset="EUC-KR">
+		<script type="text/javascript">
+		function getElement(){
+			var calc=document.getElementById("calc").value;
+			var calc1=document.getElementById("calc1").value;
+			var calc2=document.getElementById("calc2").value;
+			var calc3=document.getElementById("calc3").value;
+			var calc4=document.getElementById("calc4").value;
+			var calc5=document.getElementById("calc5").value;
+
+			document.getElementById("is_nums").innerHTML =eval( calc+ '+' +  calc1 + '+' + calc2 + '+' + calc3 + '+' + calc4 + '+' + calc5);
+		}
+		</script>
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,9 +47,12 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'assets/ico/apple-touch-icon-72-precomposed.png' %}">
         <link rel="apple-touch-icon-precomposed" href="{% static 'assets/ico/apple-touch-icon-57-precomposed.png' %}">
 
+
     </head>
 
     <body>
+
+	<form action="test.jsp" method="post">
     
         <!-- Loader -->
     	<div class="loader">
@@ -62,7 +79,7 @@
 
         <!-- Top content -->
 		<div style="
-			background-image: URL({% static 'assets/img/backgrounds/1.jpg' %}) ;
+			background-image: URL({% static 'assets/img/backgrounds/8.jpg' %}) ;
 			background-position: 50%;
 			background-size: cover;
 			">
@@ -71,7 +88,7 @@
 					<div class="divider-2"><span></span></div>
 					<h1><a href="">빵집사</a></h1>
 					<div class="divider-2"><span></span></div>
-					<p>본 어플리케이션은 빵집 주인들이 최고이익을 얻을 수 있도록<br> 재고관리기능과 고객관리기능을 제공합니다.</p>
+					<p><font color="#f2f2f2">본 어플리케이션은 빵집 주인들이 최고이익을 얻을 수 있도록<br> 재고관리기능과 고객관리기능을 제공합니다.</font></p>
 					<div class="top-content-bottom-link">
 						<a class="big-link-1" href="#">빵집사 다운로드</a>
 					</div>
@@ -127,77 +144,43 @@
 	                    </p>
 	                </div>
 	            </div>
-	            <div class="row">
-
-	<div class="team-container section-container">
-	        <div class="container">
-	            <div class="col-sm-12 block-1 section-description wow fadeIn">
-	                	<h2>최적재고량 계산기</h2>
-	                    <div class="divider-1 wow fadeInUp"><span></span></div>
-	                    <p>
-	                    	다음은 빵집사에서 제공하는 서비스 중 일부입니다.<br> 판매관련 정보를 입력하면 당일 최적재고량을 알 수 있습니다.
-	                    </p>
-				</div>
-	            <div class="row">
-	                <div class="col-sm-4 team-box wow fadeInUp">
-		                <div class="team-photo">
-		                	<img src="{% static 'assets/img/about/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/1.jpg' %}">
-		                </div>
-	                    <h3>John Doe</h3>
-	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-	                </div>
-	                <div class="col-sm-4 team-box wow fadeInDown">
-		                <div class="team-photo">
-		                	<img src="{% static 'assets/img/about/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/2.jpg' %}">
-		                </div>
-	                    <h3>Tim Brown</h3>
-	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-	                </div>
-	                <div class="col-sm-4 team-box wow fadeInUp">
-		                <div class="team-photo">
-		                	<img src="{% static 'assets/img/about/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/about/3.jpg' %}">
-		                </div>
-	                    <h3>Sarah Red</h3>
-	                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-	                    <div class="team-social">
-		                	<a href="#"><i class="fa fa-facebook"></i></a>
-		                	<a href="#"><i class="fa fa-dribbble"></i></a>
-		                    <a href="#"><i class="fa fa-twitter"></i></a>
-		                </div>
-	                </div>
-	            </div>
-	        </div>
-        </div>
-    </div>
- </div>
-</div>
 
 
-<!-- The team -->
-<div class="team-container section-container">
- <div class="container">
-     <div class="row">
-         <div class="col-sm-12 team section-description wow fadeIn">
-             <h2>최적재고량 계산기</h2>
-             <div class="divider-1 wow fadeInUp"><span></span></div>
-             <p>다음은 빵집사에서 제공하는 서비스 중 일부입니다.<br> 판매관련 정보를 입력하면 당일 최적재고량을 알 수 있습니다. </p>
-         </div>
-     </div>
-     <div class="row">
-          <form action="" name="OptimalInventory" id= "OptimalInventory">
-      <div id="value_input" style="border: 1px solid black;">
 
-        <p>예상판매량 : <input type="number" id="ProbableSale" name="ProbableSale" value=100 required></p>
-        <p> 최저예상판매량 : <input type="number" id="MinSale" name="MinSale" value=0 required> </p>
-        <p>최대예상판매량 : <input type="number" id="MaxSale" name="MaxSale" size="10px" value=200 required> </p>
-        <p> 원가 : <input type="number" id="BuyCost" name="BuyCost" size="10px" value=110 required></p>
-        <p>판매가 : <input type="number" id="SellCost" name="SellCost" size="10px" value=200 required> </p>
-        <p>잔존가 (선택) : <input type="number" id="SalvageCost" name="SalvageCost" value=10></p>
-        <input id="calc" type="submit" size="20px" value="calc"><br/>
-      </div>
-    </form>
+
+				<table border="3" cellpadding="3" cellspacing="0" width="600" align="center" rules=none><!--테이블 생성, 테두리굵기3, 셀안에 여백3, 셀과셀사이0, 가운데정렬, 가로650-->
+					<tr>
+						<th width="70%">product name : <input type="text" id="calc" size="11"></th>
+						<th width="30%"></th>
+					</tr>
+					<tr>
+						<th width="70%"><input type="text" size="11" id="calc1"> : ProbableSale </th>
+						<th width="30%"> </th>
+					</tr>
+					<tr>
+						<th width="70%"><input type="text" size="11" id="calc2"> : MinSale </th>
+						<th width="30%"><center>Optimal inventory : <div id="is_nums">계산결과</div></center></th>
+					</tr>
+					<tr>
+						<th width="70%"><input type="text" size="11" id="calc3"> : MaxSale </th>
+						<th width="30%"> </th>
+					</tr>
+					<tr>
+						<th width="70%"><input type="text" size="11" id="calc4"> : BuyCost </th>
+						<th width="30%"> </th>
+					</tr>
+					<tr>
+						<th width="70%"><input type="text" size="11" id="calc5"> : SellCost </th>
+						<th width="30%"> </th>
+					</tr>
+					<tr>
+						<th colspan="2">
+							<center><input type="button" value="calc" onclick="getElement();"></th></center>
+					</tr>
+				</table>
+
+
          <div class="col-sm-4 team-box wow fadeInUp">
-
           <div id="Optimal">
            <p>최대 이익을 위한 최적 재고량 : <span id ="Optimal_output"></span></p>
           </div>
@@ -205,8 +188,9 @@
              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
          </div>
      </div>
- </div>
-</div>
+
+	<div class="team-container section-container">
+<!-- The team -->
 
 
         <!-- 빵집사 세부내용 -->
