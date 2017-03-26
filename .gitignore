@@ -180,3 +180,9 @@ ENV/
 .ropeproject
 
 # End of https://www.gitignore.io/api/pycharm,python,intellij
+
+*.xml
+
+webService/.idea/webService.iml
+
+webService/.idea/workspace.xml
