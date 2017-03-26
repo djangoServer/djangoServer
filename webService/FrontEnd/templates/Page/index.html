@@ -4,6 +4,7 @@
 <html lang="en">
 
     <head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="content-type" content="text/html" charset="EUC-KR">
 		<script type="text/javascript">
 		function getElement(){
@@ -79,7 +80,7 @@
 
         <!-- Top content -->
 		<div style="
-			background-image: URL({% static 'assets/img/backgrounds/8.jpg' %}) ;
+			background-image: URL({% static 'assets/img/backgrounds/backimg1.jpg' %}) ;
 			background-position: 50%;
 			background-size: cover;
 			">
@@ -88,7 +89,7 @@
 					<div class="divider-2"><span></span></div>
 					<h1><a href="">빵집사</a></h1>
 					<div class="divider-2"><span></span></div>
-					<p><font color="#f2f2f2">본 어플리케이션은 빵집 주인들이 최고이익을 얻을 수 있도록<br> 재고관리기능과 고객관리기능을 제공합니다.</font></p>
+					<p>본 어플리케이션은 빵집 주인들이 최고이익을 얻을 수 있도록<br> 재고관리기능과 고객관리기능을 제공합니다.</p>
 					<div class="top-content-bottom-link">
 						<a class="big-link-1" href="#">빵집사 다운로드</a>
 					</div>
@@ -150,46 +151,37 @@
 
 				<table border="3" cellpadding="3" cellspacing="0" width="600" align="center" rules=none><!--테이블 생성, 테두리굵기3, 셀안에 여백3, 셀과셀사이0, 가운데정렬, 가로650-->
 					<tr>
-						<th width="70%">product name : <input type="text" id="calc" size="11"></th>
+						<th width="70%"><font size="4">product name : </font><input type="text" id="calc" size="11"></th>
 						<th width="30%"></th>
 					</tr>
 					<tr>
-						<th width="70%"><input type="text" size="11" id="calc1"> : ProbableSale </th>
+						<th width="70%"><input type="text" size="11" id="calc1"><font size="4"> : ProbableSale </font></th>
 						<th width="30%"> </th>
 					</tr>
 					<tr>
-						<th width="70%"><input type="text" size="11" id="calc2"> : MinSale </th>
-						<th width="30%"><center>Optimal inventory : <div id="is_nums">계산결과</div></center></th>
+						<th width="70%"><input type="text" size="11" id="calc2"><font size="4"> : MinSale </font></th>
+						<th width="30%"><center><font size="4.6">Optimal inventory : </font><div id="is_nums"><font size="5">계산결과</font></div></center></th>
 					</tr>
 					<tr>
-						<th width="70%"><input type="text" size="11" id="calc3"> : MaxSale </th>
+						<th width="70%"><input type="text" size="11" id="calc3"><font size="4"> : MaxSale </font></th>
 						<th width="30%"> </th>
 					</tr>
 					<tr>
-						<th width="70%"><input type="text" size="11" id="calc4"> : BuyCost </th>
+						<th width="70%"><input type="text" size="11" id="calc4"><font size="4"> : BuyCost </font></th>
 						<th width="30%"> </th>
 					</tr>
 					<tr>
-						<th width="70%"><input type="text" size="11" id="calc5"> : SellCost </th>
+						<th width="70%"><input type="text" size="11" id="calc5"><font size="4"> : SellCost </font></th>
 						<th width="30%"> </th>
 					</tr>
 					<tr>
 						<th colspan="2">
-							<center><input type="button" value="calc" onclick="getElement();"></th></center>
+							<center><input type="button" value="calc" onclick="getElement();" style="width:60pt;height:30pt;" > </th></center>
 					</tr>
 				</table>
 
 
-         <div class="col-sm-4 team-box wow fadeInUp">
-          <div id="Optimal">
-           <p>최대 이익을 위한 최적 재고량 : <span id ="Optimal_output"></span></p>
-          </div>
-             <h3>Sarah Red</h3>
-             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
-         </div>
-     </div>
 
-	<div class="team-container section-container">
 <!-- The team -->
 
 
@@ -208,109 +200,118 @@
 	            <div class="row">
 	            	<div class="col-sm-12 portfolio-filters wow fadeInUp">
 	            		<a href="#" class="filter-all active">All</a> / 
-	            		<a href="#" class="filter-design">최적재고량</a> /
-	            		<a href="#" class="filter-development">단골관리</a> /
-	            		<a href="#" class="filter-branding">고객소통</a>
+	            		<a href="#" class="filter-Optimal">최적재고량</a> /
+	            		<a href="#" class="filter-Notice">공지사항</a> /
+	            		<a href="#" class="filter-customer">고객관련</a> /
+						<a href="#" class="filter-product">제품 정보</a> /
+						<a href="#" class="filter-Underestimation">과소 예측</a> /
+						<a href="#" class="filter-stemp">스탬프</a> /
+						<a href="#" class="filter-point">포인트</a> /
+						<a href="#" class="filter-store">매장관련</a>
+
 	            	</div>
 	            </div>
 	            <div class="row">
 	            	<div class="col-sm-12 portfolio-masonry">
-		                <div class="portfolio-box design">
-		                	<img src="{% static 'assets/img/portfolio/1.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/1.jpg' %}">
+		                <div class="portfolio-box Optimal">
+		                	<img src="{% static 'assets/img/portfolio/2.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/1.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Lorem website</a></p>
+		                			<p><a href="#">Optimal inventory</a></p>
+		                		</div>
+		                	</div>
+
+		                </div>
+		                <div class="portfolio-box product">
+		                	<img src="{% static 'assets/img/portfolio/1.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/2.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">product information</a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box development">
-		                	<img src="{% static 'assets/img/portfolio/2.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/2.jpg' %}">
+		                <div class="portfolio-box Underestimation">
+		                	<img src="{% static 'assets/img/portfolio/3.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/3.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Sit amet logo</a></p>
+		                			<p><a href="#">Underestimation</a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box branding">
-		                	<img src="{% static 'assets/img/portfolio/3.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/3.jpg' %}">
+		                <div class="portfolio-box Optimal">
+		                	<img src="{% static 'assets/img/portfolio/4.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/4.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Ipsum social</a></p>
+		                			<p><a href="#"></a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box development">
-		                	<img src="{% static 'assets/img/portfolio/4.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/4.jpg' %}">
-		                	<div class="portfolio-box-text-container">
-		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Etiam processus dynamicus</a></p>
-		                		</div>
-		                	</div>
-		                </div>
-		                <div class="portfolio-box design">
-		                	<img src="{% static 'assets/img/portfolio/5.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/5.jpg' %}">
+		                <div class="portfolio-box Optimal">
+		                	<img src="{% static 'assets/img/portfolio/5.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/5.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
 		                			<p><a href="#">Processus dynamicus logo</a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box development">
-		                	<img src="{% static 'assets/img/portfolio/6.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/6.jpg' %}">
+		                <div class="portfolio-box customer">
+		                	<img src="{% static 'assets/img/portfolio/6.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/6.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Mirum est notare</a></p>
+		                			<p><a href="#"></a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box design">
-		                	<img src="{% static 'assets/img/portfolio/7.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/7.jpg' %}">
+		                <div class="portfolio-box stemp">
+		                	<img src="{% static 'assets/img/portfolio/7.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/7.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">March notare site</a></p>
+		                			<p><a href="#">Stemp</a></p>
 		                		</div>
 		                	</div>
 		                </div>
-		                <div class="portfolio-box development">
-		                	<img src="{% static 'assets/img/portfolio/8.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/8.jpg' %}">
-		                	<div class="portfolio-box-text-container">
+		                <div class="portfolio-box point">
+		                	<img src="{% static 'assets/img/portfolio/8.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/8.jpg' %}">
+		                	<div class="portfolio-box-text-container">t
 		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Sit amet logo</a></p>
+		                			<p><a href="#">Point</a></p>
 		                		</div>
 		                	</div>
 		                </div>
+		                <div class="portfolio-box store">
+		                	<img src="{% static 'assets/img/portfolio/9.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/9.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Store</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box store">
+		                	<img src="{% static 'assets/img/portfolio/10.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/10.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Store</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+		                <div class="portfolio-box Notice">
+		                	<img src="{% static 'assets/img/portfolio/11.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/11.jpg' %}">
+		                	<div class="portfolio-box-text-container">
+		                		<div class="portfolio-box-text">
+		                			<p><a href="#">Notice</a></p>
+		                		</div>
+		                	</div>
+		                </div>
+						<!--
 		                <div class="portfolio-box branding">
-		                	<img src="{% static 'assets/img/portfolio/9.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/9.jpg' %}">
-		                	<div class="portfolio-box-text-container">
-		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Lorem website</a></p>
-		                		</div>
-		                	</div>
-		                </div>
-		                <div class="portfolio-box design">
-		                	<img src="{% static 'assets/img/portfolio/10.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/10.jpg' %}">
-		                	<div class="portfolio-box-text-container">
-		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Mirum est notare</a></p>
-		                		</div>
-		                	</div>
-		                </div>
-		                <div class="portfolio-box development">
-		                	<img src="{% static 'assets/img/portfolio/11.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/11.jpg' %}">
-		                	<div class="portfolio-box-text-container">
-		                		<div class="portfolio-box-text">
-		                			<p><a href="#">Etiam processus social</a></p>
-		                		</div>
-		                	</div>
-		                </div>
-		                <div class="portfolio-box branding">
-		                	<img src="{% static 'assets/img/portfolio/12.jpg' %}" alt="" data-at2x="{% static 'assets/img/portfolio/12.jpg' %}">
+		                	<img src="{% static 'assets/img/portfolio/12.png' %}" alt="" data-at2x="{% static 'assets/img/portfolio/12.jpg' %}">
 		                	<div class="portfolio-box-text-container">
 		                		<div class="portfolio-box-text">
 		                			<p><a href="#">Sit website logo</a></p>
 		                		</div>
 		                	</div>
 		                </div>
+						-->
 	                </div>
 	            </div>
 	        </div>
