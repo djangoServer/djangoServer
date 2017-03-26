@@ -138,6 +138,7 @@ def GetCustomerRegisteredInfo(request):
                                                '생일': str(customerInfoData['생일']),
                                                '회원비활성화': str(customerInfoData['회원비활성화']),
                                                '정보 변경 날짜': str(customerInfoData['정보 변경 날짜']),
+                                               '회원 등록일': str(customerInfoData['회원 등록일'])
                                                }
 
         return HttpResponse(json.dumps(registeredInfoData, ensure_ascii=False), content_type="application/json")

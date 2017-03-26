@@ -44,10 +44,11 @@ def LoadCustomerInfo (request) :
     customerInfoDictionary['국가코드'] = 5
     customerInfoDictionary['회원 이미지 저장 경로'] = 6
     customerInfoDictionary['회원 등급'] = 7
-    customerInfoDictionary['정보 변경 날짜'] = 8
-    customerInfoDictionary['안드로이드SDK레벨'] = 9
-    customerInfoDictionary['핸드폰기종'] = 10
-    customerInfoDictionary['회원비활성화'] = 11
+    customerInfoDictionary['회원 등록일'] = 8
+    customerInfoDictionary['정보 변경 날짜'] = 9
+    customerInfoDictionary['안드로이드SDK레벨'] = 10
+    customerInfoDictionary['핸드폰기종'] = 11
+    customerInfoDictionary['회원비활성화'] = 12
 
     #customerInfoData = ",".join(str(x) for x in returnValue[0])
     #for customerInfoDataIndex in returnValue[0]:
@@ -245,6 +246,7 @@ def LoadStoreInAllCustomerInfo (userId,date) :
     customerInfoDictionary['안드로이드SDK레벨'] = 9
     customerInfoDictionary['핸드폰기종'] = 10
     customerInfoDictionary['회원비활성화'] = 11
+    customerInfoDictionary['회원 등록일'] = 12
 
     #customerInfoData = ",".join(str(x) for x in returnValue[0])
     #for customerInfoDataIndex in returnValue[0]:
@@ -266,7 +268,8 @@ def LoadStoreInAllCustomerInfo (userId,date) :
                         '정보 변경 날짜': returnValue[0][customerInfoDictionary['정보 변경 날짜']],
                         '안드로이드SDK레벨': returnValue[0][customerInfoDictionary['안드로이드SDK레벨']],
                         '핸드폰기종': returnValue[0][customerInfoDictionary['핸드폰기종']],
-                        '회원비활성화': returnValue[0][customerInfoDictionary['회원비활성화']]}
+                        '회원비활성화': returnValue[0][customerInfoDictionary['회원비활성화']],
+                        '회원 등록일': returnValue[0][customerInfoDictionary['회원 등록일']]}
     return customerInfoData
     #return dataArray
 #해당 유저의 정보 조회
