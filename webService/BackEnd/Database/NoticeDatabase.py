@@ -21,7 +21,7 @@ def InsertNewStoreNoticeInfo(request):
         noticeStartDate = request.GET.get('noticeStartDate', '0000-00-00')
         noticeStopDate = request.GET.get('noticeStopDate', '0000-00-00')
         noticeLastUpdateDate = request.GET.get('noticeLastUpdateDate', None)
-        noticeType = request.GET.get('noticeType', 0)
+        noticeType = request.GET.get('noticeType', '0')
 
         if shopId == None or noticeId == None:
             return JsonResponse({'Result' : 'Fail'})
