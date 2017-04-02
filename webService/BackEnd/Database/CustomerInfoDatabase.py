@@ -13,10 +13,10 @@ def LoadCustomerInfo (request) :
     #myUserId = request.GET.get( 'id', None)
     myUserEmail = request.GET.get('email', None)
     #myUserPhone = request.GET.get('phone', None)
-    dbQuery = "SELECT * FROM `회원정보` WHERE `이메일` = '" + myUserEmail + "';"
 
     if myUserEmail == None:
         return JsonResponse({'Result' : 'Fail'})
+    dbQuery = "SELECT * FROM `회원정보` WHERE `이메일` = '" + myUserEmail + "';"
 
     print dbQuery
     returnValue = DatabaseManager.ExecuteQueryToDatabase(dbQuery)
