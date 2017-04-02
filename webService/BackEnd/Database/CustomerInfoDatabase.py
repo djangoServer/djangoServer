@@ -58,14 +58,20 @@ def LoadCustomerInfo (request) :
     #print returnValue[0][1]
 
     #return HttpResponse(customerInfoData)
-    customerInfoData = {'회원번호' : returnValue[0][customerInfoDictionary['회원번호']], '이름' : returnValue[0][customerInfoDictionary['이름']],
-                         '전화번호' : returnValue[0][customerInfoDictionary['전화번호']], '이메일' : returnValue[0][customerInfoDictionary['이메일']],
-                         '생일' : str(returnValue[0][customerInfoDictionary['생일']]), '국가코드' : returnValue[0][customerInfoDictionary['국가코드']],
-                         '회원 이미지 저장 경로' : returnValue[0][customerInfoDictionary['회원 이미지 저장 경로']], '회원 등급' : returnValue[0][customerInfoDictionary['회원 등급']],
-                         '정보 변경 날짜' : str(returnValue[0][customerInfoDictionary['정보 변경 날짜']]), '안드로이드SDK레벨' : returnValue[0][customerInfoDictionary['안드로이드SDK레벨']],
-                         '핸드폰기종' : returnValue[0][customerInfoDictionary['핸드폰기종']], '회원비활성화' : returnValue[0][customerInfoDictionary['회원비활성화']]}
+    try:
+
+        customerInfoData = {'회원번호' : returnValue[0][customerInfoDictionary['회원번호']], '이름' : returnValue[0][customerInfoDictionary['이름']],
+                            '전화번호' : returnValue[0][customerInfoDictionary['전화번호']], '이메일' : returnValue[0][customerInfoDictionary['이메일']],
+                            '생일' : str(returnValue[0][customerInfoDictionary['생일']]), '국가코드' : returnValue[0][customerInfoDictionary['국가코드']],
+                            '회원 이미지 저장 경로' : returnValue[0][customerInfoDictionary['회원 이미지 저장 경로']], '회원 등급' : returnValue[0][customerInfoDictionary['회원 등급']],
+                            '정보 변경 날짜' : str(returnValue[0][customerInfoDictionary['정보 변경 날짜']]), '안드로이드SDK레벨' : returnValue[0][customerInfoDictionary['안드로이드SDK레벨']],
+                            '핸드폰기종' : returnValue[0][customerInfoDictionary['핸드폰기종']], '회원비활성화' : returnValue[0][customerInfoDictionary['회원비활성화']]}
+
+        return HttpResponse(json.dumps(customerInfoData, ensure_ascii=False), content_type="application/json")
+    except:
+        print "except error in LoadCustomerInfo"
+        return JsonResponse({'Result' : 'Fail'})
     #print customerInfoData['이름']
-    return HttpResponse(json.dumps(customerInfoData, ensure_ascii=False), content_type="application/json")
     #return dataArray
 #해당 유저의 정보 조회
 
