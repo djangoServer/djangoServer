@@ -25,11 +25,14 @@ def AddToStoreAsNewMember(request):
         if customerId == None or storeId == None:
             return JsonResponse({'Result': 'Fail'})
 
-        databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) " \
-        + "select * from (select " + customerId + ", " + storeId + ") as compareTemp " \
-        + "where not exists (" \
-        + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and " \
-        + "`매장번호` = " + storeId + ") limit 1;"
+        # databaseQuery = "insert into `매장등록 정보` (`회원번호`, `매장번호`) " \
+        # + "select * from (select " + customerId + ", " + storeId + ") as compareTemp " \
+        # + "where not exists (" \
+        # + "select `회원번호`, `매장번호` from `매장등록 정보` where `회원번호` = " + customerId + " and " \
+        # + "`매장번호` = " + storeId + ") limit 1;"
+
+        databaseQuery = "INSERT INTO `매장등록 정보` (`회원번호`, `매장번호`, `회원탈퇴여부`) VALUES(" + customerId + ", " + storeId + ", 0) " \
+                        + "ON DUPLICATE KEY UPDATE `회원번호`=" + customerId + ", `매장번호`=" + storeId + ", `회원탈퇴여부` = 0;"
 
         queryResultData = DatabaseManager.ExecuteQueryToDatabase(databaseQuery)
 
